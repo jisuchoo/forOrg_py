@@ -20,3 +20,15 @@ class Disease(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Insurance(models.Model):
+    company = models.CharField("회사명", max_length=255, unique=True)
+    callCenter = models.CharField("콜센터", max_length=50)
+    fax = models.CharField("보험금청구/팩스", max_length=50, blank=True, null=True)
+    termsUrl = models.URLField("공시실 URL", blank=True, null=True)
+    type = models.CharField("구분", max_length=50)  # 손해보험 / 생명보험 / 공제
+    highlight = models.BooleanField("하이라이트", default=False)  # 한화손해보험 같은 강조 카드
+
+    def __str__(self):
+        return f"{self.company} ({self.type})"
