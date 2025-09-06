@@ -3,6 +3,17 @@
 {% block content %}
 <div class="app-title">신주안 SI 인수 가이드</div>
 
+<!-- ✅ 사용자 정보 + 로그아웃 버튼 -->
+{% if user_name %}
+<div class="user-info">
+  <span>👤 {{ user_name }}</span>
+  <form action="{% url 'logout' %}" method="post" style="display:inline;">
+    {% csrf_token %}
+    <button type="submit" class="logout-btn">로그아웃</button>
+  </form>
+</div>
+{% endif %}
+
 <div class="card container-narrow">
   <h2 style="margin-bottom:.5rem;">질병명 검색</h2>
   <form method="post" style="margin-bottom:1rem;">
@@ -86,6 +97,30 @@
 
 {% block extra_css %}
 <style>
+.user-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f8f9fa;
+  padding: 10px 14px;
+  border-radius: 8px;
+  margin-bottom: 14px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+}
+.logout-btn {
+  background: #dc3545;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 13px;
+  cursor: pointer;
+}
+.logout-btn:hover {
+  background: #b02a37;
+}
 /* 결과 카드 */
 .result-card {
   border: 1px solid #ddd;
