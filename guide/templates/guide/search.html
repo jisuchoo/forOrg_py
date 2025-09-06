@@ -77,20 +77,27 @@
     {% for group in grouped %}
       <div class="insurance-category">
         <h3>{{ group.grouper }}</h3>
-        {% for ins in group.list %}
-          <div class="insurance-card">
-            <h4>{{ ins.company }}</h4>
-            <div class="contact-item">
-              📞 콜센터: <a href="tel:{{ ins.callCenter|cut:'-' }}">{{ ins.callCenter }}</a>
+    
+        <!-- ✅ 여기 그리드 래퍼 추가 -->
+        <div class="insurance-grid">
+          {% for ins in group.list %}
+            <div class="insurance-card">
+              <h4>{{ ins.company }}</h4>
+              <div class="contact-item">
+                📞 콜센터:
+                <a href="tel:{{ ins.callCenter|cut:'-' }}">{{ ins.callCenter }}</a>
+              </div>
+              <div class="contact-item">
+                📄 보험금청구: {{ ins.fax }}
+              </div>
+              <div class="contact-item">
+                📚
+                <a href="{{ ins.termsUrl }}" target="_blank" rel="noopener">공시실 바로가기</a>
+              </div>
             </div>
-            <div class="contact-item">
-              📄 보험금청구: {{ ins.fax }}
-            </div>
-            <div class="contact-item">
-              📚 <a href="{{ ins.termsUrl }}" target="_blank" rel="noopener">공시실 바로가기</a>
-            </div>
-          </div>
-        {% endfor %}
+          {% endfor %}
+        </div>
+        <!-- ✅ /그리드 래퍼 -->
       </div>
     {% endfor %}
   </div>
@@ -177,48 +184,36 @@
   white-space: pre-line;
 }
 
-/* 보험사 카드 */
-.insurance-card {
-  background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  padding: 12px;
-  text-align: center;            /* ✅ 안의 내용도 가운데 정렬 */
-  white-space: nowrap;           /* ✅ 줄바꿈 방지 */
-  margin-bottom: 12px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-}
-  /* 제목도 가운데 + 줄바꿈 방지 */
-.insurance-card h4 {
-  margin: 0 0 6px 0;
-  text-align: center;
-  white-space: nowrap;
+/* ✅ 보험사 카드 2열 그리드 */
+.insurance-grid{
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr)); /* 한 줄에 2개 */
+  gap: 12px; /* 카드 사이 간격 */
 }
 
-/* 핵심: flex 컨테이너를 중앙 정렬 */
-.insurance-card .contact-item {
-  display: flex;               /* 기존과 동일 */
-  justify-content: center;     /* ✅ 가로 가운데 정렬 */
-  align-items: center;
-  gap: 6px;
-  white-space: nowrap;         /* ✅ 한 줄 유지 */
+/* ✅ 카드가 그리드 셀을 꽉 채우도록 (margin 대신 gap 사용 권장) */
+.insurance-card{
+  width: 100%;
+  margin: 0;                /* 기존 margin-bottom 제거 */
 }
 
-/* small 변형에도 동일 적용 (있다면) */
-.insurance-card .contact-item.small {
-  justify-content: center;
-  white-space: nowrap;
+/* ✅ (선택) 한화 강조카드를 그리드에 넣을 경우, 두 칸 차지 */
+.insurance-card.span-2{
+  grid-column: 1 / -1;
 }
-.insurance-card.hanwha {
-  border: 2px solid #ff7f00;
-  box-shadow: 0 3px 8px rgba(255,127,0,0.2);
+
+/* ✅ 작은 화면에서는 1열로 (원하면 이 부분 지우고 항상 2열 유지 가능) */
+@media (max-width: 600px){
+  .insurance-grid{
+    grid-template-columns: 1fr;
+  }
+  /* 줄바꿈이 필요하면 nowrap 해제 */
+  .insurance-card { white-space: normal; }
 }
-.insurance-category h3 {
-  font-size: 15px;
-  font-weight: bold;
-  margin: 12px 0 6px;
-  border-bottom: 2px solid #ff7f00;
-  padding-bottom: 4px;
+
+/* (선택) 카테고리 제목과 그리드 사이 여백 다듬기 */
+.insurance-category > .insurance-grid{
+  margin-top: 8px;
 }
 </style>
 {% endblock %}
