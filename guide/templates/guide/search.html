@@ -1,12 +1,10 @@
 {% extends "base.html" %}
 
+{% block content %}
 {% load static %}
 <div class="header-fixed">
   <img src="{% static 'guide/images/hanwha.png' %}" alt="한화손해보험 CI" onclick="goHome()">
 </div>
-
-{% block content %}
-
 
 <!-- ✅ 사용자 정보 + 로그아웃 버튼 -->
 {% if user_name %}
@@ -102,7 +100,6 @@
 {% block extra_css %}
 <style>
 .header-fixed{
-  position:fixed;
   top:0; left:0; right:0;
   background:var(--bg);
   border-bottom:2px solid #ccc;
