@@ -42,13 +42,27 @@ def search_view(request):
         if query:
             results = Disease.objects.filter(name__icontains=query)
 
-    # 보험사 목록 추가
-    insurances = Insurance.objects.all().order_by("type", "company")
+    # 한화손해보험 (highlight=True)
+    hanwha = Insurance.objects.filter(highlight=True).first()
+
+    # 나머지 보험사들 (type 순서 강제)
+    insurances = Insurance.objects.filter(highlight=False).order_by(
+        # type 순서를 "손해보험 → 생명보험 → 공제" 로 고정
+        models.Case(
+            models.When(type="손해보험", then=0),
+            models.When(type="생명보험", then=1),
+            models.When(type="공제", then=2),
+            default=3,
+            output_field=models.IntegerField(),
+        ),
+        "company"
+    )
 
     context = {
         "results": results,
         "query": query,
         "user_name": request.session.get("user_name"),
-        "insurances": insurances,   # ✅ 보험사 정보 추가
+        "hanwha": hanwha,         # 한화손보 따로
+        "insurances": insurances, # 나머지
     }
     return render(request, "guide/search.html", context)
