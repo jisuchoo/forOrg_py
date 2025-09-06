@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import logout as auth_logout
 from django.views.decorators.csrf import csrf_exempt
-from .models import Employee, Disease
+from .models import Employee, Disease, Insurance
 
 
 # 로그인 뷰
@@ -42,9 +42,13 @@ def search_view(request):
         if query:
             results = Disease.objects.filter(name__icontains=query)
 
+    # 보험사 목록 추가
+    insurances = Insurance.objects.all().order_by("type", "company")
+
     context = {
         "results": results,
         "query": query,
         "user_name": request.session.get("user_name"),
+        "insurances": insurances,   # ✅ 보험사 정보 추가
     }
     return render(request, "guide/search.html", context)
