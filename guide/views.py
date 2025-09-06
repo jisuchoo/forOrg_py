@@ -8,16 +8,18 @@ from .models import Disease
 # ✅ 로그인 화면
 def login_view(request):
     if request.method == "POST":
-        username = request.POST.get("username")
+        empno = request.POST.get("empno")
         password = request.POST.get("password")
-        user = authenticate(request, username=username, password=password)
-        if user:
-            login(request, user)
-            return redirect("search")  # ✅ name="search" 와 매칭
-        else:
-            return render(request, "guide/login.html", {"error": "로그인 실패"})
-    return render(request, "guide/login.html")
 
+        try:
+            user = Employee.objects.get(empno=empno, password=password)
+            request.session["user_id"] = user.id
+            request.session["empno"] = user.empno
+            return redirect("search")
+        except Employee.DoesNotExist:
+            messages.error(request, "코드 또는 비밀번호가 잘못되었습니다.")
+
+    return render(request, "guide/login.html")
 
 
 # ✅ 로그아웃
