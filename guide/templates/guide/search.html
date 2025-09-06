@@ -216,7 +216,12 @@
 }
   
 /* 카드 제목 (보험사명) */
-.insurance-card h4,
+.insurance-card h4 {
+  margin: 0 0 8px 0;
+  text-align: center;       /* ✅ 가운데 정렬 */
+  white-space: normal;      /* 너무 길면 줄바꿈 허용 */
+}
+  
 .insurance-card h3 {
   margin: 0 0 8px 0;
   text-align: center;       /* ✅ 가운데 정렬 */
