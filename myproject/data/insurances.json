@@ -1,0 +1,157 @@
+[
+  {
+    "company": "한화손해보험",
+    "callCenter": "1566-8000",
+    "fax": "0502-779-1004",
+    "termsUrl": "https://www.hwgeneralins.com/notice/ir/product-ing01.do",
+    "type": "손해보험",
+    "highlight": true
+  },
+  {
+    "company": "삼성화재",
+    "callCenter": "1588-5114",
+    "fax": "0505-162-0872",
+    "termsUrl": "https://www.samsungfire.com/vh/page/VH.HPIF0103.do",
+    "type": "손해보험"
+  },
+  {
+    "company": "메리츠화재",
+    "callCenter": "1566-7711",
+    "fax": "0505-021-3400",
+    "termsUrl": "https://www.meritzfire.com/disclosure/product-announcement/product-list.do#!/",
+    "type": "손해보험"
+  },
+  {
+    "company": "DB손해보험",
+    "callCenter": "1588-0100",
+    "fax": "0505-181-4862",
+    "termsUrl": "https://www.idbins.com/FWMAIV1534.do",
+    "type": "손해보험"
+  },
+  {
+    "company": "KB손해보험",
+    "callCenter": "1544-0114",
+    "fax": "0505-136-6500",
+    "termsUrl": "https://www.kbinsure.co.kr/CG802030001.ec",
+    "type": "손해보험"
+  },
+  {
+    "company": "현대해상",
+    "callCenter": "1588-5656",
+    "fax": "0507-774-6060",
+    "termsUrl": "https://www.hi.co.kr/serviceAction.do?view=bin/PA/03/HHPA03010M#none",
+    "type": "손해보험"
+  },
+  {
+    "company": "롯데손해보험",
+    "callCenter": "1588-3344",
+    "fax": "0507-333-9999",
+    "termsUrl": "https://www.lotteins.co.kr/web/C/D/H/cdh190.jsp",
+    "type": "손해보험"
+  },
+  {
+    "company": "흥국화재",
+    "callCenter": "1688-1688",
+    "fax": "0504-800-0700",
+    "termsUrl": "https://www.heungkukfire.co.kr/FRW/announce/insGoodsGongsiSale.do",
+    "type": "손해보험"
+  },
+  {
+    "company": "하나손해보험",
+    "callCenter": "1566-3000",
+    "fax": "0505-170-0765",
+    "termsUrl": "https://www.hanainsure.co.kr/w/disclosure/product/saleProduct",
+    "type": "손해보험"
+  },
+  {
+    "company": "NH농협손해보험",
+    "callCenter": "1644-9000",
+    "fax": "0505-060-7000",
+    "termsUrl": "https://www.nhfire.co.kr/announce/productAnnounce/retrieveInsuranceProductsAnnounce.nhfire",
+    "type": "손해보험"
+  },
+  {
+    "company": "라이나손해보험",
+    "callCenter": "1566-5800",
+    "fax": "콜센터 전화 접수",
+    "termsUrl": "https://www.lina.co.kr/disclosure/product-public-announcement/product-on-sales?key=0%3FproductState%3D01&productKind=01",
+    "type": "손해보험"
+  },
+  {
+    "company": "AIG손해보험",
+    "callCenter": "1544-2792",
+    "fax": "02-2011-4607",
+    "termsUrl": "https://www.aig.co.kr/wo/dpwot001.html?menuId=MS702",
+    "type": "손해보험"
+  },
+  {
+    "company": "한화생명",
+    "callCenter": "1588-6363",
+    "fax": "콜센터 전화 접수",
+    "termsUrl": "https://www.hanwhalife.com/main/disclosure/goods/disclosurenotice/DF_GDDN000_P10000.do?MENU_ID1=DF_GDGL000",
+    "type": "생명보험"
+  },
+  {
+    "company": "동양생명",
+    "callCenter": "1577-1004",
+    "fax": "02-3289-4516",
+    "termsUrl": "https://pbano.myangel.co.kr/paging/WE_AC_WEPAAP020100L",
+    "type": "생명보험"
+  },
+  {
+    "company": "교보생명",
+    "callCenter": "1588-1001",
+    "fax": "콜센터 전화 접수",
+    "termsUrl": "https://www.kyobo.com/dgt/web/product-official/all-product/search",
+    "type": "생명보험"
+  },
+  {
+    "company": "삼성생명",
+    "callCenter": "1588-3114",
+    "fax": "콜센터 전화 접수",
+    "termsUrl": "https://www.samsunglife.com/individual/products/disclosure/sales/PDO-PRPRI010110M",
+    "type": "생명보험"
+  },
+  {
+    "company": "라이나생명",
+    "callCenter": "1588-0058",
+    "fax": "02-6944-1200",
+    "termsUrl": "https://www.lina.co.kr/disclosure/product-public-announcement/product-on-sales?key=0%3FproductState%3D01&productKind=01",
+    "type": "생명보험"
+  },
+  {
+    "company": "KDB생명",
+    "callCenter": "1588-4040",
+    "fax": "02-2669-6500",
+    "termsUrl": "https://www.kdblife.co.kr/ajax.do?scrId=HDLMA002M02P",
+    "type": "생명보험"
+  },
+  {
+    "company": "MG새마을금고",
+    "callCenter": "1599-9010",
+    "fax": "02-3016-7674",
+    "termsUrl": "https://insure.kfcc.co.kr/#/PGE_IHJ_00003",
+    "type": "공제"
+  },
+  {
+    "company": "더케이",
+    "callCenter": "1577-3993",
+    "fax": "02-3278-9696",
+    "termsUrl": "https://www.ktcu.or.kr/PPW-FIC-800101",
+    "type": "공제"
+  },
+  {
+    "company": "우체국",
+    "callCenter": "1599-0100",
+    "fax": "콜센터 전화 접수",
+    "termsUrl": "https://mall.epostbank.go.kr/IPPSKE0000.do",
+    "type": "공제"
+  },
+  {
+    "company": "수협공제",
+    "callCenter": "1588-4119",
+    "fax": "콜센터 전화 접수",
+    "termsUrl": "https://www.suhyup-bank.com/",
+    "type": "공제"
+  }
+]
