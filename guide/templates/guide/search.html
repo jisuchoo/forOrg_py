@@ -1,22 +1,33 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="search-container">
+<div class="container">
   <h2>질병명 검색</h2>
-  <form method="post">
-    {% csrf_token %}
-    <input type="text" name="q" placeholder="예: 당뇨, 고혈압, 골절 등" value="{{ request.POST.q }}">
+
+  <!-- 검색 폼 -->
+  <form method="get" action="{% url 'search' %}" class="search-form">
+    <input type="text" name="q" placeholder="예시: 당뇨, 용종, 골절 등" value="{{ query }}">
     <button type="submit">검색</button>
   </form>
 
-  {% if results %}
-    <h3>검색 결과</h3>
-    <ul>
-      {% for d in results %}
-        <li>{{ d.name }} - {{ d.description }}</li>
-      {% endfor %}
-    </ul>
-  {% else %}
-    <p>검색 결과가 없습니다.</p>
+  <!-- 검색 결과 -->
+  {% if query %}
+    <h3>"{{ query }}" 검색 결과</h3>
+    {% if results %}
+      <ul class="result-list">
+        {% for disease in results %}
+          <li class="result-card">
+            <h4>{{ disease.name }}</h4>
+            <p>{{ disease.description|default:"(설명 없음)" }}</p>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="no-result">검색 결과가 없습니다.</p>
+    {% endif %}
   {% endif %}
+
+  <div class="meta">
+    총 {{ results|length }} 건
+  </div>
 </div>
 {% endblock %}
