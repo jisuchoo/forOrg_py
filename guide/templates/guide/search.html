@@ -206,5 +206,34 @@
 .insurance-category > .insurance-grid{
   margin-top: 8px;
 }
+
+/* 보험사 카드 */
+.insurance-card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 12px;
+  text-align: center;       /* ✅ 안의 모든 문구 중앙 정렬 */
+  margin: 0;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  width: 100%;
+}
+
+/* 카드 제목 (보험사명) */
+.insurance-card h4,
+.insurance-card h3 {
+  margin: 0 0 8px 0;
+  text-align: center;       /* ✅ 가운데 정렬 */
+  white-space: normal;      /* 너무 길면 줄바꿈 허용 */
+}
+
+/* 연락처 아이템 */
+.insurance-card .contact-item {
+  display: inline-block;    /* ✅ flex 대신 inline-block으로 */
+  margin: 4px 0;
+  font-size: 14px;
+  text-align: center;
+  white-space: normal;      /* ✅ 줄바꿈 허용 */
+}
 </style>
 {% endblock %}
