@@ -84,16 +84,15 @@
             <div class="insurance-card">
               <h4>{{ ins.company }}</h4>
               <div class="contact-item">
-                📞 콜센터:
+                <span>📞 콜센터:</span>
                 <a href="tel:{{ ins.callCenter|cut:'-' }}">{{ ins.callCenter }}</a>
               </div>
               <div class="contact-item">
-                📄 보험금청구: 
+                <span>📄 보험금청구: </span>
                 {{ ins.fax }}
               </div>
               <div class="contact-item">
-                📚
-                <a href="{{ ins.termsUrl }}" target="_blank" rel="noopener">공시실 바로가기</a>
+                <span>📚<a href="{{ ins.termsUrl }}" target="_blank" rel="noopener">공시실 바로가기</a></span>
               </div>
             </div>
           {% endfor %}
@@ -188,13 +187,13 @@
 /* ✅ 보험사 카드 2열 그리드 (모바일 포함 항상 유지) */
 .insurance-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 0.9fr)); /* 한 줄에 항상 2개 */
+  grid-template-columns: repeat(2, minmax(0, 1fr)); /* 한 줄에 항상 2개 */
   gap: 12px; /* 카드 사이 여백 */
 }
 
 /* 카드가 셀을 꽉 채우도록 */
 .insurance-card {
-  width: 80%;
+  width: 100%;
   margin: 0;  /* margin-bottom 대신 gap 사용 */
 }
 
@@ -214,12 +213,14 @@
   border: 1px solid #ddd;
   border-radius: 10px;
   padding: 12px;
-  text-align: center;       /* ✅ 안의 모든 문구 중앙 정렬 */
+  text-align: center;
   margin: 0;
   box-shadow: 0 2px 6px rgba(0,0,0,0.05);
   width: 100%;
+  white-space: normal;   /* ✅ 줄바꿈 허용 */
+  word-break: keep-all;  /* ✅ 단어 단위 줄바꿈 (한국어는 자연스럽게 줄바꿈됨) */
 }
-
+  
 /* 카드 제목 (보험사명) */
 .insurance-card h4,
 .insurance-card h3 {
@@ -230,11 +231,12 @@
 
 /* 연락처 아이템 */
 .insurance-card .contact-item {
-  display: inline-block;    /* ✅ flex 대신 inline-block으로 */
-  margin: 4px 0;
+  display: block;        /* ✅ 블록 단위로 쌓이게 */
+  margin: 6px 0;
   font-size: 14px;
   text-align: center;
-  white-space: normal;      /* ✅ 줄바꿈 허용 */
+  white-space: normal;   /* ✅ 줄바꿈 허용 */
+  word-break: break-word;/* ✅ 너무 긴 URL/번호 강제 줄바꿈 */
 }
 </style>
 {% endblock %}
