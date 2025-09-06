@@ -8,14 +8,16 @@ from .models import Disease
 # ✅ 로그인 화면
 def login_view(request):
     if request.method == "POST":
-        form = AuthenticationForm(request, data=request.POST)
-        if form.is_valid():
-            user = form.get_user()
+        username = request.POST.get("username")
+        password = request.POST.get("password")
+        user = authenticate(request, username=username, password=password)
+        if user:
             login(request, user)
-            return redirect("search")
-    else:
-        form = AuthenticationForm()
-    return render(request, "guide/login.html", {"form": form})
+            return redirect("search")  # ✅ name="search" 와 매칭
+        else:
+            return render(request, "guide/login.html", {"error": "로그인 실패"})
+    return render(request, "guide/login.html")
+
 
 
 # ✅ 로그아웃
