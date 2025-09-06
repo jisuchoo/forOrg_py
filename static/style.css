@@ -79,64 +79,6 @@ button:hover {
   text-align: center;
 }
 
-/* ========================= */
-/* 보험사 카드 (새 디자인)   */
-/* ========================= */
-
-.insurance-card {
-  background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  padding: 14px;
-  margin: 12px auto;
-  max-width: 500px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  font-size: 16px;
-}
-
-.insurance-card.hanwha {
-  border: 2px solid #ff7f00;
-  box-shadow: 0 3px 8px rgba(255,127,0,0.2);
-}
-
-.insurance-card h4 {
-  margin: 0 0 8px 0;
-  font-size: 18px;
-  font-weight: 700;
-  color: #222;
-}
-
-/* 보험사 연락처 아이템 */
-.contact-item {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 15px;
-  margin: 2px 0;
-  white-space: nowrap;  /* ✅ 줄바꿈 방지 */
-}
-
-.contact-item a {
-  color: #0066cc;
-  font-weight: 600;
-  text-decoration: none;
-}
-.contact-item a:hover {
-  text-decoration: underline;
-}
-
-/* 카테고리 구분 */
-.insurance-category h3 {
-  font-size: 17px;
-  font-weight: 700;
-  margin: 14px 0 8px;
-  border-bottom: 2px solid #ff7f00;
-  padding-bottom: 4px;
-  color: #222;
-}
 
 /* ========================= */
 /* 사용자 정보                */
