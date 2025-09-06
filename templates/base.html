@@ -1,0 +1,19 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}신주안 SI 가이드{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'guide/style.css' %}">
+</head>
+<body>
+    <header>
+        <h1>신주안 SI 인수 가이드</h1>
+    </header>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+</body>
+</html>
