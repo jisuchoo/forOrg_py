@@ -3,5 +3,5 @@ from django.urls import path, include
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("", include("guide.urls")),  # guide 앱 라우팅
+    path("", include("guide.urls")),   # ✅ guide 앱 라우팅 포함
 ]
