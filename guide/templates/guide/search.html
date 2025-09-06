@@ -18,6 +18,8 @@
       {% for d in results %}
       <div class="result-card">
         <div class="result-title">{{ d.name }}</div>
+        <div class="result-sub">인수기준: {{ d.acceptance|default:"-" }}</div>
+        <div class="result-sub">시그니처355: {{ d.signature355|default:"-" }}</div>
         <table class="info-table">
           <tr>
             <th>치료일수</th>
@@ -29,9 +31,7 @@
             <td>{{ d.surgery|default:"-" }}</td>
             <td>{{ d.recurrence|default:"-" }}</td>
           </tr>
-        </table>
-        <div class="result-sub">인수기준: {{ d.acceptance|default:"-" }}</div>
-        <div class="result-sub">시그니처355: {{ d.signature355|default:"-" }}</div>
+        </table>        
         <div class="restrictions">제한사항:<br>{{ d.restrictions|default:"없음" }}</div>
       </div>
       {% endfor %}
