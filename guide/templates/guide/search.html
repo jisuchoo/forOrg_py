@@ -98,6 +98,24 @@
 
 {% block extra_css %}
 <style>
+.header-fixed{
+  position:fixed;
+  top:0; left:0; right:0;
+  background:var(--bg);
+  border-bottom:2px solid #ccc;
+  text-align:center;
+  padding:10px 0;
+  box-shadow:0 2px 4px rgba(0,0,0,.08);
+}
+.header-fixed img{
+  height: 50px; /* 크기 조정 */
+  width: auto;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+.header-fixed img:hover {
+  transform: scale(1.05);
+}
 .user-info {
   display: flex;
   justify-content: space-between;
