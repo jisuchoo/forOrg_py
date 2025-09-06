@@ -1,16 +1,11 @@
-{% extends "guide/base.html" %}
-{% load static %}
-{% block title %}로그인{% endblock %}
+{% extends "base.html" %}
 {% block content %}
-<div class="card">
+<div class="login-container">
   <h2>로그인</h2>
   <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit">로그인</button>
   </form>
-  {% for message in messages %}
-    <div class="error">{{ message }}</div>
-  {% endfor %}
 </div>
 {% endblock %}
