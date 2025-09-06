@@ -7,7 +7,7 @@ class Command(BaseCommand):
     help = "employees.json과 diseases.json 데이터를 PostgreSQL DB에 import"
 
     def handle(self, *args, **options):
-        base_dir = Path(__file__).resolve().parent.parent.parent
+        base_dir = Path(__file__).resolve().parent.parent.parent.parent
 
         # 직원 데이터 Import
         emp_file = base_dir / "employees.json"
