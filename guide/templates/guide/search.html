@@ -188,13 +188,13 @@
 /* ✅ 보험사 카드 2열 그리드 (모바일 포함 항상 유지) */
 .insurance-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr)); /* 한 줄에 항상 2개 */
+  grid-template-columns: repeat(2, minmax(0, 0.9fr)); /* 한 줄에 항상 2개 */
   gap: 12px; /* 카드 사이 여백 */
 }
 
 /* 카드가 셀을 꽉 채우도록 */
 .insurance-card {
-  width: 95%;
+  width: 80%;
   margin: 0;  /* margin-bottom 대신 gap 사용 */
 }
 
