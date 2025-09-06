@@ -184,33 +184,24 @@
   white-space: pre-line;
 }
 
-/* ✅ 보험사 카드 2열 그리드 */
-.insurance-grid{
+/* ✅ 보험사 카드 2열 그리드 (모바일 포함 항상 유지) */
+.insurance-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr)); /* 한 줄에 2개 */
-  gap: 12px; /* 카드 사이 간격 */
+  grid-template-columns: repeat(2, minmax(0, 1fr)); /* 한 줄에 항상 2개 */
+  gap: 12px; /* 카드 사이 여백 */
 }
 
-/* ✅ 카드가 그리드 셀을 꽉 채우도록 (margin 대신 gap 사용 권장) */
-.insurance-card{
+/* 카드가 셀을 꽉 채우도록 */
+.insurance-card {
   width: 100%;
-  margin: 0;                /* 기존 margin-bottom 제거 */
+  margin: 0;  /* margin-bottom 대신 gap 사용 */
 }
 
-/* ✅ (선택) 한화 강조카드를 그리드에 넣을 경우, 두 칸 차지 */
-.insurance-card.span-2{
+/* (선택) 한화손보 강조카드가 그리드에 포함될 경우 두 칸 차지 */
+.insurance-card.span-2 {
   grid-column: 1 / -1;
 }
-
-/* ✅ 작은 화면에서는 1열로 (원하면 이 부분 지우고 항상 2열 유지 가능) */
-@media (max-width: 600px){
-  .insurance-grid{
-    grid-template-columns: 1fr;
-  }
-  /* 줄바꿈이 필요하면 nowrap 해제 */
-  .insurance-card { white-space: normal; }
-}
-
+  
 /* (선택) 카테고리 제목과 그리드 사이 여백 다듬기 */
 .insurance-category > .insurance-grid{
   margin-top: 8px;
