@@ -38,27 +38,29 @@
 
   <!-- 보험사 목록 -->
   <div class="insurance-section">
-    {% regroup insurances by type as grouped %}
-    {% for group in grouped %}
+    {% for category, ins_list in insurances.items %}
       <div class="insurance-category">
-        <h3>{{ group.grouper }}</h3>
-        {% for ins in group.list %}
+        <h3>{{ category }}</h3>
+        {% for ins in ins_list %}
           <div class="insurance-card {% if ins.highlight %}hanwha{% endif %}">
             <h4>{{ ins.company }}</h4>
-            <div class="contact-item">📞 콜센터:
-              <a href="tel:{{ ins.callCenter|cut:"-" }}">{{ ins.callCenter }}</a>
+            <div class="contact-item">
+              📞 콜센터:
+              <a href="tel:{{ ins.callCenter|cut:'-' }}">{{ ins.callCenter }}</a>
             </div>
-            <div class="contact-item">📄 보험금청구:
+            <div class="contact-item">
+              📄 보험금청구:
               {{ ins.fax }}
             </div>
-            <div class="contact-item">📚
+            <div class="contact-item">
+              📚
               <a href="{{ ins.termsUrl }}" target="_blank" rel="noopener">공시실 바로가기</a>
             </div>
           </div>
-        {% endfor %}
-      </div>
-    {% endfor %}
-  </div>
+      {% endfor %}
+    </div>
+  {% endfor %}
+</div>
 </div>
 {% endblock %}
 
