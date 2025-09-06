@@ -116,6 +116,7 @@ button:hover {
   gap: 6px;
   font-size: 15px;
   margin: 2px 0;
+  white-space: nowrap;  /* ✅ 줄바꿈 방지 */
 }
 
 .contact-item a {
