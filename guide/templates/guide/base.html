@@ -1,19 +1,18 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  {% load static %}
   <meta charset="UTF-8">
-  <title>{% block title %}SI 인수 가이드{% endblock %}</title>
+  <title>신주안 SI 인수 가이드</title>
   <link rel="stylesheet" href="{% static 'guide/style.css' %}">
 </head>
 <body>
-  <div class="app-title">신주안 SI 인수 가이드</div>
-  {% if request.session.user %}
-    <div class="user-info">
-      로그인: {{ request.session.user }}{% if request.session.is_admin %} (관리자){% endif %}
-      <a href="{% url 'guide:logout' %}">로그아웃</a>
-    </div>
-  {% endif %}
-  {% block content %}{% endblock %}
+  <header>
+    <h1>신주안 SI 인수 가이드</h1>
+  </header>
+
+  <main>
+    {% block content %}{% endblock %}
+  </main>
 </body>
 </html>
