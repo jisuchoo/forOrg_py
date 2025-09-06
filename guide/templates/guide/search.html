@@ -18,17 +18,21 @@
       {% for d in results %}
       <div class="result-card">
         <div class="result-title">{{ d.name }}</div>
-        <div class="result-sub">인수기준: {{ d.acceptance|default:"-" }}</div>
-        <div class="result-sub">시그니처355: {{ d.signature355|default:"-" }}</div>
         <table class="info-table">
-          <tr><th>치료일수</th><th>수술여부</th><th>재발여부</th></tr>
+          <tr>
+            <th>치료일수</th>
+            <th>수술여부</th>
+            <th>재발여부</th>
+          </tr>
           <tr>
             <td>{{ d.treatmentDays|default:"-" }}</td>
             <td>{{ d.surgery|default:"-" }}</td>
             <td>{{ d.recurrence|default:"-" }}</td>
           </tr>
         </table>
-        <div class="restrictions">제한사항: {{ d.restrictions|default:"없음" }}</div>
+        <div class="result-sub">인수기준: {{ d.acceptance|default:"-" }}</div>
+        <div class="result-sub">시그니처355: {{ d.signature355|default:"-" }}</div>
+        <div class="restrictions">제한사항:<br>{{ d.restrictions|default:"없음" }}</div>
       </div>
       {% endfor %}
     </div>
@@ -55,34 +59,68 @@
     {% endif %}
     
     <!-- 나머지 보험사들 (손해보험 → 생명보험 → 공제 순) -->
-    {% regroup insurances by type as grouped %}
-    {% for group in grouped %}
+    {% for category in insurance_order %}
       <div class="insurance-category">
-        <h3>{{ group.grouper }}</h3>
-        {% for ins in group.list %}
-          <div class="insurance-card">
-            <h4>{{ ins.company }}</h4>
-            <div class="contact-item">
-              📞 콜센터: <a href="tel:{{ ins.callCenter|cut:'-' }}">{{ ins.callCenter }}</a>
+        <h3>{{ category }}</h3>
+        {% for ins in insurances|dictsort:"company" %}
+          {% if ins.type == category %}
+            <div class="insurance-card">
+              <h4>{{ ins.company }}</h4>
+              <div class="contact-item">
+                📞 콜센터: <a href="tel:{{ ins.callCenter|cut:'-' }}">{{ ins.callCenter }}</a>
+              </div>
+              <div class="contact-item">
+                📄 보험금청구: {{ ins.fax }}
+              </div>
+              <div class="contact-item">
+                📚 <a href="{{ ins.termsUrl }}" target="_blank" rel="noopener">공시실 바로가기</a>
+              </div>
             </div>
-            <div class="contact-item">
-              📄 보험금청구: {{ ins.fax }}
-            </div>
-            <div class="contact-item">
-              📚 <a href="{{ ins.termsUrl }}" target="_blank" rel="noopener">공시실 바로가기</a>
-            </div>
-          </div>
+          {% endif %}
         {% endfor %}
       </div>
     {% endfor %}
-    </div>
   </div>
 </div>
 {% endblock %}
 
 {% block extra_css %}
 <style>
-/* 카드 공통 스타일 */
+/* 결과 카드 */
+.result-card {
+  border: 1px solid #ddd;
+  background: #fff;
+  border-radius: 10px;
+  padding: 14px;
+  margin-bottom: 14px;
+}
+.result-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+.info-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 8px 0;
+}
+.info-table th, .info-table td {
+  border: 1px solid #ccc;
+  padding: 6px;
+  text-align: center;
+  font-size: 14px;
+}
+.restrictions {
+  margin-top: 8px;
+  padding: 8px;
+  background: #fafafa;
+  border: 1px dashed #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  white-space: pre-line;
+}
+
+/* 보험사 카드 */
 .insurance-card {
   background: #fff;
   border: 1px solid #ddd;
@@ -90,62 +128,17 @@
   padding: 12px;
   margin-bottom: 12px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
 }
-
 .insurance-card.hanwha {
   border: 2px solid #ff7f00;
   box-shadow: 0 3px 8px rgba(255,127,0,0.2);
 }
-
-.insurance-card h4 {
-  margin: 0 0 6px 0;
-  font-size: 16px;
-  font-weight: 700;
-  color: #222;
-}
-
-.contact-item {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 14px;
-  margin: 2px 0;
-}
-
-.contact-item a {
-  color: #0066cc;
-  font-weight: 600;
-  text-decoration: none;
-}
-.contact-item a:hover {
-  text-decoration: underline;
-}
-
 .insurance-category h3 {
   font-size: 15px;
-  font-weight: 700;
-  margin: 10px 0 6px;
+  font-weight: bold;
+  margin: 12px 0 6px;
   border-bottom: 2px solid #ff7f00;
   padding-bottom: 4px;
-}
-
-/* ✅ 모바일 최적화 */
-@media (max-width: 768px) {
-  .insurance-card {
-    padding: 10px;
-    font-size: 14px;
-  }
-  .insurance-card h4 {
-    font-size: 15px;
-  }
-  .contact-item {
-    font-size: 13px;
-    flex-direction: column;
-    align-items: flex-start;
-  }
 }
 </style>
 {% endblock %}
