@@ -1,10 +1,13 @@
 from pathlib import Path
+import os
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = "django-insecure-your-secret-key"
-DEBUG = True
-ALLOWED_HOSTS = ["*"]
+SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "your-secret-key")  # 배포 시 환경변수로 바꾸기
+
+DEBUG = os.environ.get("DJANGO_DEBUG", "True") == "True"
+
+ALLOWED_HOSTS = ["*"]  # Render에서는 자동으로 호스트 설정, 보안 필요 시 도메인 지정
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -13,7 +16,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "guide",  # 인수가이드 앱 등록
+    "guide",   # 우리가 만든 앱
 ]
 
 MIDDLEWARE = [
@@ -31,7 +34,7 @@ ROOT_URLCONF = "myproject.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [BASE_DIR / "templates"],  # 전역 템플릿 폴더
+        "DIRS": [BASE_DIR / "templates"],  # 프로젝트 전역 템플릿 폴더
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -46,14 +49,19 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "myproject.wsgi.application"
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+# ✅ 기본은 SQLite, Render에서는 PostgreSQL 환경변수로 교체
+if os.environ.get("DATABASE_URL"):
+    import dj_database_url
+    DATABASES = {
+        "default": dj_database_url.config(conn_max_age=600, ssl_require=True)
     }
-}
-
-AUTH_PASSWORD_VALIDATORS = []
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
+    }
 
 LANGUAGE_CODE = "ko-kr"
 TIME_ZONE = "Asia/Seoul"
@@ -62,5 +70,6 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 STATICFILES_DIRS = [BASE_DIR / "static"]
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
