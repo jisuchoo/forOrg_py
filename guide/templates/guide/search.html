@@ -113,9 +113,11 @@
   color: #fff;
   border: none;
   border-radius: 6px;
-  padding: 6px 12px;
-  font-size: 11px;
+  padding: 6px 14px;
+  font-size: 13px;
   cursor: pointer;
+  white-space: nowrap;  /* ✅ 줄바꿈 방지 */
+  display: inline-block; /* ✅ 강제로 인라인 블록 처리 */
 }
 .logout-btn:hover {
   background: #b02a37;
