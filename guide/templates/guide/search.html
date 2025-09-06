@@ -1,74 +1,133 @@
-{% extends "base.html" %}
-{% load static %}
+{% extends "guide/base.html" %}
 
 {% block content %}
-<div class="app-title">한화손보 유병자 인수 가이드</div>
+<div class="app-title">신주안 SI 인수 가이드</div>
+
 <div class="card container-narrow">
   <h2 style="margin-bottom:.5rem;">질병명 검색</h2>
   <form method="post" style="margin-bottom:1rem;">
     {% csrf_token %}
-    <input type="text" name="query" value="{{ query }}" placeholder="예시: 용종, 골절, 당뇨 등" style="width:100%; padding:12px; border:1px solid #ccc; border-radius:8px;">
-    <button type="submit" style="margin-top:10px; width:100%; padding:12px; background:#ff7f00; color:#fff; border:none; border-radius:8px; font-weight:700; cursor:pointer;">검색</button>
+    <div class="row">
+      <input type="text" name="query" placeholder="예시: 용종, 골절, 당뇨 등" value="{{ query }}">
+    </div>
+    <button type="submit">검색</button>
   </form>
-
-  {% if query and not results %}
-    <div class="error">검색 결과가 없습니다.</div>
-  {% endif %}
 
   {% if results %}
     <div class="results">
       {% for d in results %}
-        <div class="result-card" style="margin-bottom:1rem; border:1px solid #ddd; padding:1rem; border-radius:10px; background:#fff;">
-          <div class="result-title">{{ d.name }}</div>
-          <div class="result-sub">인수기준: {{ d.acceptance|default:"-" }}</div>
-          <div class="result-sub">시그니처355: {{ d.signature355|default:"-" }}</div>
-          <table class="info-table">
-            <tr><th>치료일수</th><th>수술여부</th><th>재발여부</th></tr>
-            <tr>
-              <td>{{ d.treatmentDays|default:"-" }}</td>
-              <td>{{ d.surgery|default:"-" }}</td>
-              <td>{{ d.recurrence|default:"-" }}</td>
-            </tr>
-          </table>
-          <div class="restrictions">제한사항: {{ d.restrictions|default:"없음" }}</div>
-        </div>
+      <div class="result-card">
+        <div class="result-title">{{ d.name }}</div>
+        <div class="result-sub">인수기준: {{ d.acceptance|default:"-" }}</div>
+        <div class="result-sub">시그니처355: {{ d.signature355|default:"-" }}</div>
+        <table class="info-table">
+          <tr><th>치료일수</th><th>수술여부</th><th>재발여부</th></tr>
+          <tr>
+            <td>{{ d.treatmentDays|default:"-" }}</td>
+            <td>{{ d.surgery|default:"-" }}</td>
+            <td>{{ d.recurrence|default:"-" }}</td>
+          </tr>
+        </table>
+        <div class="restrictions">제한사항: {{ d.restrictions|default:"없음" }}</div>
+      </div>
       {% endfor %}
     </div>
+  {% elif query %}
+    <div class="hint">검색 결과가 없습니다.</div>
   {% endif %}
 
   <!-- 보험사 목록 -->
-  <div class="insurance-section" style="margin-top:2rem;">
-    {% regroup insurances by type as insurance_list %}
-    {% for group in insurance_list %}
+  <div class="insurance-section">
+    {% regroup insurances by type as grouped %}
+    {% for group in grouped %}
       <div class="insurance-category">
         <h3>{{ group.grouper }}</h3>
-        <div class="insurance-grid">
-          {% for ins in group.list %}
-            {% if ins.highlight %}
-              <!-- 한화손해보험 강조 카드 -->
-              <div class="insurance-card hanwha" style="border:3px solid #ff7f00; padding:1rem; border-radius:14px; margin-bottom:1rem; background:#fff;">
-                <div class="insurance-logo">{{ ins.company }}</div>
-                <div class="insurance-contact">
-                  <div class="contact-item">📞 콜센터: <a href="tel:{{ ins.callCenter|cut:"-" }}">{{ ins.callCenter }}</a></div>
-                  <div class="contact-item">📄 보험금청구: {{ ins.fax }}</div>
-                  <div class="contact-item">📚 <a href="{{ ins.termsUrl }}" target="_blank">공시실 바로가기</a></div>
-                </div>
-              </div>
-            {% else %}
-              <!-- 일반 보험사 카드 -->
-              <div class="insurance-card small" style="border:1px solid #ddd; padding:.75rem; border-radius:12px; margin:.5rem; background:#fff; text-align:center;">
-                <div class="insurance-logo small">{{ ins.company }}</div>
-                <div class="insurance-contact small">
-                  <div class="contact-item small">📞 콜센터: <a href="tel:{{ ins.callCenter|cut:"-" }}">{{ ins.callCenter }}</a></div>
-                  <div class="contact-item small">📄 보험금청구: {{ ins.fax }}</div>
-                  <div class="contact-item small">📚 <a href="{{ ins.termsUrl }}" target="_blank">공시실 바로가기</a></div>
-                </div>
-              </div>
-            {% endif %}
-          {% endfor %}
-        </div>
+        {% for ins in group.list %}
+          <div class="insurance-card {% if ins.highlight %}hanwha{% endif %}">
+            <h4>{{ ins.company }}</h4>
+            <div class="contact-item">📞 콜센터:
+              <a href="tel:{{ ins.callCenter|cut:"-" }}">{{ ins.callCenter }}</a>
+            </div>
+            <div class="contact-item">📄 보험금청구:
+              {{ ins.fax }}
+            </div>
+            <div class="contact-item">📚
+              <a href="{{ ins.termsUrl }}" target="_blank" rel="noopener">공시실 바로가기</a>
+            </div>
+          </div>
+        {% endfor %}
       </div>
     {% endfor %}
   </div>
 </div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+/* 카드 공통 스타일 */
+.insurance-card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 12px;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.insurance-card.hanwha {
+  border: 2px solid #ff7f00;
+  box-shadow: 0 3px 8px rgba(255,127,0,0.2);
+}
+
+.insurance-card h4 {
+  margin: 0 0 6px 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: #222;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  margin: 2px 0;
+}
+
+.contact-item a {
+  color: #0066cc;
+  font-weight: 600;
+  text-decoration: none;
+}
+.contact-item a:hover {
+  text-decoration: underline;
+}
+
+.insurance-category h3 {
+  font-size: 15px;
+  font-weight: 700;
+  margin: 10px 0 6px;
+  border-bottom: 2px solid #ff7f00;
+  padding-bottom: 4px;
+}
+
+/* ✅ 모바일 최적화 */
+@media (max-width: 768px) {
+  .insurance-card {
+    padding: 10px;
+    font-size: 14px;
+  }
+  .insurance-card h4 {
+    font-size: 15px;
+  }
+  .contact-item {
+    font-size: 13px;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+</style>
 {% endblock %}
