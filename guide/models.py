@@ -1,21 +1,22 @@
 from django.db import models
 
 class Employee(models.Model):
-    empno = models.CharField(max_length=20, unique=True)
-    password = models.CharField(max_length=100)
-    name = models.CharField(max_length=50, blank=True)
+    empno = models.CharField("사번", max_length=50, unique=True)
+    password = models.CharField("비밀번호", max_length=128)
+    name = models.CharField("이름", max_length=100, blank=True, null=True)
 
     def __str__(self):
-        return f"{self.empno} - {self.name}"
+        return f"{self.empno} - {self.name or '이름없음'}"
+
 
 class Disease(models.Model):
-    name = models.CharField(max_length=100)
-    acceptance = models.TextField(blank=True)
-    signature355 = models.TextField(blank=True)
-    treatmentDays = models.CharField(max_length=50, blank=True)
-    surgery = models.CharField(max_length=50, blank=True)
-    recurrence = models.CharField(max_length=50, blank=True)
-    restrictions = models.TextField(blank=True)
+    name = models.CharField("질병명", max_length=255, unique=True)
+    acceptance = models.TextField("인수기준", blank=True, null=True)
+    signature355 = models.TextField("시그니처355", blank=True, null=True)
+    treatmentDays = models.CharField("치료일수", max_length=100, blank=True, null=True)
+    surgery = models.CharField("수술여부", max_length=100, blank=True, null=True)
+    recurrence = models.CharField("재발여부", max_length=100, blank=True, null=True)
+    restrictions = models.TextField("제한사항", blank=True, null=True)
 
     def __str__(self):
         return self.name
