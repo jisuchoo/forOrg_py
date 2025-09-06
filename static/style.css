@@ -1,48 +1,126 @@
+/* 전체 화면 공통 */
 body {
-  font-family: "Noto Sans KR", sans-serif;
-  background: #f8f9fa;
   margin: 0;
-  padding: 20px;
+  padding: 0;
+  font-family: "Noto Sans KR", Arial, sans-serif;
+  background-color: #f9f9f9;
+  color: #333;
+  font-size: 18px; /* 기본 글자 크기 ↑ */
 }
 
+/* 앱 제목 */
 .app-title {
-  font-size: 22px;
+  font-size: 24px; /* 제목 글자 크게 */
   font-weight: bold;
-  color: #ff7f00;
-  margin-bottom: 20px;
+  text-align: center;
+  margin: 20px 0;
 }
 
+/* 카드 박스 */
 .card {
   background: #fff;
+  max-width: 420px;
+  margin: 0 auto;
   padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0,0,0,.1);
-  max-width: 600px;
-  margin: auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  text-align: center; /* 카드 안 내용 기본 가운데 정렬 */
 }
 
+/* 입력창 */
+input {
+  width: 90%;
+  padding: 12px;
+  margin: 8px 0;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 16px;
+}
+
+/* 버튼 */
 button {
-  background: #ff7f00;
+  width: 95%;
+  padding: 12px;
+  background-color: #ff7f00;
   border: none;
-  padding: 10px 16px;
-  color: white;
+  border-radius: 6px;
+  color: #fff;
+  font-size: 18px;
   font-weight: bold;
-  border-radius: 8px;
   cursor: pointer;
+  margin-top: 10px;
 }
 
 button:hover {
-  background: #e67100;
+  background-color: #e56e00;
 }
 
+/* 에러 메시지 */
+.error {
+  color: #d9534f;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+/* 안내/메타 정보 */
+.meta {
+  font-size: 14px;
+  color: #666;
+  margin-top: 6px;
+}
+
+/* 검색 결과 카드 */
 .result-card {
-  background: #fff;
   border: 1px solid #ddd;
-  padding: 12px;
-  border-radius: 8px;
-  margin-top: 12px;
+  background: #fff;
+  border-radius: 6px;
+  padding: 15px;
+  margin: 12px auto;
+  max-width: 600px;
+  text-align: center; /* 검색 결과 카드도 가운데 */
 }
 
-.error { color: red; }
-.hint { color: gray; font-size: 14px; }
-.meta { font-size: 12px; color: #555; margin-top: 10px; }
+/* 보험사 카드 */
+.insurance-card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background: #fff;
+  padding: 20px;
+  margin: 15px auto;
+  max-width: 500px;
+  text-align: center; /* 보험사 카드 전체 가운데 */
+  font-size: 18px;
+}
+
+.insurance-card h3 {
+  font-size: 22px;
+  margin-bottom: 15px;
+}
+
+/* 보험사 카드 내 아이템 */
+.insurance-card .item {
+  margin: 10px 0;
+  font-size: 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.insurance-card .item span {
+  font-weight: bold;
+  margin-top: 4px;
+}
+
+/* 사용자 정보 */
+.user-info {
+  background: #eee;
+  padding: 10px;
+  font-size: 16px;
+  text-align: center;
+}
+
+.logout {
+  margin-left: 10px;
+  padding: 6px 12px;
+  font-size: 14px;
+}
