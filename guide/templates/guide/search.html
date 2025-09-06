@@ -1,7 +1,9 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="app-title">신주안 SI 인수 가이드</div>
+<div class="header-fixed">
+  <img src="{% static 'guide/images/hanwha.png' %}" alt="한화손해보험 CI" onclick="goHome()">
+</div>
 
 <!-- ✅ 사용자 정보 + 로그아웃 버튼 -->
 {% if user_name %}
