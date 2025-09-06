@@ -1,19 +1,18 @@
-{% extends "base.html" %}
+{% extends "guide/base.html" %}
 {% block content %}
 <div class="card">
   <h2>로그인</h2>
-  {% if error %}
-    <div class="error">{{ error }}</div>
-  {% endif %}
   <form method="post">
     {% csrf_token %}
-    <div class="row">
-      <input type="text" name="username" placeholder="아이디" required />
-    </div>
-    <div class="row">
-      <input type="password" name="password" placeholder="비밀번호" required />
-    </div>
+    <div class="row"><input type="text" name="empno" placeholder="사번 입력"></div>
+    <div class="row"><input type="password" name="password" placeholder="비밀번호 입력"></div>
     <button type="submit">로그인</button>
   </form>
+
+  {% if messages %}
+    {% for message in messages %}
+      <div class="error">{{ message }}</div>
+    {% endfor %}
+  {% endif %}
 </div>
 {% endblock %}
