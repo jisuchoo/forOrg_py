@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
@@ -41,10 +42,11 @@
       transform: scale(1.05);
     }
     .screen{
-      min-height:100vh;
+      min-height: calc(100vh - 70px); /* 남는 공간 맞추기 */
       display:flex;
       align-items:center;
-      justify-content:center;
+      justify-content:flex-start;
+      padding-top: 120px;           /* 헤더 아래 여백 */
       padding:1rem;
     }
     .card{
@@ -93,7 +95,6 @@
 <body>
   <!-- 상단 고정 로고 -->
   <div class="header-fixed">
-    {% load static %}
     <img src="{% static 'guide/images/hanwha.jpg' %}" alt="한화손해보험 CI" onclick="goHome()">
   </div>
 
