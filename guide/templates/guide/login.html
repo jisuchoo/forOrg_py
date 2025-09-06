@@ -42,11 +42,12 @@
       transform: scale(1.05);
     }
     .screen{
-      min-height: calc(100vh - 70px); /* 남는 공간 맞추기 */
-      display:flex;
-      align-items:center;
-      justify-content:flex-start;
-      padding:1rem;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;  /* ✅ 맨 위 정렬 */
+      padding: 40px 1rem 2rem;     /* 위쪽에 여백만 줌 */
     }
     .card{
       width:100%;
