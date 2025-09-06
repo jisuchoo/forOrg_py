@@ -32,14 +32,8 @@ def logout_view(request):
 # ✅ 검색 화면 (로그인 필요)
 @login_required
 def search_view(request):
-    query = request.GET.get("q", "").strip()
+    query = request.POST.get("query")
     results = []
-
     if query:
-        # 부분 일치 + 대소문자 무시 검색
         results = Disease.objects.filter(name__icontains=query)
-
-    return render(request, "guide/search.html", {
-        "query": query,
-        "results": results
-    })
+    return render(request, "guide/search.html", {"results": results})
