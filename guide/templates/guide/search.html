@@ -182,20 +182,33 @@
   background: #fff;
   border: 1px solid #ddd;
   border-radius: 10px;
-  padding: 12px;
-  margin-bottom: 12px;
+  padding: 12px 16px;
+  margin: 12px auto;             /* ✅ 카드 자체 가운데 정렬 */
   box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  text-align: center;            /* ✅ 안의 내용도 가운데 정렬 */
+  white-space: nowrap;           /* ✅ 줄바꿈 방지 */
+  display: inline-block;         /* ✅ 가로로도 나열 가능하게 */
+  min-width: 220px;              /* ✅ 카드 최소 너비 */
 }
+
+/* 한화 강조 카드 */
 .insurance-card.hanwha {
   border: 2px solid #ff7f00;
   box-shadow: 0 3px 8px rgba(255,127,0,0.2);
 }
+
+/* 카테고리 제목 */
+.insurance-category {
+  text-align: center;   /* ✅ 안의 카드들을 전체 가운데 정렬 */
+}
+
 .insurance-category h3 {
   font-size: 15px;
   font-weight: bold;
-  margin: 12px 0 6px;
+  margin: 12px 0 10px;
   border-bottom: 2px solid #ff7f00;
   padding-bottom: 4px;
+  display: inline-block;  /* ✅ 제목도 가운데 정렬 */
 }
 </style>
 {% endblock %}
