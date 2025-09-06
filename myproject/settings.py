@@ -1,13 +1,14 @@
 from pathlib import Path
 import os
+import dj_database_url  # 반드시 requirements.txt 에 추가해야 함
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "your-secret-key")  # 배포 시 환경변수로 바꾸기
+SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "your-secret-key")
 
-DEBUG = os.environ.get("DJANGO_DEBUG", "True") == "True"
+DEBUG = os.environ.get("DJANGO_DEBUG", "False") == "True"
 
-ALLOWED_HOSTS = ["*"]  # Render에서는 자동으로 호스트 설정, 보안 필요 시 도메인 지정
+ALLOWED_HOSTS = ["*"]
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -34,7 +35,7 @@ ROOT_URLCONF = "myproject.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [BASE_DIR / "templates"],  # 프로젝트 전역 템플릿 폴더
+        "DIRS": [BASE_DIR / "templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -49,19 +50,14 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "myproject.wsgi.application"
 
-# ✅ 기본은 SQLite, Render에서는 PostgreSQL 환경변수로 교체
-if os.environ.get("DATABASE_URL"):
-    import dj_database_url
-    DATABASES = {
-        "default": dj_database_url.config(conn_max_age=600, ssl_require=True)
-    }
-else:
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.sqlite3",
-            "NAME": BASE_DIR / "db.sqlite3",
-        }
-    }
+# ✅ PostgreSQL 연결 (Render.com 이 DATABASE_URL 환경변수 제공)
+DATABASES = {
+    "default": dj_database_url.config(
+        default=os.environ.get("DATABASE_URL"),
+        conn_max_age=600,
+        ssl_require=True
+    )
+}
 
 LANGUAGE_CODE = "ko-kr"
 TIME_ZONE = "Asia/Seoul"
