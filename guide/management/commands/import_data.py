@@ -1,10 +1,11 @@
 import json
 from pathlib import Path
 from django.core.management.base import BaseCommand
-from guide.models import Employee, Disease
+from guide.models import Employee, Disease, Insurance
+
 
 class Command(BaseCommand):
-    help = "employees.json과 diseases.json 데이터를 PostgreSQL DB에 import"
+    help = "employees.json, diseases.json, insurances.json 데이터를 PostgreSQL DB에 import"
 
     def handle(self, *args, **options):
         base_dir = Path(__file__).resolve().parent.parent.parent.parent
@@ -51,3 +52,25 @@ class Command(BaseCommand):
                 self.stdout.write(self.style.SUCCESS(f"질병 {count}건 Import 완료"))
         else:
             self.stdout.write(self.style.WARNING("diseases.json 파일을 찾을 수 없습니다."))
+
+        # 보험사 데이터 Import
+        ins_file = base_dir / "insurances.json"
+        if ins_file.exists():
+            with open(ins_file, encoding="utf-8") as f:
+                insurances = json.load(f)
+                count = 0
+                for i in insurances:
+                    Insurance.objects.update_or_create(
+                        company=i.get("company", "").strip(),
+                        defaults={
+                            "callCenter": i.get("callCenter", ""),
+                            "fax": i.get("fax", ""),
+                            "termsUrl": i.get("termsUrl", ""),
+                            "type": i.get("type", ""),
+                            "highlight": bool(i.get("highlight", False)),
+                        }
+                    )
+                    count += 1
+                self.stdout.write(self.style.SUCCESS(f"보험사 {count}건 Import 완료"))
+        else:
+            self.stdout.write(self.style.WARNING("insurances.json 파일을 찾을 수 없습니다."))
