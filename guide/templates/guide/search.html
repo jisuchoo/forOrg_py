@@ -12,17 +12,37 @@
   <!-- 검색 결과 -->
   {% if query %}
     <h3>"{{ query }}" 검색 결과</h3>
-    {% if results %}
-      <ul class="result-list">
-        {% for disease in results %}
-          <li class="result-card">
-            <h4>{{ disease.name }}</h4>
-            <p>{{ disease.description|default:"(설명 없음)" }}</p>
-          </li>
+      {% if results %}
+        {% for d in results %}
+        <div class="disease-card">
+          <h3>{{ d.name }}</h3>
+          <p><b>인수기준:</b> {{ d.acceptance }}</p>
+          <p><b>시그니처355:</b> {{ d.signature355 }}</p>
+      
+          <table border="1" cellpadding="5">
+            <thead>
+              <tr>
+                <th>치료일수</th>
+                <th>수술여부</th>
+                <th>재발여부</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{{ d.treatmentDays }}</td>
+                <td>{{ d.surgery }}</td>
+                <td>{{ d.recurrence }}</td>
+              </tr>
+            </tbody>
+          </table>
+      
+          {% if d.restrictions %}
+            <p><b>제한사항:</b> {{ d.restrictions }}</p>
+          {% endif %}
+        </div>
         {% endfor %}
-      </ul>
-    {% else %}
-      <p class="no-result">검색 결과가 없습니다.</p>
+      {% else %}
+        <p>검색 결과가 없습니다.</p>
     {% endif %}
   {% endif %}
 
