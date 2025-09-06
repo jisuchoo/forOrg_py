@@ -1,26 +1,22 @@
-{% extends "guide/base.html" %}
-{% load static %}
-{% block title %}검색{% endblock %}
+{% extends "base.html" %}
 {% block content %}
-<div class="card">
+<div class="search-container">
   <h2>질병명 검색</h2>
   <form method="post">
     {% csrf_token %}
-    {{ form.as_p }}
+    <input type="text" name="q" placeholder="예: 당뇨, 고혈압, 골절 등" value="{{ request.POST.q }}">
     <button type="submit">검색</button>
   </form>
-  {% if msg %}<div class="hint">{{ msg }}</div>{% endif %}
-  {% for d in results %}
-    <div class="result-card">
-      <b>{{ d.name }}</b><br>
-      인수기준: {{ d.acceptance }}<br>
-      시그니처355: {{ d.signature355 }}<br>
-      치료일수: {{ d.treatmentDays }}<br>
-      수술여부: {{ d.surgery }}<br>
-      재발여부: {{ d.recurrence }}<br>
-      제한사항: {{ d.restrictions }}
-    </div>
-  {% endfor %}
-  <div class="meta">질병데이터 {{ count }}건</div>
+
+  {% if results %}
+    <h3>검색 결과</h3>
+    <ul>
+      {% for d in results %}
+        <li>{{ d.name }} - {{ d.description }}</li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>검색 결과가 없습니다.</p>
+  {% endif %}
 </div>
 {% endblock %}
