@@ -1,126 +1,65 @@
-/* 전체 화면 공통 */
-body {
-  margin: 0;
-  padding: 0;
-  font-family: "Noto Sans KR", Arial, sans-serif;
-  background-color: #f9f9f9;
-  color: #333;
-  font-size: 18px; /* 기본 글자 크기 ↑ */
-}
-
-/* 앱 제목 */
-.app-title {
-  font-size: 24px; /* 제목 글자 크게 */
-  font-weight: bold;
-  text-align: center;
-  margin: 20px 0;
-}
-
-/* 카드 박스 */
-.card {
-  background: #fff;
-  max-width: 420px;
-  margin: 0 auto;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  text-align: center; /* 카드 안 내용 기본 가운데 정렬 */
-}
-
-/* 입력창 */
-input {
-  width: 90%;
-  padding: 12px;
-  margin: 8px 0;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: 16px;
-}
-
-/* 버튼 */
-button {
-  width: 95%;
-  padding: 12px;
-  background-color: #ff7f00;
-  border: none;
-  border-radius: 6px;
-  color: #fff;
-  font-size: 18px;
-  font-weight: bold;
-  cursor: pointer;
-  margin-top: 10px;
-}
-
-button:hover {
-  background-color: #e56e00;
-}
-
-/* 에러 메시지 */
-.error {
-  color: #d9534f;
-  margin-top: 10px;
-  font-weight: bold;
-}
-
-/* 안내/메타 정보 */
-.meta {
-  font-size: 14px;
-  color: #666;
-  margin-top: 6px;
-}
-
-/* 검색 결과 카드 */
-.result-card {
-  border: 1px solid #ddd;
-  background: #fff;
-  border-radius: 6px;
-  padding: 15px;
-  margin: 12px auto;
-  max-width: 600px;
-  text-align: center; /* 검색 결과 카드도 가운데 */
-}
-
 /* 보험사 카드 */
 .insurance-card {
-  border: 1px solid #ccc;
-  border-radius: 8px;
   background: #fff;
-  padding: 20px;
-  margin: 15px auto;
-  max-width: 500px;
-  text-align: center; /* 보험사 카드 전체 가운데 */
-  font-size: 18px;
-}
-
-.insurance-card h3 {
-  font-size: 22px;
-  margin-bottom: 15px;
-}
-
-/* 보험사 카드 내 아이템 */
-.insurance-card .item {
-  margin: 10px 0;
-  font-size: 18px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 12px;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
 }
 
-.insurance-card .item span {
-  font-weight: bold;
-  margin-top: 4px;
+.insurance-card.hanwha {
+  border: 2px solid #ff7f00;
+  box-shadow: 0 3px 8px rgba(255,127,0,0.2);
 }
 
-/* 사용자 정보 */
-.user-info {
-  background: #eee;
-  padding: 10px;
+.insurance-card h4 {
+  margin: 0 0 6px 0;
   font-size: 16px;
-  text-align: center;
+  font-weight: 700;
+  color: #222;
 }
 
-.logout {
-  margin-left: 10px;
-  padding: 6px 12px;
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
   font-size: 14px;
+  margin: 2px 0;
+}
+
+.contact-item a {
+  color: #0066cc;
+  font-weight: 600;
+  text-decoration: none;
+}
+.contact-item a:hover {
+  text-decoration: underline;
+}
+
+.insurance-category h3 {
+  font-size: 15px;
+  font-weight: 700;
+  margin: 10px 0 6px;
+  border-bottom: 2px solid #ff7f00;
+  padding-bottom: 4px;
+}
+
+/* ✅ 모바일 최적화 */
+@media (max-width: 768px) {
+  .insurance-card {
+    padding: 10px;
+    font-size: 14px;
+  }
+  .insurance-card h4 {
+    font-size: 15px;
+  }
+  .contact-item {
+    font-size: 13px;
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }
