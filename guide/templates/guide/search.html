@@ -188,6 +188,27 @@
   margin-bottom: 12px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.05);
 }
+  /* 제목도 가운데 + 줄바꿈 방지 */
+.insurance-card h4 {
+  margin: 0 0 6px 0;
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* 핵심: flex 컨테이너를 중앙 정렬 */
+.insurance-card .contact-item {
+  display: flex;               /* 기존과 동일 */
+  justify-content: center;     /* ✅ 가로 가운데 정렬 */
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;         /* ✅ 한 줄 유지 */
+}
+
+/* small 변형에도 동일 적용 (있다면) */
+.insurance-card .contact-item.small {
+  justify-content: center;
+  white-space: nowrap;
+}
 .insurance-card.hanwha {
   border: 2px solid #ff7f00;
   box-shadow: 0 3px 8px rgba(255,127,0,0.2);
