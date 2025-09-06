@@ -38,10 +38,12 @@
 
   <!-- 보험사 목록 -->
   <div class="insurance-section">
-    {% for category, ins_list in insurances.items %}
+    {% regroup insurances by type as grouped %}
+    {% for group in grouped %}
+
       <div class="insurance-category">
-        <h3>{{ category }}</h3>
-        {% for ins in ins_list %}
+        <h3>{{ group.grouper }}</h3>
+        {% for ins in group.list %}
           <div class="insurance-card {% if ins.highlight %}hanwha{% endif %}">
             <h4>{{ ins.company }}</h4>
             <div class="contact-item">
