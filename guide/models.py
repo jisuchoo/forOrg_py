@@ -36,11 +36,13 @@ class Insurance(models.Model):
 
 class ActivityLog(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
-    action = models.CharField(max_length=50)   # LOGIN, SEARCH 등
-    detail = models.TextField(blank=True)      # 검색어, 조회한 항목 등
+    actor = models.CharField(max_length=100, null=True, blank=True)  # ← 세션에 저장한 사용자명
+    action = models.CharField(max_length=50)
+    detail = models.TextField(blank=True)
     ip_address = models.GenericIPAddressField(null=True, blank=True)
     user_agent = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"[{self.created_at}] {self.user} - {self.action}"
+        who = self.user.username if self.user else (self.actor or "-")
+        return f"[{self.created_at}] {who} - {self.action}"
