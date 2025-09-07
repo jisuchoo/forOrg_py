@@ -10,7 +10,7 @@
   { "empno": "8092231", "password": "80922311234", "name": "김미란", "role": "user" },
   { "empno": "8084605", "password": "80846051234", "name": "송충열", "role": "user" },
   { "empno": "8092035", "password": "80920351234", "name": "강영숙", "role": "user" },
-  { "empno": "3022084", "password": "30220841234", "name": "안옥순", "role": "user" }
+  { "empno": "3022084", "password": "30220841234", "name": "안옥순", "role": "user" },
   { "empno": "3036761", "password": "30367611234", "name": "박희화", "role": "user" },
   { "empno": "3047529", "password": "30475291234", "name": "명성", "role": "user" },
   { "empno": "3056497", "password": "30564971234", "name": "김춘화", "role": "user" },
