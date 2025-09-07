@@ -3,6 +3,7 @@ from django.contrib.auth import logout as auth_logout
 from django.views.decorators.csrf import csrf_exempt
 from django.db import models
 from .models import Employee, Disease, Insurance
+from .utils import log_activity
 
 
 # 로그인 뷰
@@ -16,8 +17,10 @@ def login_view(request):
             user = Employee.objects.get(empno=empno, password=password)
             request.session["user_id"] = user.id
             request.session["user_name"] = user.name or user.empno
+            log_activity(request, "LOGIN", "로그인 성공")
             return redirect("search")
         except Employee.DoesNotExist:
+            log_activity(request, "LOGIN_FAIL", "로그인 실패")
             return render(request, "guide/login.html", {"error": "코드 또는 비밀번호가 올바르지 않습니다."})
 
     return render(request, "guide/login.html")
