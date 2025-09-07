@@ -2,7 +2,7 @@ from .models import ActivityLog
 
 def log_activity(request, action, detail=""):
     ActivityLog.objects.create(
-        user=request.session.get("user_name"):
+        user=request.session.get("user_name")
         action=action,
         detail=detail,
         ip_address=get_client_ip(request),
