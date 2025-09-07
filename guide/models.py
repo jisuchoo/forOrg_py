@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 class Employee(models.Model):
     empno = models.CharField("사번", max_length=50, unique=True)
@@ -32,3 +33,14 @@ class Insurance(models.Model):
 
     def __str__(self):
         return self.company
+
+class ActivityLog(models.Model):
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    action = models.CharField(max_length=50)   # LOGIN, SEARCH 등
+    detail = models.TextField(blank=True)      # 검색어, 조회한 항목 등
+    ip_address = models.GenericIPAddressField(null=True, blank=True)
+    user_agent = models.TextField(blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"[{self.created_at}] {self.user} - {self.action}"
