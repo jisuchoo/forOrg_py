@@ -1,4 +1,14 @@
 [
   { "empno": "8092960", "password": "80929601234", "name": "추지수", "role": "manager" },
-  { "empno": "3514744", "password": "35147441234", "name": "주선하", "role": "user" }
+  { "empno": "3514744", "password": "35147441234", "name": "주선하", "role": "user" },
+  { "empno": "8086753", "password": "80867531234", "name": "박상기", "role": "user" },
+  { "empno": "8089033", "password": "80890331234", "name": "백주열", "role": "user" },
+  { "empno": "8087838", "password": "80878381234", "name": "김동원", "role": "user" },
+  { "empno": "8092502", "password": "80925021234", "name": "이희화", "role": "user" },
+  { "empno": "8089444", "password": "80894441234", "name": "김도현", "role": "user" },
+  { "empno": "8089036", "password": "80890361234", "name": "김성진", "role": "user" },
+  { "empno": "8092231", "password": "80922311234", "name": "김미란", "role": "user" },
+  { "empno": "8084605", "password": "80846051234", "name": "송충열", "role": "user" },
+  { "empno": "8092035", "password": "80920351234", "name": "강영숙", "role": "user" }
+
 ]
