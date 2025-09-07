@@ -45,6 +45,7 @@ def search_view(request):
         query = request.POST.get("query", "").strip()
         if query:
             results = Disease.objects.filter(name__icontains=query)
+            log_activity(request, "SEARCH", f"검색어: {query}, 결과 {len(results)}건")
 
     # 한화손해보험 (highlight=True)
     hanwha = Insurance.objects.filter(highlight=True).first()
