@@ -12,12 +12,21 @@ class DiseaseAdmin(admin.ModelAdmin):
 
 @admin.register(ActivityLog)
 class ActivityLogAdmin(admin.ModelAdmin):
-    list_display = ("user",
+    list_display = (
+        "user",
         "action",
-        "detail",        # 👉 조회/검색 내용
+        "short_detail",     # 잘라낸 detail
         "ip_address",
-        "user_agent",    # 👉 접속 브라우저/OS 정보
-        "created_at"
+        "short_user_agent", # 잘라낸 user_agent
+        "created_at",
     )
     list_filter = ("action", "created_at")
     search_fields = ("user__username", "detail", "ip_address", "user_agent")
+
+    def short_detail(self, obj):
+        return (obj.detail[:30] + "...") if obj.detail and len(obj.detail) > 30 else obj.detail
+    short_detail.short_description = "Detail"
+
+    def short_user_agent(self, obj):
+        return (obj.user_agent[:40] + "...") if obj.user_agent and len(obj.user_agent) > 40 else obj.user_agent
+    short_user_agent.short_description = "User Agent"
