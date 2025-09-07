@@ -12,16 +12,13 @@ class DiseaseAdmin(admin.ModelAdmin):
 
 @admin.register(ActivityLog)
 class ActivityLogAdmin(admin.ModelAdmin):
-    list_display = (
-        "user",
-        "action",
-        "short_detail",     # 잘라낸 detail
-        "ip_address",
-        "short_user_agent", # 잘라낸 user_agent
-        "created_at",
-    )
+    list_display = ("who", "action", "short_detail", "ip_address", "short_user_agent", "created_at")
     list_filter = ("action", "created_at")
-    search_fields = ("user__username", "detail", "ip_address", "user_agent")
+    search_fields = ("user__username", "actor", "detail", "ip_address", "user_agent")
+
+    def who(self, obj):
+        return obj.user.username if obj.user else (obj.actor or "-")
+    who.short_description = "User"
 
     def short_detail(self, obj):
         return (obj.detail[:30] + "...") if obj.detail and len(obj.detail) > 30 else obj.detail
