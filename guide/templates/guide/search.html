@@ -32,8 +32,8 @@
       {% for d in results %}
       <div class="result-card">
         <div class="result-title">{{ d.name }}</div>
-        <div class="result-sub">더경증, 3N5: {{ d.acceptance|default:"-" }}</div>
-        <div class="result-sub">시그니처355: {{ d.signature355|default:"-" }}</div>
+        <div class="result-si">더경증, 3N5: {{ d.acceptance|default:"-" }}</div>
+        <div class="result-sig">시그니처355: {{ d.signature355|default:"-" }}</div>
         <table class="info-table">
           <tr>
             <th>치료일수</th>
@@ -159,6 +159,18 @@
   margin-bottom: 14px;
 }
 .result-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+.result-si {
+  color: #0000ff;
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+.result-sig {
+  color: #ff00ff;
   font-size: 18px;
   font-weight: bold;
   margin-bottom: 6px;
