@@ -1,8 +1,11 @@
+import os
+import json
 from django.shortcuts import render, redirect
 from django.contrib.auth import logout as auth_logout
 from django.views.decorators.csrf import csrf_exempt
 from django.db import models
-from .models import Employee, Disease, Insurance
+from django.conf import settings
+from .models import Employee, Disease, Insurance, Fetal
 from .utils import log_activity
 
 
@@ -21,7 +24,11 @@ def login_view(request):
             return redirect("search")
         except Employee.DoesNotExist:
             log_activity(request, "LOGIN_FAIL", "로그인 실패")
-            return render(request, "guide/login.html", {"error": "코드 또는 비밀번호가 올바르지 않습니다."})
+            return render(
+                request,
+                "guide/login.html",
+                {"error": "코드 또는 비밀번호가 올바르지 않습니다."},
+            )
 
     return render(request, "guide/login.html")
 
@@ -40,22 +47,32 @@ def search_view(request):
 
     results = []
     query = ""
-    guide_type = request.POST.get("guide", "chronic")  # 기본값: 유병자 가이드
+    guide_type = None  # 처음엔 선택되지 않음
 
     if request.method == "POST":
+        guide_type = request.POST.get("guide")
         query = request.POST.get("query", "").strip()
-        if query:
+
+        if guide_type and query:
             if guide_type == "fetal":
+                # 태아 인수가이드 검색
                 results = Fetal.objects.filter(disease__icontains=query)
-                log_activity(request, "SEARCH", f"[태아] 검색어: {query}, 결과 {len(results)}건")
+                log_activity(
+                    request,
+                    "SEARCH",
+                    f"[태아] 검색어: {query}, 결과 {len(results)}건",
+                )
             else:
+                # 유병자 가이드 검색
                 results = Disease.objects.filter(name__icontains=query)
-                log_activity(request, "SEARCH", f"[유병자] 검색어: {query}, 결과 {len(results)}건")
+                log_activity(
+                    request,
+                    "SEARCH",
+                    f"[유병자] 검색어: {query}, 결과 {len(results)}건",
+                )
 
-    # 한화손해보험 (highlight=True)
+    # 보험사 정보
     hanwha = Insurance.objects.filter(highlight=True).first()
-
-    # 나머지 보험사들 (type 순서 강제)
     insurances = Insurance.objects.filter(highlight=False).order_by(
         models.Case(
             models.When(type="손해보험", then=0),
@@ -64,13 +81,13 @@ def search_view(request):
             default=3,
             output_field=models.IntegerField(),
         ),
-        "company"
+        "company",
     )
 
     context = {
         "results": results,
         "query": query,
-        "guide_type": guide_type,   # ✅ 어떤 가이드인지 템플릿에서 구분
+        "guide_type": guide_type,  # 처음에는 None → 버튼만 보임
         "user_name": request.session.get("user_name"),
         "hanwha": hanwha,
         "insurances": insurances,
