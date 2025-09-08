@@ -18,12 +18,17 @@
 {% endif %}
 
 <div class="card container-narrow">
-  <h2 style="margin-bottom:.5rem;">질병명 검색</h2>
-  <form method="post" style="margin-bottom:1rem;">
-    {% csrf_token %}
-    <div class="row">
-      <input type="text" name="query" placeholder="예시: 용종, 골절, 당뇨 등" value="{{ query }}">
-    </div>
+  <h2 style="margin-bottom:.5rem;">가이드 검색</h2>
+  <!-- ✅ 가이드 선택 버튼 -->
+  <div style="margin-bottom: 1rem;">
+    <button type="button" onclick="setGuide('chronic')">유병자 가이드</button>
+    <button type="button" onclick="setGuide('fetal')">태아 인수가이드</button>
+  </div>
+
+  <form method="get" action="{% url 'search' %}">
+    <input type="hidden" id="guideType" name="guide" value="chronic"> <!-- 기본값 유병자 -->
+
+    <input type="text" name="q" placeholder="질병명을 입력하세요" required>
     <button type="submit">검색</button>
   </form>
 
