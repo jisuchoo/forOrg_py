@@ -35,6 +35,13 @@
     </div>
   {% else %}
     <!-- ✅ 가이드 선택 후 검색창 + 결과 + 보험사 리스트 표시 -->
+    <div style="margin: 1rem 0; font-weight: bold; font-size: 16px;">
+      {% if guide_type == "chronic" %}
+        📘 현재 선택된 가이드: <span style="color: #007bff;">유병자 가이드</span>
+      {% elif guide_type == "fetal" %}
+        👶 현재 선택된 가이드: <span style="color: #ff5722;">태아 인수가이드</span>
+      {% endif %}
+    </div>
     <form method="post" action="{% url 'search' %}">
       {% csrf_token %}
       <input type="hidden" id="guideType" name="guide" value="{{ guide_type }}">
