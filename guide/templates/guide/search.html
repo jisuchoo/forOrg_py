@@ -25,35 +25,49 @@
     <button type="button" onclick="setGuide('fetal')">태아 인수가이드</button>
   </div>
 
-  <form method="get" action="{% url 'search' %}">
-    <input type="hidden" id="guideType" name="guide" value="chronic"> <!-- 기본값 유병자 -->
+  <form method="post" action="{% url 'search' %}">
+    {% csrf_token %}
+    <input type="hidden" id="guideType" name="guide" value="{{ guide_type|default:'chronic' }}"> <!-- 기본값 유병자 -->
 
-    <input type="text" name="q" placeholder="질병명을 입력하세요" required>
+    <input type="text" name="query" placeholder="질병명을 입력하세요" required value="{{ query }}">
     <button type="submit">검색</button>
   </form>
 
   {% if results %}
     <div class="results">
-      {% for d in results %}
-      <div class="result-card">
-        <div class="result-title">{{ d.name }}</div>
-        <div class="result-si">더경증, 3N5 : {{ d.acceptance|default:"-" }}</div>
-        <div class="result-sig">시그니처355 : {{ d.signature355|default:"-" }}</div>
-        <table class="info-table">
-          <tr>
-            <th>치료일수</th>
-            <th>수술여부</th>
-            <th>재발여부</th>
-          </tr>
-          <tr>
-            <td>{{ d.treatmentDays|default:"-" }}</td>
-            <td>{{ d.surgery|default:"-" }}</td>
-            <td>{{ d.recurrence|default:"-" }}</td>
-          </tr>
-        </table>        
-        <div class="restrictions">제한사항:<br>{{ d.restrictions|default:"없음" }}</div>
-      </div>
-      {% endfor %}
+      {% if guide_type == "chronic" %}
+        <!-- ✅ 유병자 가이드 결과 -->
+        {% for d in results %}
+        <div class="result-card">
+          <div class="result-title">{{ d.name }}</div>
+          <div class="result-si">더경증, 3N5 : {{ d.acceptance|default:"-" }}</div>
+          <div class="result-sig">시그니처355 : {{ d.signature355|default:"-" }}</div>
+          <table class="info-table">
+            <tr>
+              <th>치료일수</th>
+              <th>수술여부</th>
+              <th>재발여부</th>
+            </tr>
+            <tr>
+              <td>{{ d.treatmentDays|default:"-" }}</td>
+              <td>{{ d.surgery|default:"-" }}</td>
+              <td>{{ d.recurrence|default:"-" }}</td>
+            </tr>
+          </table>        
+          <div class="restrictions">제한사항:<br>{{ d.restrictions|default:"없음" }}</div>
+        </div>
+        {% endfor %}
+      {% else %}
+        <!-- ✅ 태아 인수가이드 결과 -->
+        {% for d in results %}
+        <div class="result-card">
+          <div class="result-title">{{ d.disease }}</div>
+          <div class="result-si">현증 : {{ d.current|default:"-" }}</div>
+          <div class="result-sig">과거력/치료력 : {{ d.history|default:"-" }}</div>
+          <div class="restrictions">필요서류:<br>{{ d.documents|default:"없음" }}</div>
+        </div>
+        {% endfor %}
+      {% endif %}
     </div>
   {% elif query %}
     <div class="hint">검색 결과가 없습니다.</div>
@@ -77,13 +91,11 @@
       </div>
     {% endif %}
     
-    <!-- 나머지 보험사들 (손해보험 → 생명보험 → 공제 순) -->
+    <!-- 나머지 보험사들 -->
     {% regroup insurances by type as grouped %}
     {% for group in grouped %}
       <div class="insurance-category">
         <h3>{{ group.grouper }}</h3>
-    
-        <!-- ✅ 여기 그리드 래퍼 추가 -->
         <div class="insurance-grid">
           {% for ins in group.list %}
             <div class="insurance-card">
@@ -102,7 +114,6 @@
             </div>
           {% endfor %}
         </div>
-        <!-- ✅ /그리드 래퍼 -->
       </div>
     {% endfor %}
   </div>
@@ -114,152 +125,4 @@
   }
 </script>
 
-{% endblock %}
-
-{% block extra_css %}
-<style>
-.header-fixed{
-  top:0; left:0; right:0;
-  background:var(--bg);
-  border-bottom:2px solid #ccc;
-  text-align:center;
-  padding:10px 0;
-  box-shadow:0 2px 4px rgba(0,0,0,.08);
-}
-.header-fixed img{
-  height: 50px; /* 크기 조정 */
-  width: auto;
-  cursor: pointer;
-  transition: transform 0.2s ease;
-}
-.header-fixed img:hover {
-  transform: scale(1.05);
-}
-.user-info {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: #f8f9fa;
-  padding: 10px 14px;
-  border-radius: 8px;
-/*   margin: 80px auto 20px;  /* ✅ 헤더(약 60px) + 여유 → 아래로 내림 */
-  font-size: 15px; */
-  font-weight: 600;
-  color: #333;
-  max-width: 600px;        /* ✅ 가운데 정렬 & 가로폭 제한 */
-}
-.logout-btn {
-  background: #dc3545;
-  color: #fff;
-  border: none;
-  border-radius: 6px;
-  padding: 6px 14px;
-  font-size: 13px;
-  cursor: pointer;
-  white-space: nowrap;  /* ✅ 줄바꿈 방지 */
-  display: inline-block; /* ✅ 강제로 인라인 블록 처리 */
-}
-.logout-btn:hover {
-  background: #b02a37;
-}
-/* 결과 카드 */
-.result-card {
-  border: 1px solid #ddd;
-  background: #fff;
-  border-radius: 10px;
-  padding: 14px;
-  margin-bottom: 14px;
-}
-.result-title {
-  font-size: 18px;
-  font-weight: bold;
-  margin-bottom: 6px;
-}
-.result-si {
-  color: #0000ff;
-  font-size: 18px;
-  font-weight: bold;
-  margin-bottom: 6px;
-}
-.result-sig {
-  color: #ff00ff;
-  font-size: 18px;
-  font-weight: bold;
-  margin-bottom: 6px;
-}
-.info-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin: 8px 0;
-}
-.info-table th, .info-table td {
-  border: 1px solid #ccc;
-  padding: 6px;
-  text-align: center;
-  font-size: 14px;
-}
-.restrictions {
-  margin-top: 8px;
-  padding: 8px;
-  background: #fafafa;
-  border: 1px dashed #ddd;
-  border-radius: 6px;
-  font-size: 14px;
-  white-space: pre-line;
-}
-
-/* ✅ 보험사 카드 2열 그리드 (모바일 포함 항상 유지) */
-.insurance-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr)); /* 한 줄에 항상 2개 */
-  gap: 12px; /* 카드 사이 여백 */
-}
-
-/* (선택) 한화손보 강조카드가 그리드에 포함될 경우 두 칸 차지 */
-.insurance-card.span-2 {
-  grid-column: 1 / -1;
-}
-  
-/* (선택) 카테고리 제목과 그리드 사이 여백 다듬기 */
-.insurance-category > .insurance-grid{
-  margin-top: 8px;
-}
-
-/* 보험사 카드 */
-.insurance-card {
-  background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  padding: 12px;
-  text-align: center;
-  margin: 0;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-  width: 90%;
-  white-space: normal;   /* ✅ 줄바꿈 허용 */
-  word-break: keep-all;  /* ✅ 단어 단위 줄바꿈 (한국어는 자연스럽게 줄바꿈됨) */
-}
-  
-/* 카드 제목 (보험사명) */
-.insurance-card h4 {
-  margin: 0 0 8px 0;
-  text-align: center;       /* ✅ 가운데 정렬 */
-  white-space: normal;      /* 너무 길면 줄바꿈 허용 */
-}
-  
-.insurance-card h3 {
-  margin: 0 0 8px 0;
-  text-align: center;       /* ✅ 가운데 정렬 */
-  white-space: normal;      /* 너무 길면 줄바꿈 허용 */
-}
-
-/* 연락처 아이템 */
-.insurance-card .contact-item {
-  display: block;        /* ✅ 블록 단위로 쌓이게 */
-  margin: 6px 0;
-  font-size: 14px;
-  text-align: center;
-  white-space: normal;   /* ✅ 줄바꿈 허용 */
-  word-break: break-word;/* ✅ 너무 긴 URL/번호 강제 줄바꿈 */
-}
-</style>
 {% endblock %}
