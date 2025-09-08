@@ -1,11 +1,11 @@
 import json
 from pathlib import Path
 from django.core.management.base import BaseCommand
-from guide.models import Employee, Disease, Insurance
+from guide.models import Employee, Disease, Insurance, Fetal
 
 
 class Command(BaseCommand):
-    help = "employees.json, diseases.json, insurances.json 데이터를 PostgreSQL DB에 import"
+    help = "employees.json, diseases.json, insurances.json, fetal_ins.json 데이터를 PostgreSQL DB에 import"
 
     def handle(self, *args, **options):
         base_dir = Path(__file__).resolve().parent.parent.parent.parent
@@ -30,7 +30,7 @@ class Command(BaseCommand):
         else:
             self.stdout.write(self.style.WARNING("employees.json 파일을 찾을 수 없습니다."))
 
-        # 질병 데이터 Import
+        # 질병 데이터 Import (유병자)
         dis_file = base_dir / "diseases.json"
         if dis_file.exists():
             with open(dis_file, encoding="utf-8") as f:
@@ -74,3 +74,25 @@ class Command(BaseCommand):
                 self.stdout.write(self.style.SUCCESS(f"보험사 {count}건 Import 완료"))
         else:
             self.stdout.write(self.style.WARNING("insurances.json 파일을 찾을 수 없습니다."))
+
+        # 태아 인수가이드 데이터 Import
+        fetal_file = base_dir / "fetal_ins.json"
+        if fetal_file.exists():
+            with open(fetal_file, encoding="utf-8") as f:
+                fetals = json.load(f)
+                count = 0
+                for ft in fetals:
+                    disease = str(ft.get("disease") or "").strip()
+                    if disease:
+                        Fetal.objects.update_or_create(
+                            disease=disease,
+                            defaults={
+                                "current": ft.get("current", ""),
+                                "history": ft.get("history", ""),
+                                "documents": ft.get("documents", ""),
+                            }
+                        )
+                        count += 1
+                self.stdout.write(self.style.SUCCESS(f"태아 인수가이드 {count}건 Import 완료"))
+        else:
+            self.stdout.write(self.style.WARNING("fetal_ins.json 파일을 찾을 수 없습니다."))
