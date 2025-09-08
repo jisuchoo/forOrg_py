@@ -6,7 +6,6 @@
   <img src="{% static 'guide/images/hanwha.png' %}" alt="한화손해보험 CI" onclick="goHome()">
 </div>
 
-<!-- ✅ 사용자 정보 + 로그아웃 버튼 -->
 {% if user_name %}
 <div class="user-info">
   <span>👤 {{ user_name }}</span>
@@ -19,110 +18,93 @@
 
 <div class="card container-narrow">
   <h2 style="margin-bottom:.5rem;">가이드 검색</h2>
-  <!-- ✅ 가이드 선택 버튼 -->
-  <div style="margin-bottom: 1rem;">
-    <button type="button" onclick="setGuide('chronic')">유병자 가이드</button>
-    <button type="button" onclick="setGuide('fetal')">태아 인수가이드</button>
-  </div>
 
-  <form method="post" action="{% url 'search' %}">
-    {% csrf_token %}
-    <input type="hidden" id="guideType" name="guide" value="{{ guide_type|default:'chronic' }}"> <!-- 기본값 유병자 -->
-
-    <input type="text" name="query" placeholder="질병명을 입력하세요" required value="{{ query }}">
-    <button type="submit">검색</button>
-  </form>
-
-  {% if results %}
-    <div class="results">
-      {% if guide_type == "chronic" %}
-        <!-- ✅ 유병자 가이드 결과 -->
-        {% for d in results %}
-        <div class="result-card">
-          <div class="result-title">{{ d.name }}</div>
-          <div class="result-si">더경증, 3N5 : {{ d.acceptance|default:"-" }}</div>
-          <div class="result-sig">시그니처355 : {{ d.signature355|default:"-" }}</div>
-          <table class="info-table">
-            <tr>
-              <th>치료일수</th>
-              <th>수술여부</th>
-              <th>재발여부</th>
-            </tr>
-            <tr>
-              <td>{{ d.treatmentDays|default:"-" }}</td>
-              <td>{{ d.surgery|default:"-" }}</td>
-              <td>{{ d.recurrence|default:"-" }}</td>
-            </tr>
-          </table>        
-          <div class="restrictions">제한사항:<br>{{ d.restrictions|default:"없음" }}</div>
-        </div>
-        {% endfor %}
-      {% else %}
-        <!-- ✅ 태아 인수가이드 결과 -->
-        {% for d in results %}
-        <div class="result-card">
-          <div class="result-title">{{ d.disease }}</div>
-          <div class="result-si">현증 : {{ d.current|default:"-" }}</div>
-          <div class="result-sig">과거력/치료력 : {{ d.history|default:"-" }}</div>
-          <div class="restrictions">필요서류:<br>{{ d.documents|default:"없음" }}</div>
-        </div>
-        {% endfor %}
-      {% endif %}
+  <!-- ✅ 처음에는 버튼만 보이게 -->
+  {% if not guide_type %}
+    <div style="margin-bottom: 1rem;">
+      <form method="post" action="{% url 'search' %}">
+        {% csrf_token %}
+        <input type="hidden" name="guide" value="chronic">
+        <button type="submit">유병자 가이드</button>
+      </form>
+      <form method="post" action="{% url 'search' %}">
+        {% csrf_token %}
+        <input type="hidden" name="guide" value="fetal">
+        <button type="submit">태아 인수가이드</button>
+      </form>
     </div>
-  {% elif query %}
-    <div class="hint">검색 결과가 없습니다.</div>
-  {% endif %}
+  {% else %}
+    <!-- ✅ 가이드 선택 후 검색창 + 결과 + 보험사 리스트 표시 -->
+    <form method="post" action="{% url 'search' %}">
+      {% csrf_token %}
+      <input type="hidden" id="guideType" name="guide" value="{{ guide_type }}">
 
-  <!-- 보험사 목록 -->
-  <div class="insurance-section">
-    <!-- 한화손해보험 강조 카드 -->
-    {% if hanwha %}
-      <div class="insurance-card hanwha">
-        <h3>{{ hanwha.company }}</h3>
-        <div class="contact-item">
-          📞 콜센터: <a href="tel:{{ hanwha.callCenter|cut:'-' }}">{{ hanwha.callCenter }}</a>
-        </div>
-        <div class="contact-item">
-          📄 보험금청구: {{ hanwha.fax }}
-        </div>
-        <div class="contact-item">
-          📚 <a href="{{ hanwha.termsUrl }}" target="_blank" rel="noopener">공시실 바로가기</a>
-        </div>
-      </div>
-    {% endif %}
-    
-    <!-- 나머지 보험사들 -->
-    {% regroup insurances by type as grouped %}
-    {% for group in grouped %}
-      <div class="insurance-category">
-        <h3>{{ group.grouper }}</h3>
-        <div class="insurance-grid">
-          {% for ins in group.list %}
-            <div class="insurance-card">
-              <h4>{{ ins.company }}</h4>
-              <div class="contact-item">
-                <span>📞 콜센터:</span>
-                <a href="tel:{{ ins.callCenter|cut:'-' }}">{{ ins.callCenter }}</a>
-              </div>
-              <div class="contact-item">
-                📄 보험금청구:<br>
-                {{ ins.fax }}
-              </div>
-              <div class="contact-item">
-                <span>📚<a href="{{ ins.termsUrl }}" target="_blank" rel="noopener">공시실 바로가기</a></span>
-              </div>
-            </div>
+      <input type="text" name="query" placeholder="질병명을 입력하세요" required value="{{ query }}">
+      <button type="submit">검색</button>
+    </form>
+
+    {% if results %}
+      <div class="results">
+        {% if guide_type == "chronic" %}
+          {% for d in results %}
+          <div class="result-card">
+            <div class="result-title">{{ d.name }}</div>
+            <div class="result-si">더경증, 3N5 : {{ d.acceptance|default:"-" }}</div>
+            <div class="result-sig">시그니처355 : {{ d.signature355|default:"-" }}</div>
+            <table class="info-table">
+              <tr><th>치료일수</th><th>수술여부</th><th>재발여부</th></tr>
+              <tr>
+                <td>{{ d.treatmentDays|default:"-" }}</td>
+                <td>{{ d.surgery|default:"-" }}</td>
+                <td>{{ d.recurrence|default:"-" }}</td>
+              </tr>
+            </table>        
+            <div class="restrictions">제한사항:<br>{{ d.restrictions|default:"없음" }}</div>
+          </div>
           {% endfor %}
-        </div>
+        {% else %}
+          {% for d in results %}
+          <div class="result-card">
+            <div class="result-title">{{ d.disease }}</div>
+            <div class="result-si">현증 : {{ d.current|default:"-" }}</div>
+            <div class="result-sig">과거력/치료력 : {{ d.history|default:"-" }}</div>
+            <div class="restrictions">필요서류:<br>{{ d.documents|default:"없음" }}</div>
+          </div>
+          {% endfor %}
+        {% endif %}
       </div>
-    {% endfor %}
-  </div>
+    {% elif query %}
+      <div class="hint">검색 결과가 없습니다.</div>
+    {% endif %}
+
+    <!-- 보험사 목록 -->
+    <div class="insurance-section">
+      {% if hanwha %}
+        <div class="insurance-card hanwha">
+          <h3>{{ hanwha.company }}</h3>
+          <div class="contact-item">📞 콜센터: <a href="tel:{{ hanwha.callCenter|cut:'-' }}">{{ hanwha.callCenter }}</a></div>
+          <div class="contact-item">📄 보험금청구: {{ hanwha.fax }}</div>
+          <div class="contact-item">📚 <a href="{{ hanwha.termsUrl }}" target="_blank" rel="noopener">공시실 바로가기</a></div>
+        </div>
+      {% endif %}
+
+      {% regroup insurances by type as grouped %}
+      {% for group in grouped %}
+        <div class="insurance-category">
+          <h3>{{ group.grouper }}</h3>
+          <div class="insurance-grid">
+            {% for ins in group.list %}
+              <div class="insurance-card">
+                <h4>{{ ins.company }}</h4>
+                <div class="contact-item">📞 콜센터: <a href="tel:{{ ins.callCenter|cut:'-' }}">{{ ins.callCenter }}</a></div>
+                <div class="contact-item">📄 보험금청구:<br>{{ ins.fax }}</div>
+                <div class="contact-item"><span>📚<a href="{{ ins.termsUrl }}" target="_blank" rel="noopener">공시실 바로가기</a></span></div>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
 </div>
-
-<script>
-  function setGuide(type) {
-    document.getElementById("guideType").value = type;
-  }
-</script>
-
 {% endblock %}
