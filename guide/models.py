@@ -46,3 +46,12 @@ class ActivityLog(models.Model):
     def __str__(self):
         who = self.user.username if self.user else (self.actor or "-")
         return f"[{self.created_at}] {who} - {self.action}"
+
+class Fetal(models.Model):
+    disease = models.CharField(max_length=255, verbose_name="질병명", unique=True)
+    current = models.TextField(blank=True, null=True, verbose_name="현증")
+    history = models.TextField(blank=True, null=True, verbose_name="과거력/치료력")
+    documents = models.TextField(blank=True, null=True, verbose_name="필요서류")
+
+    def __str__(self):
+        return self.disease
