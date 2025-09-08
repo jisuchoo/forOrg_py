@@ -73,8 +73,16 @@
           {% for d in results %}
           <div class="result-card">
             <div class="result-title">{{ d.disease }}</div>
-            <div class="result-si">현증 : {{ d.current|default:"-" }}</div>
-            <div class="result-sig">과거력/치료력 : {{ d.history|default:"-" }}</div>
+            <table class="info-table">
+              <tr>
+                <th>현증</th>
+                <td style="white-space: pre-line;">{{ d.current|default:"-" }}</td>
+              </tr>
+              <tr>
+                <th>과거력/치료력</th>
+                <td style="white-space: pre-line;">{{ d.history|default:"-" }}</td>
+              </tr>
+            </table>
             <div class="restrictions">필요서류:<br>{{ d.documents|default:"없음" }}</div>
           </div>
           {% endfor %}
@@ -188,12 +196,25 @@
   font-weight: bold;
   margin-bottom: 6px;
 }
-.info-table {
+/* .info-table {
   width: 100%;
   border-collapse: collapse;
   margin: 8px 0;
+} */
+.info-table th {
+  width: 120px;
+  background: #f9f9f9;
+  text-align: center;
 }
-.info-table th, .info-table td {
+.info-table td {
+  border: 1px solid #ccc;
+  padding: 6px;
+  text-align: center;
+  font-size: 14px;
+  text-align: left;
+  white-space: pre-line; /* ✅ \n 줄바꿈 반영 */
+}
+.info-table th {
   border: 1px solid #ccc;
   padding: 6px;
   text-align: center;
