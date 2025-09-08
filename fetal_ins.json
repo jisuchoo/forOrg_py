@@ -1,0 +1,410 @@
+[
+  {
+    "disease": "암",
+    "current": "거절",
+    "history": "1년이상(항암치료 無) : 서류심사",
+    "documents": "① 소견서 (진단명, 암의 병기, 치료내용, 현재상태 명기)\n② 산전 검사결과지(키, 몸무게, 혈압, 혈당, 태아상태 등 필수기재)"
+  },
+  {
+    "disease": "갑상선암",
+    "current": "거절",
+    "history": "방사선/항암치료 無 : 인수\n방사선/항암치료 有 : 경과 1년 후 산모/태아상태 확인",
+    "documents": "① 소견서 (진단명, 암의 병기, 치료내용, 현재상태 명기)"
+  },
+  {
+    "disease": "난소암",
+    "current": "거절",
+    "history": "방사선/항암치료 無 : 인수\n방사선/항암치료 有 : 경과 1년 후 산모/태아상태 확인",
+    "documents": "① 소견서 (진단명, 암의 병기, 치료내용, 현재상태 명기)"
+  },
+  {
+    "disease": "자궁경부제자리암",
+    "current": "원추절제술/자궁경부절제술: 임신28주 이후 소견서\n   (자궁경부길이 및  깔대기형 변화 등 확인)\n그 외 치료 또는 치료 필요소견 없는 현증 : 인수",
+    "history": "",
+    "documents": "① 소견서 (현상태 및 자궁경부길이, 형태 기재 必)"
+  },
+  {
+    "disease": "백혈병",
+    "current": "거절",
+    "history": "거절",
+    "documents": "-"
+  },
+  {
+    "disease": "고혈압",
+    "current": "거절",
+    "history": "거절",
+    "documents": "-"
+  },
+  {
+    "disease": "협심증",
+    "current": "거절",
+    "history": "거절",
+    "documents": "-"
+  },
+  {
+    "disease": "심근경색",
+    "current": "거절",
+    "history": "거절",
+    "documents": "-"
+  },
+  {
+    "disease": "심장판막",
+    "current": "거절",
+    "history": "치료종료 1년경과 : 서류심사",
+    "documents": "① 내과, 산부인과 의무기록지\n② 검사결과지(심전도 포함)"
+  },
+  {
+    "disease": "간경화증",
+    "current": "거절",
+    "history": "거절",
+    "documents": "-"
+  },
+  {
+    "disease": "뇌졸중증(뇌출혈, 뇌경색)",
+    "current": "거절",
+    "history": "거절",
+    "documents": "-"
+  },
+  {
+    "disease": "당뇨병",
+    "current": "거절",
+    "history": "거절",
+    "documents": "-"
+  },
+  {
+    "disease": "선천성기형, 장애",
+    "current": "거절",
+    "history": "거절",
+    "documents": "-"
+  },
+  {
+    "disease": "신경학적결손",
+    "current": "거절",
+    "history": "거절",
+    "documents": "-"
+  },
+  {
+    "disease": "염색체이상",
+    "current": "거절",
+    "history": "거절",
+    "documents": "-"
+  },
+  {
+    "disease": "태아감염",
+    "current": "거절",
+    "history": "거절",
+    "documents": "-"
+  },
+  {
+    "disease": "자궁경관무력",
+    "current": "임신 32주 이후 서류심사\n - 자궁경부길이 3.5cm 이상, 자궁경부깔대기형 변화 등 없는 경우 인수",
+    "history": "",
+    "documents": "① 소견서(자궁경부길이, 태아상태 등)"
+  },
+  {
+    "disease": "자궁내발육부전",
+    "current": "거절",
+    "history": "거절",
+    "documents": "-"
+  },
+  {
+    "disease": "양수과다(소)증",
+    "current": "거절",
+    "history": "특이사항 없는 경우 인수",
+    "documents": "① 소견서(태아상태, 양수상태 등)"
+  },
+  {
+    "disease": "태아수종",
+    "current": "거절",
+    "history": "거절",
+    "documents": "-"
+  },
+  {
+    "disease": "용혈성질환",
+    "current": "거절",
+    "history": "거절",
+    "documents": "-"
+  },
+  {
+    "disease": "전치태반",
+    "current": "임신 32주 이후 서류심사",
+    "history": "현 임신 중 특이사항 없는 경우 인수",
+    "documents": "① 소견서(태반의 위치 및 현임신시의 출혈여부, 태아상태 등)\n② 초음파검사결과지"
+  },
+  {
+    "disease": "태반조기박리",
+    "current": "거절",
+    "history": "현 임신 중 특이사항 없는 경우 인수",
+    "documents": "① 초음파검사결과지\n② 의무기록사본(초진기록지포함한 경과기록/엄마의 혈압, 소변검사결과지 필수)"
+  },
+  {
+    "disease": "B형간염",
+    "current": "인수(동반질환 있는 경우 심사)",
+    "history": "",
+    "documents": ""
+  },
+  {
+    "disease": "TSH 이상",
+    "current": "인수",
+    "history": "인수",
+    "documents": ""
+  },
+  {
+    "disease": "간경화증",
+    "current": "거절",
+    "history": "거절",
+    "documents": "-"
+  },
+  {
+    "disease": "갑상선결절\n갑상선염",
+    "current": "인수",
+    "history": "인수",
+    "documents": ""
+  },
+  {
+    "disease": "갑상선기능저하/항진증",
+    "current": "인수",
+    "history": "인수",
+    "documents": ""
+  },
+  {
+    "disease": "경추통",
+    "current": "인수",
+    "history": "인수",
+    "documents": ""
+  },
+  {
+    "disease": "고도비만",
+    "current": "체질량지수 30이상 : 임신 24주 이후 서류심사",
+    "history": "",
+    "documents": "산전검사(키, 몸무게, 혈압, 혈당 등)"
+  },
+  {
+    "disease": "고지혈증",
+    "current": "인수",
+    "history": "인수",
+    "documents": ""
+  },
+  {
+    "disease": "고프로락틴혈증",
+    "current": "인수",
+    "history": "인수",
+    "documents": ""
+  },
+  {
+    "disease": "골반염",
+    "current": "인수",
+    "history": "인수",
+    "documents": ""
+  },
+  {
+    "disease": "과거 태아의 사산",
+    "current": "인수",
+    "history": "인수",
+    "documents": ""
+  },
+  {
+    "disease": "교통사고",
+    "current": "인수",
+    "history": "인수",
+    "documents": ""
+  },
+  {
+    "disease": "다낭성난소증후군",
+    "current": "임신 20주 이후 고지심사 : 혈당 및 혈압 정상확인 후 인수",
+    "history": "",
+    "documents": ""
+  },
+  {
+    "disease": "단백뇨",
+    "current": "일시적증상 : 재검 정상시 서류심사(인수)\n지속적단백뇨 / 신장질환 / 자간전증(고혈압 등) 동반 : 거절",
+    "history": "",
+    "documents": "① 검사결과지 (소변, 신장기능검사 한 경우 검사결과지)\n② 소견서 (단백뇨 원인/동반질환, 최근 혈압, 태아산모 현상태)"
+  },
+  {
+    "disease": "대상포진",
+    "current": "인수",
+    "history": "인수",
+    "documents": ""
+  },
+  {
+    "disease": "만성신부전",
+    "current": "거절",
+    "history": "거절",
+    "documents": "-"
+  },
+  {
+    "disease": "방광염",
+    "current": "인수",
+    "history": "인수",
+    "documents": ""
+  },
+  {
+    "disease": "부정맥",
+    "current": "임신 20주 이후 소견서 심사",
+    "history": "투약/시술/수술 등 치료종료 후 인수",
+    "documents": "① 소견서 : 산모/태아현상태, 부정맥치료내용 상세 기재"
+  },
+  {
+    "disease": "빈혈",
+    "current": "인수",
+    "history": "인수",
+    "documents": ""
+  },
+  {
+    "disease": "산전진찰 이상소견\n(양막띠 증후군)",
+    "current": "거절",
+    "history": "거절",
+    "documents": "-"
+  },
+  {
+    "disease": "오십견",
+    "current": "인수",
+    "history": "인수",
+    "documents": ""
+  },
+  {
+    "disease": "위염",
+    "current": "인수",
+    "history": "인수",
+    "documents": ""
+  },
+  {
+    "disease": "유산",
+    "current": "",
+    "history": "연속2회이상 : 사례 별 담보 감액(유산담보 등)\n연속3회이상(습관성유산) : 임신 20주 이후 서류 심사",
+    "documents": "① 소견서 : 과거유산시의 임신주수와 치료내용, 현임신시의 치료내용과 상태 상세 기재\n② 산부인과 의무기록지"
+  },
+  {
+    "disease": "인공수정",
+    "current": "단태아 : 인수\n다태아 : 임신 22주 이후 서류심사",
+    "history": "",
+    "documents": ""
+  },
+  {
+    "disease": "임신성고혈압",
+    "current": "일시적 증상 : 재검 정상시 서류\n임신32주이후 서류심사 : 혈압/혈당조절 양호시 인수\n입원無, \n심장 및 신장 합병증無\n(혈압 140/90이하) \n단백뇨無  ",
+    "history": "",
+    "documents": "① 산전의무기록지 전체 \n② 검사결과지 (소변, 신장기능검사 한 경우 검사결과지)\n② 소견서 (혈압조절 및 태아산모 현상태)"
+  },
+  {
+    "disease": "임신중 감기약복용",
+    "current": "특이사항 없는 경우 심사 후 인수",
+    "history": "",
+    "documents": ""
+  },
+  {
+    "disease": "임신중 당뇨",
+    "current": "일시적 증상 : 재검 정상 서류 \n임신32주이후 서류심사 : 혈압/혈당조절 양호시 인수\n(당뇨약,인슐린투약중  인수가능)\n입원無, \n심장 및 신장 합병증無(혈압 140/90이하)\n단백뇨無\n공복혈당 100내외 & 식후2시간혈당 130미만 유지",
+    "history": "",
+    "documents": "① 산전의무기록지 전체 \n② 검사결과지 (소변, 신장기능검사 한 경우 검사결과지)\n② 소견서 (혈당조절 및 태아산모 현상태)"
+  },
+  {
+    "disease": "임신중 풍진",
+    "current": "거절",
+    "history": "거절",
+    "documents": "-"
+  },
+  {
+    "disease": "임신중 혈당상승",
+    "current": "임신 24주 이후 서류심사\n(단, 과거력이 있거나 현 임신중의 혈당상승은 거절)",
+    "history": "",
+    "documents": "임신성당뇨검사결과지(임신24주이후)"
+  },
+  {
+    "disease": "임신중출혈",
+    "current": "임신 14주 이전 & 유산방지제 치료(입원 무) : 인수\n임신 14주 이후 치료\n - 입원 無 : 현상태 질출혈, 복통, 자궁수축 등 증상없음 확인 후 인수\n - 입원 有 : 입원치료종료 후 2주 이상 특이소견 없는 경우 서류심사",
+    "history": "",
+    "documents": "① 소견서 (태아산모 현상태)"
+  },
+  {
+    "disease": "입덧",
+    "current": "인수",
+    "history": "인수",
+    "documents": ""
+  },
+  {
+    "disease": "자궁경부이형성증",
+    "current": "원추절제술/자궁경부절제술: 임신28주 이후 소견서\n   (자궁경부길이 및  깔대기형 변화 등 확인)\n그 외 치료 또는 치료 필요소견 없는 현증 : 인수",
+    "history": "",
+    "documents": "① 소견서 (현상태 및 자궁경부길이, 형태 기재 必)"
+  },
+  {
+    "disease": "자궁근종",
+    "current": "단태아:  자궁근종 크기 5cm미만, 다발성 아닌 경우 인수, 그 외 임신 28주 이후 서류심사\n다태아: 임신 28주 이후 서류심사",
+    "history": "",
+    "documents": "① 소견서 (태아산모 현상태)"
+  },
+  {
+    "disease": "자궁내막증",
+    "current": "인수",
+    "history": "인수",
+    "documents": ""
+  },
+  {
+    "disease": "자궁봉출술\n(맥도날드수술)",
+    "current": "임신 32주 이후 서류심사\n - 자궁경부길이 3.5cm 이상, 자궁경부깔대기형 변화 등 없는 경우 인수",
+    "history": "",
+    "documents": "① 소견서(자궁경부길이, 태아상태 등)"
+  },
+  {
+    "disease": "저체중/조산/\n미숙아 출산력",
+    "current": "인수",
+    "history": "인수",
+    "documents": ""
+  },
+  {
+    "disease": "조기양막파수",
+    "current": "거절",
+    "history": "현 임신 중 특이사항 없는 경우 인수",
+    "documents": "① 소견서(과거 임신시의 조기양막파수당시의 임신주수와 출산주수, 치료내용, 치료기간 등)\n② 현 임신시의 초음파검사결과지"
+  },
+  {
+    "disease": "조기진통",
+    "current": "거절",
+    "history": "현 임신 중 특이사항 없는 경우 인수",
+    "documents": "① 소견서(과거조기진통당시의 임신주수와 치료내용, 치료기간 등)\n② 현 임신시의 초음파검사결과지"
+  },
+  {
+    "disease": "질염",
+    "current": "인수",
+    "history": "인수",
+    "documents": ""
+  },
+  {
+    "disease": "천식",
+    "current": "임신20주이후 소견서심사 (사의자문)",
+    "history": "",
+    "documents": "① 소견서 : 산모/태아현상태, 천식발잘빈도, 치료내용 상세 기재"
+  },
+  {
+    "disease": "추간판장애",
+    "current": "인수",
+    "history": "인수",
+    "documents": ""
+  },
+  {
+    "disease": "현재 임신시\n유산방지(제)치료",
+    "current": "임신 14주 이전 & 유산방지제 치료(입원 무) : 인수\n임신 14주 이후 치료\n - 입원 無 : 현상태 질출혈, 복통, 자궁수축 등 증상없음 확인 후 인수\n - 입원 有 : 입원치료종료 후 2주 이상 특이소견 없는 경우 서류심사",
+    "history": "",
+    "documents": "① 소견서 (태아산모 현상태)"
+  },
+  {
+    "disease": "흉통",
+    "current": "인수",
+    "history": "인수",
+    "documents": ""
+  },
+  {
+    "disease": "간기능수치 상승",
+    "current": "재검결과 정상, 치료종료 시 인수",
+    "history": "",
+    "documents": "① 검사결과지"
+  },
+  {
+    "disease": "기형아검사결과 이상",
+    "current": "정밀검사이후 (양수검사 : 16~20주, 니프티검사: 10주이후)\n양수검사 외 비침습적검사(니프티)시행-17주\n - 정상소견 : 서류심사\n - 이상소견 : 거절",
+    "history": "",
+    "documents": "① 정밀검사결과지(양수 혹은 니프티검사)"
+  }
+]
