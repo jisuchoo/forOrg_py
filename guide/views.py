@@ -46,16 +46,9 @@ def search_view(request):
         query = request.POST.get("query", "").strip()
         if query:
             if guide_type == "fetal":
-                # 태아 인수가이드 JSON 로드
-                json_path = os.path.join(settings.BASE_DIR, "templates", "fetal_ins.json")
-                if os.path.exists(json_path):
-                    with open(json_path, "r", encoding="utf-8") as f:
-                        data = json.load(f)
-                        results = [row for row in data if query in row["disease"]]
+                results = Fetal.objects.filter(disease__icontains=query)
                 log_activity(request, "SEARCH", f"[태아] 검색어: {query}, 결과 {len(results)}건")
-
             else:
-                # 유병자 가이드 (DB Disease 검색)
                 results = Disease.objects.filter(name__icontains=query)
                 log_activity(request, "SEARCH", f"[유병자] 검색어: {query}, 결과 {len(results)}건")
 
