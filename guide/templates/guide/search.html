@@ -162,24 +162,26 @@
 
 {% block extra_js %}
 <script>
+  /* ✅ 화면 전환 함수 (onclick에서 직접 호출 가능) */
   window.showLimitScreen = function () {
     document.getElementById("searchScreen").style.display = "none";
     document.getElementById("limitScreen").style.display = "block";
   };
+  
   window.hideLimitScreen = function () {
     document.getElementById("limitScreen").style.display = "none";
     document.getElementById("searchScreen").style.display = "block";
   };
   
-  document.addEventListener("DOMContentLoaded", () => {
+  /* ✅ 상품별 인수한도 로직 */
+  window.initLimitScreen = function () {
     const productSelect = document.getElementById("productSelect");
     const planSelect = document.getElementById("planSelect");
     const ageSelect = document.getElementById("ageSelect");
     const ageSelectRow = document.getElementById("ageSelectRow");
     const resultsDiv = document.getElementById("limitResults");
-    const backBtn = document.getElementById("limitBackBtn");
   
-    // 상품 목록 불러오기
+    // 1. 상품 목록 불러오기
     fetch("/limits/products/")
       .then(res => res.json())
       .then(products => {
@@ -191,7 +193,7 @@
         });
       });
   
-    // 상품 선택 → 플랜
+    // 2. 상품 선택 → 플랜
     productSelect.addEventListener("change", () => {
       planSelect.innerHTML = '<option value="">플랜을 선택하세요</option>';
       planSelect.disabled = true;
@@ -213,7 +215,7 @@
       }
     });
   
-    // 플랜 선택 → 연령구간
+    // 3. 플랜 선택 → 연령구간
     planSelect.addEventListener("change", () => {
       ageSelect.innerHTML = '<option value="">연령구간을 선택하세요</option>';
       ageSelect.disabled = true;
@@ -235,7 +237,7 @@
       }
     });
   
-    // 연령 선택 → 결과
+    // 4. 연령 선택 → 결과
     ageSelect.addEventListener("change", () => {
       resultsDiv.innerHTML = "";
       if (ageSelect.value) {
@@ -259,7 +261,10 @@
           });
       }
     });
-  });
+  };
+  
+  // ✅ DOM 로드 완료 후 초기화 실행
+  document.addEventListener("DOMContentLoaded", window.initLimitScreen);
 </script>
 {% endblock %}
 
