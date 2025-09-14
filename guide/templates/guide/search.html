@@ -173,6 +173,7 @@
 
 {% block extra_js %}
 <script>
+  /* ✅ 화면 전환 함수 */
   window.showLimitScreen = function () {
     document.getElementById("searchScreen").style.display = "none";
     document.getElementById("limitScreen").style.display = "block";
@@ -183,14 +184,15 @@
     document.getElementById("searchScreen").style.display = "block";
   };
 
+  /* ✅ 상품별 인수한도 로직 */
   window.initLimitScreen = function () {
     const productSelect = document.getElementById("productSelect");
     const planSelect = document.getElementById("planSelect");
     const ageSelect = document.getElementById("ageSelect");
     const ageSelectRow = document.getElementById("ageSelectRow");
-    const tableBody = document.getElementById("limitTableBody");
+    const resultsDiv = document.getElementById("limitResults"); // ✅ 누락된 부분 추가
 
-    // 상품 목록
+    // 1. 상품 목록 불러오기
     fetch("/limits/products/")
       .then(res => res.json())
       .then(products => {
@@ -202,12 +204,12 @@
         });
       });
 
-    // 상품 선택 → 플랜
+    // 2. 상품 선택 → 플랜
     productSelect.addEventListener("change", () => {
       planSelect.innerHTML = '<option value="">플랜을 선택하세요</option>';
       planSelect.disabled = true;
       ageSelectRow.style.display = "none";
-      tableBody.innerHTML = "";
+      resultsDiv.innerHTML = "";
 
       if (productSelect.value) {
         fetch(`/limits/plans/?product=${productSelect.value}`)
@@ -229,19 +231,18 @@
       ageSelect.innerHTML = '<option value="">연령구간을 선택하세요</option>';
       ageSelect.disabled = true;
       resultsDiv.innerHTML = "";
-    
+
       if (planSelect.value) {
         fetch(`/limits/ages/?product=${productSelect.value}&plan=${planSelect.value}`)
           .then(res => res.json())
           .then(ages => {
-            // ✅ 중복 제거용 Set
-            const seen = new Set();
+            const seen = new Set(); // ✅ 중복 제거
             ages.forEach(a => {
               const key = `${a.minAge}-${a.maxAge}`;
               if (!seen.has(key)) {
                 seen.add(key);
                 let opt = document.createElement("option");
-                opt.value = Math.floor((a.minAge + a.maxAge) / 2); // 대표값
+                opt.value = Math.floor((a.minAge + a.maxAge) / 2);
                 opt.textContent = `${a.minAge}세 ~ ${a.maxAge}세`;
                 ageSelect.appendChild(opt);
               }
@@ -252,34 +253,47 @@
       }
     });
 
-
-    // 연령 선택 → 결과
+    // 4. 연령 선택 → 결과 테이블
     ageSelect.addEventListener("change", () => {
-      tableBody.innerHTML = "";
+      resultsDiv.innerHTML = "";
       if (ageSelect.value) {
         fetch(`/limits/results/?product=${productSelect.value}&plan=${planSelect.value}&age=${ageSelect.value}`)
           .then(res => res.json())
           .then(data => {
             if (data.length === 0) {
-              tableBody.innerHTML = `<tr><td colspan="2" class="hint">검색 결과가 없습니다.</td></tr>`;
+              resultsDiv.innerHTML = "<div class='hint'>검색 결과가 없습니다.</div>";
             } else {
-              data.forEach(r => {
-                const tr = document.createElement("tr");
-                tr.innerHTML = `
-                  <td class="coverage-name">${r.coverage}</td>
-                  <td class="amount">${r.amount}</td>
-                `;
-                tableBody.appendChild(tr);
-              });
+              // ✅ 표 형태로 결과 출력
+              let table = `
+                <div class="limit-table-container">
+                  <table class="limit-table">
+                    <thead>
+                      <tr>
+                        <th>담보명</th>
+                        <th>인수한도</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      ${data.map(r => `
+                        <tr>
+                          <td class="coverage-name">${r.coverage}</td>
+                          <td class="amount">${r.amount}</td>
+                        </tr>`).join("")}
+                    </tbody>
+                  </table>
+                </div>`;
+              resultsDiv.innerHTML = table;
             }
           });
       }
     });
   };
 
+  // ✅ DOM 로드 완료 후 초기화 실행
   document.addEventListener("DOMContentLoaded", window.initLimitScreen);
 </script>
 {% endblock %}
+
 
 {% block extra_css %}
 <style>
