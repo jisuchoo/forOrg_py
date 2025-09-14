@@ -8,7 +8,17 @@ class EmployeeAdmin(admin.ModelAdmin):
 
 @admin.register(Disease)
 class DiseaseAdmin(admin.ModelAdmin):
-    list_display = ("name", "acceptance", "surgery", "recurrence")
+    list_display = ("name", "health", "general", "simple")  # ✅ 새 필드 반영
+    search_fields = ("name",)
+    list_filter = ()
+    
+@admin.register(Insurance)
+class InsuranceAdmin(admin.ModelAdmin):
+    list_display = ("company", "type", "highlight")
+
+@admin.register(Fetal)
+class FetalAdmin(admin.ModelAdmin):
+    list_display = ("disease", "current", "history", "documents")
 
 @admin.register(ActivityLog)
 class ActivityLogAdmin(admin.ModelAdmin):
