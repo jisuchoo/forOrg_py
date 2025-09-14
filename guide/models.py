@@ -11,13 +11,10 @@ class Employee(models.Model):
 
 
 class Disease(models.Model):
-    name = models.CharField("질병명", max_length=255, unique=True)
-    acceptance = models.TextField("인수기준", blank=True, null=True)
-    signature355 = models.TextField("시그니처355", blank=True, null=True)
-    treatmentDays = models.CharField("치료일수", max_length=100, blank=True, null=True)
-    surgery = models.CharField("수술여부", max_length=100, blank=True, null=True)
-    recurrence = models.CharField("재발여부", max_length=100, blank=True, null=True)
-    restrictions = models.TextField("제한사항", blank=True, null=True)
+    name = models.CharField(max_length=255, unique=True, verbose_name="질병명")
+    health = models.TextField(blank=True, null=True, verbose_name="건강고지형")
+    general = models.TextField(blank=True, null=True, verbose_name="일반고지형")
+    simple = models.TextField(blank=True, null=True, verbose_name="간편고지형")
 
     def __str__(self):
         return self.name
