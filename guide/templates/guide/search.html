@@ -248,14 +248,13 @@
               resultsDiv.innerHTML = "<div class='hint'>검색 결과가 없습니다.</div>";
             } else {
               data.forEach(r => {
-                resultsDiv.innerHTML += `
-                  <div class="result-card">
-                    <div class="result-title">${r.coverage}</div>
-                    <table class="info-table">
-                      <tr><th>인수한도</th><td>${r.amount}</td></tr>
-                      ${r.note ? `<tr><th>비고</th><td>${r.note}</td></tr>` : ""}
-                    </table>
-                  </div>`;
+                const tr = document.createElement("tr");
+                tr.classList.add("coverage-row");
+                tr.innerHTML = `
+                  <td class="coverage-name">${r.coverage}</td>
+                  <td class="amount">${r.amount}</td>
+                `;
+                tableBody.appendChild(tr);
               });
             }
           });
