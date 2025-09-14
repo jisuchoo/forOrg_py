@@ -52,3 +52,21 @@ class Fetal(models.Model):
 
     def __str__(self):
         return self.disease
+
+
+class Limit(models.Model):
+    product = models.CharField(max_length=100)
+    plan = models.CharField(max_length=100)
+    coverage = models.CharField(max_length=200)
+    minAge = models.IntegerField()
+    maxAge = models.IntegerField()
+    amount = models.IntegerField()
+    note = models.TextField(blank=True, null=True)
+
+    class Meta:
+        db_table = "limits"
+        verbose_name = "인수한도"
+        verbose_name_plural = "인수한도"
+
+    def __str__(self):
+        return f"{self.product} - {self.plan} ({self.minAge}~{self.maxAge})"
