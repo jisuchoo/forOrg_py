@@ -1,76 +1,16 @@
 import os
-import json
-from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth import logout as auth_logout
 from django.views.decorators.csrf import csrf_exempt
 from django.db import models
-from django.conf import settings
+from django.http import JsonResponse
 from .models import Employee, Disease, Insurance, Fetal, Limit
 from .utils import log_activity
 
-# 상품 목록 조회
-def get_products(request):
-    products = Limit.objects.values_list("product", flat=True).distinct()
-    return JsonResponse(list(products), safe=False)
 
-# 선택된 상품의 플랜 목록
-def get_plans(request):
-    product = request.GET.get("product")
-    if not product:
-        return JsonResponse([], safe=False)
-    plans = Limit.objects.filter(product=product).values_list("plan", flat=True).distinct()
-    return JsonResponse(list(plans), safe=False)
-
-# 선택된 상품/플랜의 연령구간
-def get_ages(request):
-    product = request.GET.get("product")
-    plan = request.GET.get("plan")
-
-    if not product or not plan:
-        return JsonResponse([], safe=False)
-
-    ages = (
-        Limit.objects.filter(product=product, plan=plan)
-        .values("minAge", "maxAge")
-        .distinct()  # ✅ 중복 제거
-        .order_by("minAge", "maxAge")  # ✅ 정렬 보장
-    )
-
-    return JsonResponse(list(ages), safe=False)
-
-# 최종 결과 조회
-def get_results(request):
-    product = request.GET.get("product")
-    plan = request.GET.get("plan")
-    age = request.GET.get("age")
-
-    if not product or not plan or not age:
-        return JsonResponse([], safe=False)
-
-    try:
-        age = int(age)
-    except ValueError:
-        return JsonResponse([], safe=False)
-
-    qs = Limit.objects.filter(
-        product=product,
-        plan=plan,
-        minAge__lte=age,
-        maxAge__gte=age
-    )
-
-    data = [
-        {
-            "coverage": l.coverage,
-            "amount": l.amount,
-            "note": l.note or ""
-        }
-        for l in qs
-    ]
-    return JsonResponse(data, safe=False)
-
-# 로그인 뷰
+# ----------------------
+# 로그인 / 로그아웃
+# ----------------------
 @csrf_exempt
 def login_view(request):
     if request.method == "POST":
@@ -94,21 +34,22 @@ def login_view(request):
     return render(request, "guide/login.html")
 
 
-# 로그아웃 뷰
 def logout_view(request):
-    auth_logout(request)  # Django 기본 세션 로그아웃
+    auth_logout(request)
     request.session.flush()
     return redirect("login")
 
 
-# 검색 뷰
+# ----------------------
+# 메인 검색 화면 (질병/태아 가이드)
+# ----------------------
 def search_view(request):
     if not request.session.get("user_id"):
         return redirect("login")
 
     results = []
     query = ""
-    guide_type = None  # 처음엔 선택되지 않음
+    guide_type = None
 
     if request.method == "POST":
         guide_type = request.POST.get("guide")
@@ -116,22 +57,11 @@ def search_view(request):
 
         if guide_type and query:
             if guide_type == "fetal":
-                # 태아 인수가이드 검색
                 results = Fetal.objects.filter(disease__icontains=query)
-                log_activity(
-                    request,
-                    "SEARCH",
-                    f"[태아] 검색어: {query}, 결과 {len(results)}건",
-                )
-            elif guide_type == "disease":
-                # 유병자 가이드 검색
+                log_activity(request, "SEARCH", f"[태아] {query} → {len(results)}건")
+            elif guide_type == "chronic":
                 results = Disease.objects.filter(name__icontains=query)
-                log_activity(
-                    request,
-                    "SEARCH",
-                    f"[유병자] 검색어: {query}, 결과 {len(results)}건",
-                )
-
+                log_activity(request, "SEARCH", f"[유병자] {query} → {len(results)}건")
 
     # 보험사 정보
     hanwha = Insurance.objects.filter(highlight=True).first()
@@ -149,9 +79,63 @@ def search_view(request):
     context = {
         "results": results,
         "query": query,
-        "guide_type": guide_type,  # 처음에는 None → 버튼만 보임
+        "guide_type": guide_type,
         "user_name": request.session.get("user_name"),
         "hanwha": hanwha,
         "insurances": insurances,
     }
     return render(request, "guide/search.html", context)
+
+
+# ----------------------
+# 인수한도 API (상품별/플랜별/연령별)
+# ----------------------
+def get_products(request):
+    """상품 목록"""
+    products = (
+        Limit.objects.values_list("product", flat=True)
+        .distinct()
+        .order_by("product")
+    )
+    return JsonResponse(list(products), safe=False)
+
+
+def get_plans(request):
+    """특정 상품의 플랜 목록"""
+    product = request.GET.get("product")
+    plans = (
+        Limit.objects.filter(product=product)
+        .values_list("plan", flat=True)
+        .distinct()
+        .order_by("plan")
+    )
+    return JsonResponse(list(plans), safe=False)
+
+
+def get_ages(request):
+    """특정 상품+플랜의 연령 구간"""
+    product = request.GET.get("product")
+    plan = request.GET.get("plan")
+
+    ages = (
+        Limit.objects.filter(product=product, plan=plan)
+        .values("minAge", "maxAge")
+        .distinct()
+        .order_by("minAge", "maxAge")
+    )
+    return JsonResponse(list(ages), safe=False)
+
+
+def get_results(request):
+    """상품+플랜+연령으로 인수한도 결과"""
+    product = request.GET.get("product")
+    plan = request.GET.get("plan")
+    age = request.GET.get("age")
+
+    qs = Limit.objects.filter(product=product, plan=plan)
+    if age:
+        age = int(age)
+        qs = qs.filter(minAge__lte=age, maxAge__gte=age)
+
+    results = qs.values("coverage", "amount", "note").order_by("coverage")
+    return JsonResponse(list(results), safe=False)
