@@ -94,7 +94,7 @@ class Command(BaseCommand):
         else:
             self.stdout.write(self.style.WARNING("fetal_ins.json 파일을 찾을 수 없습니다."))
 
-       # 인수한도 데이터 Import
+        # 인수한도 데이터 Import
         limit_file = base_dir / "limits.json"
         if limit_file.exists():
             with open(limit_file, encoding="utf-8") as f:
@@ -106,12 +106,7 @@ class Command(BaseCommand):
                     coverage = str(l.get("coverage") or "").strip()
                     min_age = int(l.get("minAge") or 0)
                     max_age = int(l.get("maxAge") or 0)
-        
-                    # ✅ amount 안전하게 처리
-                    raw_amount = str(l.get("amount") or "").replace(",", "").strip()
-                    digits = "".join(ch for ch in raw_amount if ch.isdigit())
-                    amount = int(digits) if digits else 0
-        
+                    amount = str(l.get("amount") or "").strip()   # ✅ 문자열 그대로 저장
                     note = str(l.get("note") or "").strip()
         
                     if product and plan and coverage:
