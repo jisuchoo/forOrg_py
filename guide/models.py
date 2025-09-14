@@ -60,7 +60,7 @@ class Limit(models.Model):
     coverage = models.CharField(max_length=200)
     minAge = models.IntegerField()
     maxAge = models.IntegerField()
-    amount = models.IntegerField()
+    amount = models.CharField(max_length=50, verbose_name="가입금액 한도")
     note = models.TextField(blank=True, null=True)
 
     class Meta:
