@@ -26,10 +26,17 @@ def get_plans(request):
 def get_ages(request):
     product = request.GET.get("product")
     plan = request.GET.get("plan")
+
     if not product or not plan:
         return JsonResponse([], safe=False)
 
-    ages = Limit.objects.filter(product=product, plan=plan).values("minAge", "maxAge").distinct()
+    ages = (
+        Limit.objects.filter(product=product, plan=plan)
+        .values("minAge", "maxAge")
+        .distinct()  # ✅ 중복 제거
+        .order_by("minAge", "maxAge")  # ✅ 정렬 보장
+    )
+
     return JsonResponse(list(ages), safe=False)
 
 # 최종 결과 조회
