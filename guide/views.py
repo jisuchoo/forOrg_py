@@ -9,33 +9,57 @@ from django.conf import settings
 from .models import Employee, Disease, Insurance, Fetal, Limit
 from .utils import log_activity
 
+# 상품 목록 조회
 def get_products(request):
     products = Limit.objects.values_list("product", flat=True).distinct()
     return JsonResponse(list(products), safe=False)
 
+# 선택된 상품의 플랜 목록
 def get_plans(request):
     product = request.GET.get("product")
+    if not product:
+        return JsonResponse([], safe=False)
     plans = Limit.objects.filter(product=product).values_list("plan", flat=True).distinct()
     return JsonResponse(list(plans), safe=False)
 
+# 선택된 상품/플랜의 연령구간
 def get_ages(request):
     product = request.GET.get("product")
     plan = request.GET.get("plan")
+    if not product or not plan:
+        return JsonResponse([], safe=False)
+
     ages = Limit.objects.filter(product=product, plan=plan).values("minAge", "maxAge")
     return JsonResponse(list(ages), safe=False)
 
+# 최종 결과 조회
 def get_results(request):
     product = request.GET.get("product")
     plan = request.GET.get("plan")
-    age = int(request.GET.get("age", 0))
+    age = request.GET.get("age")
 
-    qs = Limit.objects.filter(product=product, plan=plan, minAge__lte=age, maxAge__gte=age)
+    if not product or not plan or not age:
+        return JsonResponse([], safe=False)
+
+    try:
+        age = int(age)
+    except ValueError:
+        return JsonResponse([], safe=False)
+
+    qs = Limit.objects.filter(
+        product=product,
+        plan=plan,
+        minAge__lte=age,
+        maxAge__gte=age
+    )
+
     data = [
         {
             "coverage": l.coverage,
             "amount": l.amount,
             "note": l.note or ""
-        } for l in qs
+        }
+        for l in qs
     ]
     return JsonResponse(data, safe=False)
 
