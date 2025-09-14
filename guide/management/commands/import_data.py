@@ -93,3 +93,26 @@ class Command(BaseCommand):
                 self.stdout.write(self.style.SUCCESS(f"태아 인수가이드 {count}건 Import 완료"))
         else:
             self.stdout.write(self.style.WARNING("fetal_ins.json 파일을 찾을 수 없습니다."))
+
+        # 인수한도 데이터 Import
+        limit_file = base_dir / "limits.json"
+        if limit_file.exists():
+            with open(limit_file, encoding="utf-8") as f:
+                limits = json.load(f)
+                count = 0
+                for l in limits:
+                    Limit.objects.update_or_create(
+                        product=l.get("product", "").strip(),
+                        plan=l.get("plan", "").strip(),
+                        coverage=l.get("coverage", "").strip(),
+                        minAge=l.get("minAge", 0),
+                        maxAge=l.get("maxAge", 0),
+                        defaults={
+                            "amount": l.get("amount", 0),
+                            "note": l.get("note", ""),
+                        }
+                    )
+                    count += 1
+                self.stdout.write(self.style.SUCCESS(f"인수한도 {count}건 Import 완료"))
+        else:
+            self.stdout.write(self.style.WARNING("limits.json 파일을 찾을 수 없습니다."))
