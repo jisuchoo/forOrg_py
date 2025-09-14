@@ -6,6 +6,11 @@ function showLimitScreen() {
   document.getElementById("limitScreen").style.display = "block";
 }
 
+function hideLimitScreen() {
+  document.getElementById("limitScreen").style.display = "none";
+  document.getElementById("searchScreen").style.display = "block";
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   const productSelect = document.getElementById("productSelect");
   const planSelect = document.getElementById("planSelect");
@@ -13,12 +18,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const ageSelectRow = document.getElementById("ageSelectRow");
   const resultsDiv = document.getElementById("limitResults");
   const backBtn = document.getElementById("limitBackBtn");
-
-  // 뒤로가기 버튼
-  backBtn.addEventListener("click", () => {
-    document.querySelector(".card.container-narrow").style.display = "block";
-    document.getElementById("limitScreen").style.display = "none";
-  });
 
   // 상품 목록 불러오기
   fetch("/limits/products/")
@@ -120,7 +119,7 @@ document.addEventListener("DOMContentLoaded", () => {
 </div>
 {% endif %}
 
-<div class="card container-narrow">
+<div id="searchScreen" class="card container-narrow">
   <h2 style="margin-bottom:.5rem;">가이드 검색</h2>
 
   <!-- ✅ 처음에는 버튼만 보이게 -->
