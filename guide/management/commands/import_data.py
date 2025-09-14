@@ -30,28 +30,25 @@ class Command(BaseCommand):
         else:
             self.stdout.write(self.style.WARNING("employees.json 파일을 찾을 수 없습니다."))
 
-        # 질병 데이터 Import (유병자)
-        dis_file = base_dir / "diseases.json"
+        # 질병 데이터 Import (건강/일반/간편)
+        dis_file = base_dir / "disease_new.json"
         if dis_file.exists():
             with open(dis_file, encoding="utf-8") as f:
                 diseases = json.load(f)
                 count = 0
                 for d in diseases:
                     Disease.objects.update_or_create(
-                        name=d.get("name", "").strip(),
+                        name=d.get("DSAS_CSFNM", "").strip(),
                         defaults={
-                            "acceptance": d.get("acceptance", ""),
-                            "signature355": d.get("signature355", ""),
-                            "treatmentDays": d.get("treatmentDays", ""),
-                            "surgery": d.get("surgery", ""),
-                            "recurrence": d.get("recurrence", ""),
-                            "restrictions": d.get("restrictions", ""),
+                            "health": d.get("UD_HTH", ""),
+                            "general": d.get("UD_GEN", ""),
+                            "simple": d.get("UD_SI", ""),
                         }
                     )
                     count += 1
-                self.stdout.write(self.style.SUCCESS(f"질병 {count}건 Import 완료"))
+                self.stdout.write(self.style.SUCCESS(f"질병 {count}건 Import 완료 (건강/일반/간편)"))
         else:
-            self.stdout.write(self.style.WARNING("diseases.json 파일을 찾을 수 없습니다."))
+            self.stdout.write(self.style.WARNING("disease_new.json 파일을 찾을 수 없습니다."))
 
         # 보험사 데이터 Import
         ins_file = base_dir / "insurances.json"
