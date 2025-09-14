@@ -64,7 +64,7 @@ class Migration(migrations.Migration):
                 ('coverage', models.CharField(max_length=255, verbose_name='담보명')),
                 ('minAge', models.IntegerField(verbose_name='최소 연령')),
                 ('maxAge', models.IntegerField(verbose_name='최대 연령')),
-                ('amount', models.IntegerField(verbose_name='가입금액 한도(만원)')),
+                ('amount', models.CharField(max_length=50, verbose_name="가입금액 한도")),
                 ('note', models.TextField(blank=True, null=True, verbose_name='비고')),
             ],
         ),
