@@ -434,6 +434,115 @@
   white-space: normal;   /* ? 줄바꿈 허용 */
   word-break: break-word;/* ? 너무 긴 URL/번호 강제 줄바꿈 */
 }
+
+/* 인수한도 기능 스타일 개선 */
+.limit-table-container {
+  position: relative;
+  overflow: auto;
+  max-height: 70vh;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  margin-top: 1rem;
+}
+
+.limit-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 14px;
+  background: white;
+  table-layout: fixed;
+}
+
+.limit-table th, .limit-table td {
+  border: 1px solid var(--border);
+  padding: 8px 4px;
+  text-align: center;
+  vertical-align: middle;
+  background: white;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.limit-table thead th {
+  position: sticky;
+  top: 0;
+  background: var(--bg);
+  font-weight: 600;
+  z-index: 10;
+  border-bottom: 2px solid var(--hanwha);
+}
+
+.limit-table .coverage-name {
+  width: 60%;
+  text-align: left;
+  font-weight: 600;
+  word-break: break-word;
+  padding-left: 8px;
+}
+
+.limit-table .amount {
+  width: 25%;
+  font-weight: 600;
+  color: var(--hanwha);
+}
+
+/* ✅ coverage 클릭 가능 */
+.coverage-clickable {
+  cursor: pointer;
+  color: var(--hanwha);
+  text-decoration: underline;
+}
+.coverage-clickable:hover {
+  color: var(--hanwha-dark);
+}
+
+/* ✅ 검색창 */
+.coverage-search-container {
+  margin-top: 10px;
+}
+.coverage-search-container input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 14px;
+  outline: none;
+  background: #fff;
+}
+.coverage-search-container input:focus {
+  border-color: var(--hanwha);
+}
+
+/* ✅ 상품/플랜/연령 select 박스 스타일 */
+#productSelect, #planSelect, #ageSelect {
+  width: 100%;
+  padding: 10px 14px;
+  margin-top: 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #fff url("data:image/svg+xml;utf8,<svg fill='%23333' height='16' viewBox='0 0 24 24' width='16' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>") no-repeat right 10px center;
+  background-size: 16px;
+  font-size: 14px;
+  appearance: none; /* 기본 화살표 제거 */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  cursor: pointer;
+  transition: border 0.2s, box-shadow 0.2s;
+}
+
+#productSelect:focus, #planSelect:focus, #ageSelect:focus {
+  border-color: var(--hanwha);
+  box-shadow: 0 0 0 3px rgba(255,127,0,0.2);
+}
+
+/* ✅ select 박스 비활성화 스타일 */
+#productSelect:disabled, #planSelect:disabled, #ageSelect:disabled {
+  background-color: #f8f9fa;
+  color: #aaa;
+  cursor: not-allowed;
+}
+
 </style>
 {% endblock %}
 
