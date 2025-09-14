@@ -152,7 +152,18 @@
 
     <button type="button" onclick="hideLimitScreen()" class="secondary" style="margin-top:8px;">뒤로가기</button>
 
-    <div id="limitResults" class="results"></div>
+    <!-- ✅ 결과 표 -->
+    <table class="info-table" style="margin-top:1rem;">
+      <thead>
+        <tr>
+          <th>담보명</th>
+          <th>인수한도</th>
+        </tr>
+      </thead>
+      <tbody id="limitTableBody">
+        <!-- 결과가 여기에 추가됨 -->
+      </tbody>
+    </table>
   </div>
 </section>
   
