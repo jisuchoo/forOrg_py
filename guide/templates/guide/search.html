@@ -25,72 +25,116 @@
       <form method="post" action="{% url 'search' %}">
         {% csrf_token %}
         <input type="hidden" name="guide" value="chronic">
-        <button type="submit">건간/일반/간편 인수가이드</button>
+        <button type="submit">건강/일반/간편 인수가이드</button>
       </form>
       <form method="post" action="{% url 'search' %}">
         {% csrf_token %}
         <input type="hidden" name="guide" value="fetal">
         <button type="submit">태아 인수가이드</button>
       </form>
+      <form method="post" action="{% url 'search' %}">
+        {% csrf_token %}
+        <input type="hidden" name="guide" value="limit">
+        <button type="submit">상품별 인수한도</button>
+      </form>
     </div>
   {% else %}
-    <!-- ✅ 가이드 선택 후 검색창 + 결과 + 보험사 리스트 표시 -->
+    <!-- ✅ 가이드 선택 후 검색창 -->
     <div style="margin: 1rem 0; font-weight: bold; font-size: 16px;">
       {% if guide_type == "chronic" %}
         📘 현재 선택된 가이드: <span style="color: #007bff;">유병자 가이드</span>
       {% elif guide_type == "fetal" %}
         👶 현재 선택된 가이드: <span style="color: #ff5722;">태아 인수가이드</span>
+      {% elif guide_type == "limit" %}
+        📊 현재 선택된 가이드: <span style="color: #28a745;">상품별 인수한도</span>
       {% endif %}
     </div>
     <form method="post" action="{% url 'search' %}">
       {% csrf_token %}
       <input type="hidden" id="guideType" name="guide" value="{{ guide_type }}">
 
-      <input type="text" name="query" placeholder="질병명을 입력하세요" required value="{{ query }}">
+      <input type="text" name="query" placeholder="검색어를 입력하세요" required value="{{ query }}">
       <button type="submit">검색</button>
     </form>
 
-    {% if results %}
+    <!-- ✅ 결과 영역 -->
+    {% if guide_type == "chronic" and results %}
       <div class="results">
-        {% if guide_type == "chronic" %}
-         {% for d in results %}
-          <div class="result-card">
-            <div class="result-title">{{ d.name }}</div>
-            <table class="info-table">
-              <tr>
-                <th style="width:55px; white-space:pre-line;">건강<br>고지</th>
-                <td style="white-space: pre-line;">{{ d.health|default:"-" }}</td>
-              </tr>
-              <tr>
-                <th style="width:55px; white-space:pre-line;">일반<br>고지</th>
-                <td style="white-space: pre-line;">{{ d.general|default:"-" }}</td>
-              </tr>
-              <tr>
-                <th style="width:55px; white-space:pre-line;">간편<br>고지</th>
-                <td style="white-space: pre-line;">{{ d.simple|default:"-" }}</td>
-              </tr>
-            </table>
-          </div>
-          {% endfor %}
-        {% else %}
-          {% for d in results %}
-          <div class="result-card">
-            <div class="result-title">{{ d.disease }}</div>
-            <table class="info-table">
-              <tr>
-                <th>현증</th>
-                <td style="white-space: pre-line;">{{ d.current|default:"-" }}</td>
-              </tr>
-              <tr>
-                <th>과거력/치료력</th>
-                <td style="white-space: pre-line;">{{ d.history|default:"-" }}</td>
-              </tr>
-            </table>
-            <div class="restrictions">필요서류:<br>{{ d.documents|default:"없음" }}</div>
-          </div>
-          {% endfor %}
-        {% endif %}
+        {% for d in results %}
+        <div class="result-card">
+          <div class="result-title">{{ d.name }}</div>
+          <table class="info-table">
+            <tr>
+              <th style="width:55px; white-space:pre-line;">건강<br>고지</th>
+              <td style="white-space: pre-line;">{{ d.health|default:"-" }}</td>
+            </tr>
+            <tr>
+              <th style="width:55px; white-space:pre-line;">일반<br>고지</th>
+              <td style="white-space: pre-line;">{{ d.general|default:"-" }}</td>
+            </tr>
+            <tr>
+              <th style="width:55px; white-space:pre-line;">간편<br>고지</th>
+              <td style="white-space: pre-line;">{{ d.simple|default:"-" }}</td>
+            </tr>
+          </table>
+        </div>
+        {% endfor %}
       </div>
+
+    {% elif guide_type == "fetal" and results %}
+      <div class="results">
+        {% for d in results %}
+        <div class="result-card">
+          <div class="result-title">{{ d.disease }}</div>
+          <table class="info-table">
+            <tr>
+              <th>현증</th>
+              <td style="white-space: pre-line;">{{ d.current|default:"-" }}</td>
+            </tr>
+            <tr>
+              <th>과거력/치료력</th>
+              <td style="white-space: pre-line;">{{ d.history|default:"-" }}</td>
+            </tr>
+          </table>
+          <div class="restrictions">필요서류:<br>{{ d.documents|default:"없음" }}</div>
+        </div>
+        {% endfor %}
+      </div>
+
+    {% elif guide_type == "limit" and limit_results %}
+      <div class="results">
+        {% if max_amount %}
+          <div style="margin:8px 0; font-weight:600; color:#e67100;">
+            ※ 상품별 가입금액 한도: {{ max_amount }}만
+          </div>
+        {% endif %}
+        {% for l in limit_results %}
+        <div class="result-card">
+          <div class="result-title">{{ l.product }} - {{ l.plan }}</div>
+          <table class="info-table">
+            <tr>
+              <th>연령</th>
+              <td>{{ l.minAge }}세 ~ {{ l.maxAge }}세</td>
+            </tr>
+            <tr>
+              <th>담보</th>
+              <td>{{ l.coverage }}</td>
+            </tr>
+            <tr>
+              <th>인수한도</th>
+              <td>{{ l.amount }}만</td>
+            </tr>
+            {% if l.note %}
+            <tr>
+              <th>비고</th>
+              <td style="white-space: pre-line;">{{ l.note }}</td>
+            </tr>
+            {% endif %}
+          </table>
+        </div>
+        {% endfor %}
+      </div>
+
     {% elif query %}
       <div class="hint">검색 결과가 없습니다.</div>
     {% endif %}
