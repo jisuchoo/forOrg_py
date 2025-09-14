@@ -1,7 +1,7 @@
 import json
 from pathlib import Path
 from django.core.management.base import BaseCommand
-from guide.models import Employee, Disease, Insurance, Fetal
+from guide.models import Employee, Disease, Insurance, Fetal, Limit
 
 
 class Command(BaseCommand):
