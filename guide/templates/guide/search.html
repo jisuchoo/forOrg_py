@@ -16,10 +16,10 @@
 </div>
 {% endif %}
 
+<!-- ✅ 유병자/태아 검색 화면 -->
 <div id="searchScreen" class="card container-narrow">
   <h2 style="margin-bottom:.5rem;">가이드 검색</h2>
 
-  <!-- ✅ 처음에는 버튼만 보이게 -->
   {% if not guide_type %}
     <div style="margin-bottom: 1rem;">
       <form method="post" action="{% url 'search' %}">
@@ -35,7 +35,6 @@
       <button type="button" onclick="showLimitScreen()">상품별 인수한도</button>
     </div>
   {% else %}
-    <!-- ✅ 가이드 선택 후 검색창 -->
     <div style="margin: 1rem 0; font-weight: bold; font-size: 16px;">
       {% if guide_type == "chronic" %}
         📘 현재 선택된 가이드: <span style="color: #007bff;">건강/일반/간편 인수가이드</span>
@@ -50,7 +49,6 @@
       <button type="submit">검색</button>
     </form>
 
-    <!-- ✅ 결과 영역 -->
     {% if guide_type == "chronic" and results %}
       <div class="results">
         {% for d in results %}
@@ -58,22 +56,21 @@
           <div class="result-title">{{ d.name }}</div>
           <table class="info-table">
             <tr>
-              <th style="width:55px; white-space:pre-line;">건강<br>고지</th>
+              <th>건강<br>고지</th>
               <td style="white-space: pre-line;">{{ d.health|default:"-" }}</td>
             </tr>
             <tr>
-              <th style="width:55px; white-space:pre-line;">일반<br>고지</th>
+              <th>일반<br>고지</th>
               <td style="white-space: pre-line;">{{ d.general|default:"-" }}</td>
             </tr>
             <tr>
-              <th style="width:55px; white-space:pre-line;">간편<br>고지</th>
+              <th>간편<br>고지</th>
               <td style="white-space: pre-line;">{{ d.simple|default:"-" }}</td>
             </tr>
           </table>
         </div>
         {% endfor %}
       </div>
-
     {% elif guide_type == "fetal" and results %}
       <div class="results">
         {% for d in results %}
@@ -97,6 +94,7 @@
       <div class="hint">검색 결과가 없습니다.</div>
     {% endif %}
   {% endif %}
+
   <!-- 보험사 목록 -->
   <div class="insurance-section">
     {% if hanwha %}
@@ -107,7 +105,7 @@
         <div class="contact-item">📚 <a href="{{ hanwha.termsUrl }}" target="_blank" rel="noopener">공시실 바로가기</a></div>
       </div>
     {% endif %}
-  
+
     {% regroup insurances by type as grouped %}
     {% for group in grouped %}
       <div class="insurance-category">
@@ -126,42 +124,32 @@
     {% endfor %}
   </div>
 </div>
-<!-- ✅ 인수한도 화면 -->
+
+<!-- ✅ 상품별 인수한도 화면 (분리) -->
 <section id="limitScreen" class="screen" style="display:none;">
   <div class="app-title">상품별/플랜별 인수한도</div>
   <div class="card container-narrow">
     <h2 style="margin-bottom:1rem;">상품 및 플랜 선택</h2>
-
     <div class="row">
       <select id="productSelect">
         <option value="">상품을 선택하세요</option>
       </select>
     </div>
-
     <div class="row">
       <select id="planSelect" disabled>
         <option value="">플랜을 선택하세요</option>
       </select>
     </div>
-
     <div class="row" id="ageSelectRow" style="display:none;">
       <select id="ageSelect" disabled>
         <option value="">연령구간을 선택하세요</option>
       </select>
     </div>
-
-    <button type="button" onclick="hideLimitScreen()" class="secondary" style="margin-top:8px;">
-      뒤로가기
-    </button>
-
-    <!-- ✅ 결과 표시 영역 (반드시 존재해야 함) -->
+    <button type="button" onclick="hideLimitScreen()" class="secondary" style="margin-top:8px;">뒤로가기</button>
     <div id="limitResults" class="results"></div>
-
-    <div class="meta" style="margin-top:1rem;">
-      Copyright 2025 하세봉 all rights reserved.
-    </div>
   </div>
 </section>
+{% endblock %}
   
 
 
