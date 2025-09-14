@@ -56,6 +56,19 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.CreateModel(
+            name='Limit',
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('product', models.CharField(max_length=255, verbose_name='상품명')),
+                ('plan', models.CharField(max_length=255, verbose_name='플랜명')),
+                ('coverage', models.CharField(max_length=255, verbose_name='담보명')),
+                ('minAge', models.IntegerField(verbose_name='최소 연령')),
+                ('maxAge', models.IntegerField(verbose_name='최대 연령')),
+                ('amount', models.IntegerField(verbose_name='가입금액 한도(만원)')),
+                ('note', models.TextField(blank=True, null=True, verbose_name='비고')),
+            ],
+        ),
+        migrations.CreateModel(
             name='ActivityLog',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
