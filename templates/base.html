@@ -9,9 +9,15 @@
   {% block extra_css %}{% endblock %}
 </head>
 <body>
-    <main>
-        {% block content %}{% endblock %}
-    </main>
+  <header>
+    <h1>신주안 인수 가이드</h1>
+  </header>
 
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- ✅ JS 블록 추가 -->
+  {% block extra_js %}{% endblock %}
 </body>
 </html>
