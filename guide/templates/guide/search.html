@@ -162,15 +162,14 @@
 
 {% block extra_js %}
 <script>
-  function showLimitScreen() {
-    document.querySelector(".card.container-narrow").style.display = "none";
+  window.showLimitScreen = function () {
+    document.getElementById("searchScreen").style.display = "none";
     document.getElementById("limitScreen").style.display = "block";
-  }
-  
-  function hideLimitScreen() {
+  };
+  window.hideLimitScreen = function () {
     document.getElementById("limitScreen").style.display = "none";
     document.getElementById("searchScreen").style.display = "block";
-  }
+  };
   
   document.addEventListener("DOMContentLoaded", () => {
     const productSelect = document.getElementById("productSelect");
