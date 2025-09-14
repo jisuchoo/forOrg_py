@@ -32,11 +32,7 @@
         <input type="hidden" name="guide" value="fetal">
         <button type="submit">태아 인수가이드</button>
       </form>
-      <form method="post" action="{% url 'search' %}">
-        {% csrf_token %}
-        <input type="hidden" name="guide" value="limit">
-        <button type="submit">상품별 인수한도</button>
-      </form>
+      <button type="button" onclick="showLimitScreen()">상품별 인수한도</button>
     </div>
   {% else %}
     <!-- ✅ 가이드 선택 후 검색창 -->
