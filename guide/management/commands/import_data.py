@@ -95,7 +95,7 @@ class Command(BaseCommand):
             self.stdout.write(self.style.WARNING("fetal_ins.json 파일을 찾을 수 없습니다."))
 
        # 상품별 인수한도 데이터 Import
-        limit_file = base_dir / "limit.json"
+        limit_file = base_dir / "limits.json"
         if limit_file.exists():
             with open(limit_file, encoding="utf-8") as f:
                 limits = json.load(f)
