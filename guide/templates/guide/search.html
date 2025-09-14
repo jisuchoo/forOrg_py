@@ -224,27 +224,34 @@
       }
     });
 
-    // 플랜 선택 → 연령
+    // 3. 플랜 선택 → 연령구간
     planSelect.addEventListener("change", () => {
       ageSelect.innerHTML = '<option value="">연령구간을 선택하세요</option>';
       ageSelect.disabled = true;
-      tableBody.innerHTML = "";
-
+      resultsDiv.innerHTML = "";
+    
       if (planSelect.value) {
         fetch(`/limits/ages/?product=${productSelect.value}&plan=${planSelect.value}`)
           .then(res => res.json())
           .then(ages => {
+            // ✅ 중복 제거용 Set
+            const seen = new Set();
             ages.forEach(a => {
-              let opt = document.createElement("option");
-              opt.value = Math.floor((a.minAge + a.maxAge) / 2);
-              opt.textContent = `${a.minAge}세 ~ ${a.maxAge}세`;
-              ageSelect.appendChild(opt);
+              const key = `${a.minAge}-${a.maxAge}`;
+              if (!seen.has(key)) {
+                seen.add(key);
+                let opt = document.createElement("option");
+                opt.value = Math.floor((a.minAge + a.maxAge) / 2); // 대표값
+                opt.textContent = `${a.minAge}세 ~ ${a.maxAge}세`;
+                ageSelect.appendChild(opt);
+              }
             });
             ageSelect.disabled = false;
             ageSelectRow.style.display = "block";
           });
       }
     });
+
 
     // 연령 선택 → 결과
     ageSelect.addEventListener("change", () => {
