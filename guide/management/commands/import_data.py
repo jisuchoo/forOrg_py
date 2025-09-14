@@ -106,9 +106,14 @@ class Command(BaseCommand):
                     coverage = str(l.get("coverage") or "").strip()
                     min_age = int(l.get("minAge") or 0)
                     max_age = int(l.get("maxAge") or 0)
-                    amount = int(l.get("amount") or 0)
+        
+                    # ✅ amount 안전하게 처리
+                    raw_amount = str(l.get("amount") or "").replace(",", "").strip()
+                    digits = "".join(ch for ch in raw_amount if ch.isdigit())
+                    amount = int(digits) if digits else 0
+        
                     note = str(l.get("note") or "").strip()
-
+        
                     if product and plan and coverage:
                         Limit.objects.update_or_create(
                             product=product,
@@ -116,10 +121,7 @@ class Command(BaseCommand):
                             coverage=coverage,
                             minAge=min_age,
                             maxAge=max_age,
-                            defaults={
-                                "amount": amount,
-                                "note": note,
-                            }
+                            defaults={"amount": amount, "note": note},
                         )
                         count += 1
                 self.stdout.write(self.style.SUCCESS(f"인수한도 {count}건 Import 완료"))
