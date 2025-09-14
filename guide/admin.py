@@ -1,24 +1,32 @@
-# admin.py
 from django.contrib import admin
-from .models import Employee, Disease, ActivityLog
+from .models import Employee, Disease, Insurance, Fetal, ActivityLog
+
 
 @admin.register(Employee)
 class EmployeeAdmin(admin.ModelAdmin):
     list_display = ("empno", "name")
+    search_fields = ("empno", "name")
+
 
 @admin.register(Disease)
 class DiseaseAdmin(admin.ModelAdmin):
-    list_display = ("name", "health", "general", "simple")  # ✅ 새 필드 반영
-    search_fields = ("name",)
-    list_filter = ()
-    
+    # ✅ 새 구조 반영 (health / general / simple)
+    list_display = ("name", "health", "general", "simple")
+    search_fields = ("name", "health", "general", "simple")
+
+
 @admin.register(Insurance)
 class InsuranceAdmin(admin.ModelAdmin):
     list_display = ("company", "type", "highlight")
+    search_fields = ("company", "type")
+    list_filter = ("type", "highlight")
+
 
 @admin.register(Fetal)
 class FetalAdmin(admin.ModelAdmin):
     list_display = ("disease", "current", "history", "documents")
+    search_fields = ("disease", "current", "history", "documents")
+
 
 @admin.register(ActivityLog)
 class ActivityLogAdmin(admin.ModelAdmin):
