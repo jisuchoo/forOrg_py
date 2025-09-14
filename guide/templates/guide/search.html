@@ -53,13 +53,22 @@
     {% if results %}
       <div class="results">
         {% if guide_type == "chronic" %}
-          {% for d in results %}
+         {% for d in results %}
           <div class="result-card">
             <div class="result-title">{{ d.name }}</div>
             <table class="info-table">
-              <tr><th>건강고지형</th><td style="white-space: pre-line;">{{ d.health|default:"-" }}</td></tr>
-              <tr><th>일반고지형</th><td style="white-space: pre-line;">{{ d.general|default:"-" }}</td></tr>
-              <tr><th>간편고지형</th><td style="white-space: pre-line;">{{ d.simple|default:"-" }}</td></tr>
+              <tr>
+                <th style="width:70px; white-space:pre-line;">건강\n고지</th>
+                <td style="white-space: pre-line;">{{ d.health|default:"-" }}</td>
+              </tr>
+              <tr>
+                <th style="width:70px; white-space:pre-line;">일반\n고지</th>
+                <td style="white-space: pre-line;">{{ d.general|default:"-" }}</td>
+              </tr>
+              <tr>
+                <th style="width:70px; white-space:pre-line;">간편\n고지</th>
+                <td style="white-space: pre-line;">{{ d.simple|default:"-" }}</td>
+              </tr>
             </table>
           </div>
           {% endfor %}
