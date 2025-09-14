@@ -8,6 +8,35 @@ from django.conf import settings
 from .models import Employee, Disease, Insurance, Fetal, Limit
 from .utils import log_activity
 
+def get_products(request):
+    products = Limit.objects.values_list("product", flat=True).distinct()
+    return JsonResponse(list(products), safe=False)
+
+def get_plans(request):
+    product = request.GET.get("product")
+    plans = Limit.objects.filter(product=product).values_list("plan", flat=True).distinct()
+    return JsonResponse(list(plans), safe=False)
+
+def get_ages(request):
+    product = request.GET.get("product")
+    plan = request.GET.get("plan")
+    ages = Limit.objects.filter(product=product, plan=plan).values("minAge", "maxAge")
+    return JsonResponse(list(ages), safe=False)
+
+def get_results(request):
+    product = request.GET.get("product")
+    plan = request.GET.get("plan")
+    age = int(request.GET.get("age", 0))
+
+    qs = Limit.objects.filter(product=product, plan=plan, minAge__lte=age, maxAge__gte=age)
+    data = [
+        {
+            "coverage": l.coverage,
+            "amount": l.amount,
+            "note": l.note or ""
+        } for l in qs
+    ]
+    return JsonResponse(data, safe=False)
 
 # 로그인 뷰
 @csrf_exempt
