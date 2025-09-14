@@ -5,7 +5,7 @@ from django.contrib.auth import logout as auth_logout
 from django.views.decorators.csrf import csrf_exempt
 from django.db import models
 from django.conf import settings
-from .models import Employee, Disease, Insurance, Fetal
+from .models import Employee, Disease, Insurance, Fetal, Limit
 from .utils import log_activity
 
 
@@ -62,13 +62,27 @@ def search_view(request):
                     "SEARCH",
                     f"[태아] 검색어: {query}, 결과 {len(results)}건",
                 )
-            else:
+            elif guide_type == "disease":
                 # 유병자 가이드 검색
                 results = Disease.objects.filter(name__icontains=query)
                 log_activity(
                     request,
                     "SEARCH",
                     f"[유병자] 검색어: {query}, 결과 {len(results)}건",
+                )
+            elif guide_type == "limit":
+                # 인수한도 검색
+                limit_results = Limit.objects.filter(
+                    models.Q(product__icontains=query) |
+                    models.Q(plan__icontains=query) |
+                    models.Q(coverage__icontains=query)
+                ).order_by("product", "plan", "minAge")
+                if limit_results.exists():
+                    max_amount = limit_results.aggregate(models.Max("amount"))["amount__max"]
+                log_activity(
+                    request,
+                    "SEARCH",
+                    f"[인수한도] 검색어: {query}, 결과 {len(limit_results)}건",
                 )
 
     # 보험사 정보
