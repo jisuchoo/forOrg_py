@@ -1,107 +1,4 @@
 {% extends "base.html" %}
-{% block extra_js %}
-<script>
-function showLimitScreen() {
-  document.querySelector(".card.container-narrow").style.display = "none";
-  document.getElementById("limitScreen").style.display = "block";
-}
-
-function hideLimitScreen() {
-  document.getElementById("limitScreen").style.display = "none";
-  document.getElementById("searchScreen").style.display = "block";
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-  const productSelect = document.getElementById("productSelect");
-  const planSelect = document.getElementById("planSelect");
-  const ageSelect = document.getElementById("ageSelect");
-  const ageSelectRow = document.getElementById("ageSelectRow");
-  const resultsDiv = document.getElementById("limitResults");
-  const backBtn = document.getElementById("limitBackBtn");
-
-  // 상품 목록 불러오기
-  fetch("/limits/products/")
-    .then(res => res.json())
-    .then(products => {
-      products.forEach(p => {
-        let opt = document.createElement("option");
-        opt.value = p;
-        opt.textContent = p;
-        productSelect.appendChild(opt);
-      });
-    });
-
-  // 상품 선택 → 플랜
-  productSelect.addEventListener("change", () => {
-    planSelect.innerHTML = '<option value="">플랜을 선택하세요</option>';
-    planSelect.disabled = true;
-    ageSelectRow.style.display = "none";
-    resultsDiv.innerHTML = "";
-
-    if (productSelect.value) {
-      fetch(`/limits/plans/?product=${productSelect.value}`)
-        .then(res => res.json())
-        .then(plans => {
-          plans.forEach(p => {
-            let opt = document.createElement("option");
-            opt.value = p;
-            opt.textContent = p;
-            planSelect.appendChild(opt);
-          });
-          planSelect.disabled = false;
-        });
-    }
-  });
-
-  // 플랜 선택 → 연령구간
-  planSelect.addEventListener("change", () => {
-    ageSelect.innerHTML = '<option value="">연령구간을 선택하세요</option>';
-    ageSelect.disabled = true;
-    resultsDiv.innerHTML = "";
-
-    if (planSelect.value) {
-      fetch(`/limits/ages/?product=${productSelect.value}&plan=${planSelect.value}`)
-        .then(res => res.json())
-        .then(ages => {
-          ages.forEach(a => {
-            let opt = document.createElement("option");
-            opt.value = Math.floor((a.minAge + a.maxAge) / 2); // 대표값
-            opt.textContent = `${a.minAge}세 ~ ${a.maxAge}세`;
-            ageSelect.appendChild(opt);
-          });
-          ageSelect.disabled = false;
-          ageSelectRow.style.display = "block";
-        });
-    }
-  });
-
-  // 연령 선택 → 결과
-  ageSelect.addEventListener("change", () => {
-    resultsDiv.innerHTML = "";
-    if (ageSelect.value) {
-      fetch(`/limits/results/?product=${productSelect.value}&plan=${planSelect.value}&age=${ageSelect.value}`)
-        .then(res => res.json())
-        .then(data => {
-          if (data.length === 0) {
-            resultsDiv.innerHTML = "<div class='hint'>검색 결과가 없습니다.</div>";
-          } else {
-            data.forEach(r => {
-              resultsDiv.innerHTML += `
-                <div class="result-card">
-                  <div class="result-title">${r.coverage}</div>
-                  <table class="info-table">
-                    <tr><th>인수한도</th><td>${r.amount}</td></tr>
-                    ${r.note ? `<tr><th>비고</th><td>${r.note}</td></tr>` : ""}
-                  </table>
-                </div>`;
-            });
-          }
-        });
-    }
-  });
-});
-</script>
-{% endblock %}
 
 {% block content %}
 {% load static %}
@@ -224,7 +121,7 @@ document.addEventListener("DOMContentLoaded", () => {
           </select>
         </div>
     
-        <button id="limitBackBtn" class="secondary" style="margin-top:8px;">뒤로가기</button>
+        <button type="button" onclick="hideLimitScreen()" class="secondary" style="margin-top:8px;">뒤로가기</button>
     
         <div id="limitResults" class="results"></div>
       </div>
@@ -263,6 +160,109 @@ document.addEventListener("DOMContentLoaded", () => {
 </div>
 {% endblock %}
 
+{% block extra_js %}
+<script>
+function showLimitScreen() {
+  document.querySelector(".card.container-narrow").style.display = "none";
+  document.getElementById("limitScreen").style.display = "block";
+}
+
+function hideLimitScreen() {
+  document.getElementById("limitScreen").style.display = "none";
+  document.getElementById("searchScreen").style.display = "block";
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  const productSelect = document.getElementById("productSelect");
+  const planSelect = document.getElementById("planSelect");
+  const ageSelect = document.getElementById("ageSelect");
+  const ageSelectRow = document.getElementById("ageSelectRow");
+  const resultsDiv = document.getElementById("limitResults");
+  const backBtn = document.getElementById("limitBackBtn");
+
+  // 상품 목록 불러오기
+  fetch("/limits/products/")
+    .then(res => res.json())
+    .then(products => {
+      products.forEach(p => {
+        let opt = document.createElement("option");
+        opt.value = p;
+        opt.textContent = p;
+        productSelect.appendChild(opt);
+      });
+    });
+
+  // 상품 선택 → 플랜
+  productSelect.addEventListener("change", () => {
+    planSelect.innerHTML = '<option value="">플랜을 선택하세요</option>';
+    planSelect.disabled = true;
+    ageSelectRow.style.display = "none";
+    resultsDiv.innerHTML = "";
+
+    if (productSelect.value) {
+      fetch(`/limits/plans/?product=${productSelect.value}`)
+        .then(res => res.json())
+        .then(plans => {
+          plans.forEach(p => {
+            let opt = document.createElement("option");
+            opt.value = p;
+            opt.textContent = p;
+            planSelect.appendChild(opt);
+          });
+          planSelect.disabled = false;
+        });
+    }
+  });
+
+  // 플랜 선택 → 연령구간
+  planSelect.addEventListener("change", () => {
+    ageSelect.innerHTML = '<option value="">연령구간을 선택하세요</option>';
+    ageSelect.disabled = true;
+    resultsDiv.innerHTML = "";
+
+    if (planSelect.value) {
+      fetch(`/limits/ages/?product=${productSelect.value}&plan=${planSelect.value}`)
+        .then(res => res.json())
+        .then(ages => {
+          ages.forEach(a => {
+            let opt = document.createElement("option");
+            opt.value = Math.floor((a.minAge + a.maxAge) / 2); // 대표값
+            opt.textContent = `${a.minAge}세 ~ ${a.maxAge}세`;
+            ageSelect.appendChild(opt);
+          });
+          ageSelect.disabled = false;
+          ageSelectRow.style.display = "block";
+        });
+    }
+  });
+
+  // 연령 선택 → 결과
+  ageSelect.addEventListener("change", () => {
+    resultsDiv.innerHTML = "";
+    if (ageSelect.value) {
+      fetch(`/limits/results/?product=${productSelect.value}&plan=${planSelect.value}&age=${ageSelect.value}`)
+        .then(res => res.json())
+        .then(data => {
+          if (data.length === 0) {
+            resultsDiv.innerHTML = "<div class='hint'>검색 결과가 없습니다.</div>";
+          } else {
+            data.forEach(r => {
+              resultsDiv.innerHTML += `
+                <div class="result-card">
+                  <div class="result-title">${r.coverage}</div>
+                  <table class="info-table">
+                    <tr><th>인수한도</th><td>${r.amount}</td></tr>
+                    ${r.note ? `<tr><th>비고</th><td>${r.note}</td></tr>` : ""}
+                  </table>
+                </div>`;
+            });
+          }
+        });
+    }
+  });
+});
+</script>
+{% endblock %}
 
 {% block extra_css %}
 <style>
