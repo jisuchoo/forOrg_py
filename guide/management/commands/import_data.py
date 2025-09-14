@@ -94,31 +94,28 @@ class Command(BaseCommand):
         else:
             self.stdout.write(self.style.WARNING("fetal_ins.json 파일을 찾을 수 없습니다."))
 
-        # 인수한도 데이터 Import
-        limit_file = base_dir / "limits.json"
+       # 상품별 인수한도 데이터 Import
+        limit_file = base_dir / "limit.json"
         if limit_file.exists():
             with open(limit_file, encoding="utf-8") as f:
                 limits = json.load(f)
+                objs = []
                 count = 0
                 for l in limits:
-                    product = str(l.get("product") or "").strip()
-                    plan = str(l.get("plan") or "").strip()
-                    coverage = str(l.get("coverage") or "").strip()
-                    min_age = int(l.get("minAge") or 0)
-                    max_age = int(l.get("maxAge") or 0)
-                    amount = str(l.get("amount") or "").strip()   # ✅ 문자열 그대로 저장
-                    note = str(l.get("note") or "").strip()
-        
-                    if product and plan and coverage:
-                        Limit.objects.update_or_create(
-                            product=product,
-                            plan=plan,
-                            coverage=coverage,
-                            minAge=min_age,
-                            maxAge=max_age,
-                            defaults={"amount": amount, "note": note},
-                        )
-                        count += 1
-                self.stdout.write(self.style.SUCCESS(f"인수한도 {count}건 Import 완료"))
+                    objs.append(Limit(
+                        product=str(l.get("product") or "").strip(),
+                        plan=str(l.get("plan") or "").strip(),
+                        coverage=str(l.get("coverage") or "").strip(),
+                        minAge=int(l.get("minAge") or 0),
+                        maxAge=int(l.get("maxAge") or 0),
+                        amount=str(l.get("amount") or ""),  # ✅ 문자열로 저장
+                        note=str(l.get("note") or ""),
+                    ))
+                    count += 1
+
+                # ✅ 1000개씩 끊어서 bulk insert
+                Limit.objects.bulk_create(objs, batch_size=1000, ignore_conflicts=True)
+
+                self.stdout.write(self.style.SUCCESS(f"상품별 인수한도 {count}건 Import 완료"))
         else:
-            self.stdout.write(self.style.WARNING("limits.json 파일을 찾을 수 없습니다."))
+            self.stdout.write(self.style.WARNING("limit.json 파일을 찾을 수 없습니다."))
