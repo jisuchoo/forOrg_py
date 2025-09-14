@@ -239,13 +239,17 @@
   
     // 4. 연령 선택 → 결과
     ageSelect.addEventListener("change", () => {
-      resultsDiv.innerHTML = "";
+      const tableBody = document.getElementById("limitTableBody");
+      tableBody.innerHTML = ""; // 기존 내용 초기화
+      
       if (ageSelect.value) {
         fetch(`/limits/results/?product=${productSelect.value}&plan=${planSelect.value}&age=${ageSelect.value}`)
           .then(res => res.json())
           .then(data => {
             if (data.length === 0) {
-              resultsDiv.innerHTML = "<div class='hint'>검색 결과가 없습니다.</div>";
+              tableBody.innerHTML = `
+                <tr><td colspan="2" class="hint">검색 결과가 없습니다.</td></tr>
+              `;
             } else {
               data.forEach(r => {
                 const tr = document.createElement("tr");
