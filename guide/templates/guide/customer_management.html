@@ -1,10 +1,23 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="app-title">나의 고객관리</div>
+
 <div class="card" style="margin-bottom: 20px;">
-    <form method="get" style="display: flex; gap: 8px;">
-        <input type="text" name="q" placeholder="성함/생일/전화뒤4자리" value="{{ request.GET.q }}" style="flex: 1; margin: 0; padding: 10px;">
-        <button type="submit" class="bg-gray" style="width: 70px; padding: 10px; margin: 0; font-size: 15px; border-radius: 6px; color: white; border: none;">검색</button>
+    <form method="get" id="filterForm">
+        <div style="margin-bottom: 12px; text-align: left;">
+            <label style="font-size: 14px; font-weight: bold; color: #666;">📅 조회 월 선택</label>
+            <select name="month" onchange="document.getElementById('filterForm').submit();" 
+                    style="width: 100%; padding: 12px; margin-top: 5px; border-radius: 6px; border: 1px solid #ddd; font-size: 16px;">
+                {% for m in month_list %}
+                <option value="{{ m }}" {% if m == selected_month %}selected{% endif %}>{{ m }} 등록 고객</option>
+                {% endfor %}
+            </select>
+        </div>
+        
+        <div style="display: flex; gap: 8px;">
+            <input type="text" name="q" placeholder="성함/생일/전화뒤4자리" value="{{ q }}" style="flex: 1; margin: 0; padding: 10px;">
+            <button type="submit" class="bg-gray" style="width: 70px; padding: 10px; margin: 0; font-size: 15px; border-radius: 6px; color: white; border: none;">검색</button>
+        </div>
     </form>
 </div>
 
@@ -13,11 +26,16 @@
     <div style="font-weight: bold; font-size: 1.2rem; color: var(--hw-orange);">{{ m.name }}</div>
     <div style="margin: 8px 0; font-size: 0.95rem; color: #555;">🎂 {{ m.birthdate }} | 📞 {{ m.contact }}</div>
     <div style="font-size: 0.85rem; color: #999; border-top: 1px solid #f0f0f0; padding-top: 8px;">등록: {{ m.created_at|date:"Y.m.d H:i" }}</div>
-    <a href="{% url 'maternal_edit' m.pk %}" style="position: absolute; top: 20px; right: 20px; background: #f0f0f0; padding: 5px 12px; border-radius: 4px; font-size: 13px; color: #666; text-decoration: none;">수정</a>
+    
+    <a href="{% url 'maternal_edit' m.pk %}" 
+       style="position: absolute; top: 20px; right: 20px; background: #f0f0f0; padding: 5px 12px; border-radius: 4px; font-size: 13px; color: #666; text-decoration: none;">
+       수정
+    </a>
 </div>
 {% empty %}
-<div class="card" style="color: #999;">검색 결과가 없습니다.</div>
+<div class="card" style="color: #999;">조회된 산모 정보가 없습니다.</div>
 {% endfor %}
 
 <a href="{% url 'maternal_menu' %}" class="nav-home">뒤로 가기</a>
+<a href="{% url 'home' %}" class="nav-home" style="margin-top: 10px;">🏠 메인 메뉴로 이동</a>
 {% endblock %}
