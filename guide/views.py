@@ -22,6 +22,24 @@ def login_view(request):
             return render(request, "guide/login.html", {"error": "사번 또는 비밀번호가 올바르지 않습니다."})
     return render(request, "guide/login.html")
 
+# 비밀번호 변경 기능 추가
+def password_change_view(request):
+    if request.method == "POST":
+        empno = request.POST.get("empno")
+        old_password = request.POST.get("old_password")
+        new_password = request.POST.get("new_password")
+        
+        try:
+            employee = Employee.objects.get(empno=empno, password=old_password) #
+            employee.password = new_password
+            employee.save()
+            log_activity(request, "PWD_CHANGE", f"비밀번호 변경 성공: {empno}")
+            return render(request, "guide/login.html", {"message": "비밀번호가 성공적으로 변경되었습니다. 다시 로그인하세요."})
+        except Employee.DoesNotExist:
+            return render(request, "guide/password_change.html", {"error": "사번 또는 기존 비밀번호가 일치하지 않습니다."})
+            
+    return render(request, "guide/password_change.html")
+
 def logout_view(request):
     request.session.flush()
     return redirect("login")
