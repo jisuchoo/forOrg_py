@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>산모 검색</h2>
+<form method="post" style="margin-top: 20px; display: flex; gap: 10px;">
+    {% csrf_token %}
+    <input type="text" name="name" class="form-control" placeholder="산모이름" required style="flex: 1;">
+    <input type="text" name="val" class="form-control" placeholder="생년월일 또는 전화번호 뒤 4자리" required style="flex: 2;">
+    <button type="submit" style="padding: 0 20px; background-color: #333; color: white; border: none; border-radius: 5px;">검색</button>
+</form>
+
+{% if results %}
+<table>
+    <thead>
+        <tr>
+            <th>산모이름</th>
+            <th>생년월일</th>
+            <th>연락처(뒤4자리)</th>
+            <th>등록 직원명</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for res in results %}
+        <tr>
+            <td>{{ res.name }}</td>
+            <td>{{ res.birthdate }}</td>
+            <td>****-{{ res.contact|slice:"-4:" }}</td>
+            <td>{{ res.registered_by.name }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% elif request.method == "POST" %}
+<p style="text-align: center; margin-top: 30px; color: #ff6b6b;">검색 결과가 없습니다.</p>
+{% endif %}
+<div style="text-align: center; margin-top: 20px;">
+    <a href="{% url 'maternal_menu' %}" style="color: #666;">뒤로 가기</a>
+</div>
+{% endblock %}
