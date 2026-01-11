@@ -2,8 +2,8 @@
 {% block object-tools-items %}
     {{ block.super }}
     <li>
-        <a href="./export-excel/{{ request.GET.urlencode|safe }}" class="addlink">
-            📁 현재 필터링된 전체 리스트 엑셀 다운로드
+        <a href="./export-excel-all/{{ request.GET.urlencode|safe }}" class="addlink" style="background-color: #27ae60;">
+            📁 필터링된 전체 리스트 엑셀 다운로드
         </a>
     </li>
 {% endblock %}
