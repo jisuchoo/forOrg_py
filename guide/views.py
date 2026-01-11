@@ -24,6 +24,26 @@ def home_view(request):
     if not request.session.get("user_id"): return redirect("login")
     return render(request, "guide/home.html")
 
+# 보험사 별 청구하기 뷰 추가
+def insurance_claim_view(request):
+    if not request.session.get("user_id"): return redirect("login")
+    
+    hanwha = Insurance.objects.filter(highlight=True).first()
+    insurances = Insurance.objects.filter(highlight=False).order_by(
+        Case(
+            When(type="손해보험", then=0),
+            When(type="생명보험", then=1),
+            When(type="공제", then=2),
+            default=3,
+            output_field=IntegerField(),
+        ),
+        "company",
+    )
+    return render(request, "guide/insurance_claims.html", {
+        "hanwha": hanwha,
+        "insurances": insurances
+    })
+
 # --- 아인병원 산모관리 ---
 def maternal_menu(request):
     if not request.session.get("user_id"): return redirect("login")
@@ -52,19 +72,32 @@ def maternal_search(request):
         ).select_related('registered_by')
     return render(request, "guide/maternal_search.html", {"results": results})
 
+# 고객 관리 (월별 필터 포함)
 def customer_management(request):
-    """나의 고객관리: 카드형 디자인으로 리스트 노출 및 검색"""
     user_id = request.session.get("user_id")
     if not user_id: return redirect("login")
     
-    maternals = Maternal.objects.filter(registered_by_id=user_id)
+    now = timezone.now()
+    selected_month = request.GET.get('month', now.strftime('%Y-%m'))
+    year, month = map(int, selected_month.split('-'))
+    
+    maternals = Maternal.objects.filter(
+        registered_by_id=user_id,
+        created_at__year=year,
+        created_at__month=month
+    )
+    
     q = request.GET.get("q", "")
     if q:
-        maternals = maternals.filter(
-            Q(name__icontains=q) | Q(birthdate__icontains=q) | Q(contact__endswith=q)
-        )
+        maternals = maternals.filter(Q(name__icontains=q) | Q(birthdate__icontains=q) | Q(contact__endswith=q))
+        
+    month_list = [f"{(now.year + (now.month - i - 1) // 12)}-{(now.month - i - 1) % 12 + 1:02d}" for i in range(12)]
+    
     return render(request, "guide/customer_management.html", {
-        "maternals": maternals.order_by("-created_at")
+        "maternals": maternals.order_by("-created_at"),
+        "month_list": month_list,
+        "selected_month": selected_month,
+        "q": q
     })
 
 def maternal_edit(request, pk):
