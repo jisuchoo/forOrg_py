@@ -3,15 +3,17 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>한화손보 아인병원 시스템</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>한화손해보험 아인병원</title>
     <link rel="stylesheet" href="{% static 'guide/style.css' %}">
 </head>
 <body>
+    {% if request.session.user_id %}
     <div class="user-info">
         <strong>{{ request.session.user_name }}</strong> 님 접속중
         <a href="{% url 'logout' %}" class="logout">로그아웃</a>
     </div>
-    {% block content %}{% endblock %}
+    {% endif %}
+    <main>{% block content %}{% endblock %}</main>
 </body>
 </html>
