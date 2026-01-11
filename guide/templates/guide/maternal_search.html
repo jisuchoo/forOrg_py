@@ -4,19 +4,17 @@
 <div class="card">
     <form method="post">
         {% csrf_token %}
-        <input type="text" name="name" placeholder="산모 성함" required>
-        <input type="text" name="val" placeholder="생년월일 또는 전화 뒤 4자리" required>
-        <button type="submit">검색하기</button>
+        <input type="text" name="name" placeholder="산모 이름" required>
+        <input type="text" name="val" placeholder="생년월일 또는 연락처 뒤 4자리" required>
+        <button type="submit">검색</button>
     </form>
 </div>
 
-{% if results %}
-    {% for res in results %}
-    <div class="result-card">
-        <h3 style="margin: 0; color: var(--hw-orange);">{{ res.name }}</h3>
-        <p style="margin: 5px 0;">생일: {{ res.birthdate }} | 연락처: ****-{{ res.contact|slice:"-4:" }}</p>
-        <p class="meta">담당 직원: {{ res.registered_by.name }}</p>
-    </div>
-    {% endfor %}
-{% endif %}
+{% for res in results %}
+<div class="result-card">
+    <div style="font-weight: bold; font-size: 1.1em;">{{ res.name }}</div>
+    <div class="meta">생년월일: {{ res.birthdate }} | 연락처: ****-{{ res.contact|slice:"-4:" }}</div>
+    <div class="meta" style="color: #ff7f00;">등록직원: {{ res.registered_by.name }}</div>
+</div>
+{% endfor %}
 {% endblock %}
