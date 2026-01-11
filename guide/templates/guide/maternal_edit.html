@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="app-title">산모 정보 수정</div>
+
+<div class="card">
+    <form method="post">
+        {% csrf_token %}
+        <div style="text-align: left; font-size: 14px; color: #666; margin-bottom: 5px;">산모 성함</div>
+        <input type="text" name="name" value="{{ maternal.name }}" required>
+        
+        <div style="text-align: left; font-size: 14px; color: #666; margin-bottom: 5px; margin-top: 10px;">생년월일 (6자리)</div>
+        <input type="text" name="birthdate" value="{{ maternal.birthdate }}" required>
+        
+        <div style="text-align: left; font-size: 14px; color: #666; margin-bottom: 5px; margin-top: 10px;">연락처</div>
+        <input type="text" name="contact" value="{{ maternal.contact }}" required>
+        
+        <button type="submit">수정 완료</button>
+    </form>
+    <div style="margin-top: 15px;">
+        <a href="{% url 'customer_management' %}" style="color: #999; font-size: 14px; text-decoration: none;">취소하고 돌아가기</a>
+    </div>
+</div>
+{% endblock %}
