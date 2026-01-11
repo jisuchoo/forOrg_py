@@ -1,6 +1,7 @@
 :root { 
     --hw-orange: #f37321; --hw-gray: #58595b; 
     --btn-blue: #3498db; --btn-green: #2ecc71; --btn-purple: #9b59b6;
+    --btn-claim: #e67e22; /* 청구 메뉴용 */
 }
 body { margin: 0; padding: 0; font-family: "Noto Sans KR", sans-serif; background-color: #f9f9f9; color: #333; font-size: 18px; }
 .app-title { font-size: 24px; font-weight: bold; text-align: center; margin: 20px 0; color: var(--hw-orange); }
@@ -11,8 +12,13 @@ body { margin: 0; padding: 0; font-family: "Noto Sans KR", sans-serif; backgroun
 
 /* 공통 카드 및 버튼 */
 .card { background: #fff; max-width: 420px; margin: 0 auto 20px; padding: 20px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-.btn-main { width: 100%; padding: 15px; border: none; border-radius: 8px; color: #fff; font-size: 18px; font-weight: bold; cursor: pointer; margin-bottom: 12px; transition: opacity 0.2s; text-align: center; display: block; text-decoration: none; box-sizing: border-box; }
-.btn-main:active { opacity: 0.8; }
+/* 메뉴 버튼 공통 */
+.btn-main { 
+    width: 100%; padding: 18px; border: none; border-radius: 12px; color: #fff; 
+    font-size: 19px; font-weight: bold; cursor: pointer; margin-bottom: 14px; 
+    display: block; text-decoration: none; box-sizing: border-box; text-align: center;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
 
 /* 메뉴 컬러 */
 .bg-orange { background-color: var(--hw-orange); }
@@ -34,5 +40,9 @@ button:hover { background-color: #e56e00; }
 .contact-item { display: flex; align-items: center; gap: 6px; font-size: 15px; margin: 2px 0; }
 .insurance-category h3 { font-size: 17px; font-weight: 700; margin: 14px 0 8px; border-bottom: 2px solid #ff7f00; padding-bottom: 4px; }
 
-/* 하단 홈 버튼 */
-.nav-home { display: block; text-align: center; margin-top: 20px; color: #888; text-decoration: none; font-size: 15px; }
+/* 하단 홈 버튼 스타일 */
+.nav-home { 
+    display: block; text-align: center; margin: 35px auto 20px; color: #777; 
+    text-decoration: none; font-size: 16px; font-weight: bold; padding: 12px;
+    max-width: 180px; border: 1px solid #ddd; border-radius: 30px; background: #fff;
+}
