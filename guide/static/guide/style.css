@@ -1,64 +1,16 @@
-/* 한화 브랜드 컬러 및 기본 설정 */
-:root {
-    --hw-orange: #f37321;
-    --hw-gray: #58595b;
-    --bg-light: #f8f9fa;
-    --white: #ffffff;
-    --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-body {
-    margin: 0; padding: 0;
-    font-family: "Noto Sans KR", Arial, sans-serif;
-    background-color: #f9f9f9; color: #333; font-size: 18px;
-}
-
-.app-title {
-    font-size: 24px; font-weight: bold; text-align: center; margin: 20px 0;
-}
-
-.card {
-    background: #fff; max-width: 420px; margin: 0 auto; padding: 20px;
-    border-radius: 8px; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); text-align: center;
-}
-
-input { width: 90%; padding: 12px; margin: 8px 0; border: 1px solid #ccc; border-radius: 6px; font-size: 16px; }
-
-button {
-    width: 95%; padding: 12px; background-color: #ff7f00; border: none;
-    border-radius: 6px; color: #fff; font-size: 18px; font-weight: bold; cursor: pointer; margin-top: 10px;
-}
+:root { --hw-orange: #f37321; --hw-gray: #58595b; }
+body { margin: 0; padding: 0; font-family: "Noto Sans KR", sans-serif; background-color: #f9f9f9; color: #333; font-size: 18px; }
+.app-title { font-size: 24px; font-weight: bold; text-align: center; margin: 20px 0; color: var(--hw-orange); }
+.card { background: #fff; max-width: 420px; margin: 20px auto; padding: 20px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); text-align: center; }
+input { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ccc; border-radius: 6px; font-size: 16px; box-sizing: border-box; }
+button { width: 100%; padding: 12px; background-color: #ff7f00; border: none; border-radius: 6px; color: #fff; font-size: 18px; font-weight: bold; cursor: pointer; margin-top: 10px; }
 button:hover { background-color: #e56e00; }
-
-.error { color: #d9534f; margin-top: 10px; font-weight: bold; }
-.meta { font-size: 14px; color: #666; margin-top: 6px; }
-
-.result-card {
-    border: 1px solid #ddd; background: #fff; border-radius: 6px; padding: 15px; margin: 12px auto; max-width: 600px; text-align: center;
-}
-
-.insurance-card {
-    background: #fff; border: 1px solid #ddd; border-radius: 10px; padding: 14px; margin: 12px auto;
-    text-align: center; max-width: 500px; box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-    display: flex; flex-direction: column; align-items: flex-start; font-size: 16px;
-}
-
-.insurance-card.hanwha { border: 2px solid #ff7f00; box-shadow: 0 3px 8px rgba(255,127,0,0.2); }
-.insurance-card h4 { margin: 0 0 8px 0; font-size: 18px; font-weight: 700; color: #222; }
-
-.contact-item { display: flex; align-items: center; gap: 6px; font-size: 15px; margin: 2px 0; white-space: nowrap; }
-.contact-item a { color: #0066cc; font-weight: 600; text-decoration: none; }
-.contact-item a:hover { text-decoration: underline; }
-
-.insurance-category h3 {
-    font-size: 17px; font-weight: 700; margin: 14px 0 8px; border-bottom: 2px solid #ff7f00; padding-bottom: 4px; color: #222;
-}
-
+.result-card { border: 1px solid #ddd; background: #fff; border-radius: 6px; padding: 15px; margin: 12px auto; max-width: 600px; text-align: center; }
 .user-info { background: #eee; padding: 10px; font-size: 16px; text-align: center; }
-.logout { margin-left: 10px; padding: 6px 12px; font-size: 14px; }
+.logout { margin-left: 10px; padding: 6px 12px; font-size: 14px; text-decoration: none; color: #666; }
 
-@media (max-width: 768px) {
-    .insurance-card { padding: 12px; font-size: 14px; }
-    .insurance-card h4 { font-size: 16px; }
-    .contact-item { font-size: 13px; flex-direction: column; align-items: flex-start; gap: 2px; }
-}
+/* 보험사 카드 */
+.insurance-card { background: #fff; border: 1px solid #ddd; border-radius: 10px; padding: 14px; margin: 12px auto; max-width: 500px; display: flex; flex-direction: column; align-items: flex-start; }
+.insurance-card.hanwha { border: 2px solid #ff7f00; box-shadow: 0 3px 8px rgba(255,127,0,0.2); }
+.contact-item { display: flex; align-items: center; gap: 6px; font-size: 15px; margin: 2px 0; }
+.insurance-category h3 { font-size: 17px; font-weight: 700; margin: 14px 0 8px; border-bottom: 2px solid #ff7f00; padding-bottom: 4px; }
