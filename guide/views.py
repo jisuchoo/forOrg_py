@@ -56,15 +56,37 @@ def maternal_search(request):
     return render(request, "guide/maternal_search.html", {"results": results})
 
 def customer_management(request):
+    """나의 고객관리: 카드형 디자인으로 리스트 노출 및 검색"""
     user_id = request.session.get("user_id")
     if not user_id: return redirect("login")
+    
     maternals = Maternal.objects.filter(registered_by_id=user_id)
     q = request.GET.get("q", "")
     if q:
         maternals = maternals.filter(
             Q(name__icontains=q) | Q(birthdate__icontains=q) | Q(contact__endswith=q)
         )
-    return render(request, "guide/customer_management.html", {"maternals": maternals.order_by("-created_at")})
+    return render(request, "guide/customer_management.html", {
+        "maternals": maternals.order_by("-created_at")
+    })
+
+def maternal_edit(request, pk):
+    """산모 정보 수정: 본인이 등록한 데이터만 가능"""
+    user_id = request.session.get("user_id")
+    if not user_id: return redirect("login")
+    
+    # 수정 대상 불러오기 (본인 고객이 아니면 404 에러)
+    maternal = get_object_or_404(Maternal, pk=pk, registered_by_id=user_id)
+    
+    if request.method == "POST":
+        maternal.name = request.POST.get("name")
+        maternal.birthdate = request.POST.get("birthdate")
+        maternal.contact = request.POST.get("contact")
+        maternal.save()
+        log_activity(request, "EDIT", f"산모 정보 수정: {maternal.name}")
+        return redirect("customer_management")
+        
+    return render(request, "guide/maternal_edit.html", {"maternal": maternal})
 
 # --- 인수 가이드 검색 ---
 def search_view(request):
