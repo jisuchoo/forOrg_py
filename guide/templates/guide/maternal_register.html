@@ -1,23 +1,14 @@
 {% extends "base.html" %}
 {% block content %}
-<h2>산모 등록</h2>
-<form method="post" style="margin-top: 20px;">
-    {% csrf_token %}
-    <div class="form-group">
-        <label>산모 이름</label>
-        <input type="text" name="name" class="form-control" placeholder="이름 입력" required>
-    </div>
-    <div class="form-group">
-        <label>생년월일</label>
-        <input type="text" name="birthdate" class="form-control" placeholder="예: 900101" required>
-    </div>
-    <div class="form-group">
-        <label>연락처</label>
-        <input type="text" name="contact" class="form-control" placeholder="예: 01012345678" required>
-    </div>
-    <button type="submit" class="btn-submit">등록하기</button>
-</form>
-<div style="text-align: center; margin-top: 20px;">
-    <a href="{% url 'maternal_menu' %}" style="color: #666;">취소 및 뒤로 가기</a>
+<div class="app-title">산모 정보 등록</div>
+<div class="card">
+    <form method="post">
+        {% csrf_token %}
+        <input type="text" name="name" placeholder="산모 성함" required>
+        <input type="text" name="birthdate" placeholder="생년월일 (예: 900101)" required>
+        <input type="text" name="contact" placeholder="연락처 (예: 01012345678)" required>
+        <button type="submit">등록 완료</button>
+    </form>
+    <p class="meta">등록하신 정보는 본인의 고객 리스트에 저장됩니다.</p>
 </div>
 {% endblock %}
