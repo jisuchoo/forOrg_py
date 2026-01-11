@@ -1,12 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
-<h2 style="text-align: center; margin-bottom: 30px;">아인병원 산모관리</h2>
-<div class="menu-container">
-    <a href="{% url 'maternal_register' %}" class="btn-menu">산모 등록</a>
-    <a href="{% url 'maternal_search' %}" class="btn-menu">산모 검색</a>
-    <a href="{% url 'customer_management' %}" class="btn-menu">고객관리</a>
-</div>
-<div style="text-align: center; margin-top: 20px;">
-    <a href="{% url 'home' %}" style="color: #666;">뒤로 가기</a>
+<div class="app-title">아인병원 산모관리</div>
+<div class="menu-grid">
+    <a href="{% url 'maternal_register' %}" class="btn-menu">✍️ 산모 등록</a>
+    <a href="{% url 'maternal_search' %}" class="btn-menu">🔍 산모 검색</a>
+    <a href="{% url 'customer_management' %}" class="btn-menu">📁 나의 고객관리</a>
+    <a href="{% url 'home' %}" style="text-align: center; margin-top: 20px; color: #666; text-decoration: none;">🏠 메인으로</a>
 </div>
 {% endblock %}
