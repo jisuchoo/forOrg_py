@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>산모 등록</h2>
+<form method="post" style="margin-top: 20px;">
+    {% csrf_token %}
+    <div class="form-group">
+        <label>산모 이름</label>
+        <input type="text" name="name" class="form-control" placeholder="이름 입력" required>
+    </div>
+    <div class="form-group">
+        <label>생년월일</label>
+        <input type="text" name="birthdate" class="form-control" placeholder="예: 900101" required>
+    </div>
+    <div class="form-group">
+        <label>연락처</label>
+        <input type="text" name="contact" class="form-control" placeholder="예: 01012345678" required>
+    </div>
+    <button type="submit" class="btn-submit">등록하기</button>
+</form>
+<div style="text-align: center; margin-top: 20px;">
+    <a href="{% url 'maternal_menu' %}" style="color: #666;">취소 및 뒤로 가기</a>
+</div>
+{% endblock %}
