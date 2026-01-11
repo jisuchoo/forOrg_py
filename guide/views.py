@@ -72,27 +72,39 @@ def maternal_search(request):
         ).select_related('registered_by')
     return render(request, "guide/maternal_search.html", {"results": results})
 
-# 고객 관리 (월별 필터 포함)
+# 나의 고객관리 (이번 달 기본 노출 및 월별 필터)
 def customer_management(request):
     user_id = request.session.get("user_id")
     if not user_id: return redirect("login")
     
     now = timezone.now()
+    # 선택된 월 가져오기 (기본값: 현재 년-월)
     selected_month = request.GET.get('month', now.strftime('%Y-%m'))
-    year, month = map(int, selected_month.split('-'))
     
-    maternals = Maternal.objects.filter(
-        registered_by_id=user_id,
-        created_at__year=year,
-        created_at__month=month
-    )
+    # 본인이 등록한 산모 필터링
+    maternals = Maternal.objects.filter(registered_by_id=user_id)
     
+    # 월별 필터 적용
+    try:
+        year, month = map(int, selected_month.split('-'))
+        maternals = maternals.filter(created_at__year=year, created_at__month=month)
+    except:
+        pass
+
+    # 이름/생일/번호 검색 필터
     q = request.GET.get("q", "")
     if q:
-        maternals = maternals.filter(Q(name__icontains=q) | Q(birthdate__icontains=q) | Q(contact__endswith=q))
-        
-    month_list = [f"{(now.year + (now.month - i - 1) // 12)}-{(now.month - i - 1) % 12 + 1:02d}" for i in range(12)]
-    
+        maternals = maternals.filter(
+            Q(name__icontains=q) | Q(birthdate__icontains=q) | Q(contact__endswith=q)
+        )
+
+    # 최근 12개월 리스트 생성 (셀렉트 박스용)
+    month_list = []
+    for i in range(12):
+        m = (now.month - i - 1) % 12 + 1
+        y = now.year + (now.month - i - 1) // 12
+        month_list.append(f"{y}-{m:02d}")
+
     return render(request, "guide/customer_management.html", {
         "maternals": maternals.order_by("-created_at"),
         "month_list": month_list,
