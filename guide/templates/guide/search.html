@@ -95,35 +95,6 @@
       <div class="hint">검색 결과가 없습니다.</div>
     {% endif %}
   {% endif %}
-
-  <!-- 보험사 목록 -->
-  <div class="insurance-section">
-    {% if hanwha %}
-      <div class="insurance-card hanwha">
-        <h3>{{ hanwha.company }}</h3>
-        <div class="contact-item">📞 콜센터: <a href="tel:{{ hanwha.callCenter|cut:'-' }}">{{ hanwha.callCenter }}</a></div>
-        <div class="contact-item">📄 보험금청구: {{ hanwha.fax }}</div>
-        <div class="contact-item">📚 <a href="{{ hanwha.termsUrl }}" target="_blank" rel="noopener">공시실 바로가기</a></div>
-      </div>
-    {% endif %}
-
-    {% regroup insurances by type as grouped %}
-    {% for group in grouped %}
-      <div class="insurance-category">
-        <h3>{{ group.grouper }}</h3>
-        <div class="insurance-grid">
-          {% for ins in group.list %}
-            <div class="insurance-card">
-              <h4>{{ ins.company }}</h4>
-              <div class="contact-item">📞 콜센터: <a href="tel:{{ ins.callCenter|cut:'-' }}">{{ ins.callCenter }}</a></div>
-              <div class="contact-item">📄 보험금청구:<br>{{ ins.fax }}</div>
-              <div class="contact-item"><span>📚<a href="{{ ins.termsUrl }}" target="_blank" rel="noopener">공시실 바로가기</a></span></div>
-            </div>
-          {% endfor %}
-        </div>
-      </div>
-    {% endfor %}
-  </div>
 </div>
 
 <!-- ✅ 상품별 인수한도 화면 (분리) -->
