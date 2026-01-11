@@ -1,6 +1,12 @@
-from django.shortcuts import render, redirect
-from django.db.models import Q
+import os
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth import logout as auth_logout
+from django.views.decorators.csrf import csrf_exempt
+from django.db import models
+from django.db.models import Q, Case, When, IntegerField  # ← 오류 해결을 위해 Case, When, IntegerField 추가
 from django.http import JsonResponse
+from django.utils import timezone
+from datetime import datetime
 from .models import Employee, Disease, Insurance, Fetal, Limit, Maternal
 from .utils import log_activity
 
