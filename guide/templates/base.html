@@ -3,21 +3,43 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <title>{% block title %}신주안 인수 가이드{% endblock %}</title>
+  <title>{% block title %}신주안 인수 가이드 및 산모관리{% endblock %}</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="{% static 'guide/style.css' %}">
+  <style>
+    /* 메인 메뉴 및 버튼 스타일 추가 */
+    .menu-container { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 20px; }
+    .btn-menu { display: flex; align-items: center; justify-content: center; height: 100px; 
+                background-color: #f8f9fa; border: 2px solid #dee2e6; border-radius: 10px; 
+                text-decoration: none; color: #333; font-weight: bold; font-size: 1.1em; text-align: center; }
+    .btn-menu:hover { background-color: #e9ecef; border-color: #adb5bd; }
+    .btn-highlight { background-color: #ff6b6b; color: white; border: none; }
+    .btn-highlight:hover { background-color: #fa5252; }
+    .form-group { margin-bottom: 15px; }
+    .form-group label { display: block; margin-bottom: 5px; font-weight: bold; }
+    .form-control { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box; }
+    .btn-submit { width: 100%; padding: 12px; background-color: #4dabf7; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 1em; }
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+    th, td { border: 1px solid #ddd; padding: 12px; text-align: center; }
+    th { background-color: #f1f3f5; }
+  </style>
   {% block extra_css %}{% endblock %}
 </head>
 <body>
-  <header>
+  <header style="background-color: #f8f9fa; padding: 15px; border-bottom: 1px solid #dee2e6; text-align: center;">
     <h1>신주안 인수 가이드</h1>
+    {% if request.session.user_name %}
+      <div style="margin-top: 10px;">
+        <strong>{{ request.session.user_name }}</strong> 님 환영합니다. | 
+        <a href="{% url 'logout' %}" style="color: #666; font-size: 0.9em;">로그아웃</a>
+      </div>
+    {% endif %}
   </header>
 
-  <main>
+  <main style="max-width: 800px; margin: 0 auto; padding: 20px;">
     {% block content %}{% endblock %}
   </main>
 
-  <!-- ✅ JS 블록 추가 -->
   {% block extra_js %}{% endblock %}
 </body>
 </html>
