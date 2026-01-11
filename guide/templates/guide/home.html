@@ -1,16 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="app-title">전체 메뉴</div>
-<div style="display: flex; flex-direction: column; align-items: center; gap: 15px; padding: 20px;">
-    <a href="{% url 'search' %}?guide=chronic" style="width: 100%; max-width: 420px; text-decoration: none;">
-        <button type="button" style="background-color: #58595b;">🛡️ 건강/일반/간편 인수가이드</button>
-    </a>
-    <a href="{% url 'search' %}?guide=fetal" style="width: 100%; max-width: 420px; text-decoration: none;">
-        <button type="button" style="background-color: #58595b;">👶 태아 인수가이드</button>
-    </a>
-    <button type="button" style="background-color: #58595b; max-width: 420px;">📊 상품별 인수한도</button>
-    <a href="{% url 'maternal_menu' %}" style="width: 100%; max-width: 420px; text-decoration: none;">
-        <button type="button">🏥 아인병원 산모관리</button>
-    </a>
+<div class="app-title">메인 메뉴</div>
+<div style="max-width: 420px; margin: 0 auto; padding: 0 20px;">
+    <a href="{% url 'search' %}?guide=chronic"><button style="background-color: var(--hw-gray);">🛡️ 건강/일반/간편 인수가이드</button></a>
+    <a href="{% url 'search' %}?guide=fetal"><button style="background-color: var(--hw-gray);">👶 태아 인수가이드</button></a>
+    <button style="background-color: var(--hw-gray);">📊 상품별 인수한도</button>
+    <a href="{% url 'maternal_menu' %}"><button>🏥 아인병원 산모관리</button></a>
 </div>
 {% endblock %}
