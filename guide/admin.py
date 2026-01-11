@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.http import HttpResponse
 from .models import Employee, Disease, Insurance, Fetal, ActivityLog, Maternal, Limit
 
 @admin.register(Employee)
@@ -6,17 +7,46 @@ class EmployeeAdmin(admin.ModelAdmin):
     list_display = ("empno", "name")
     search_fields = ("empno", "name")
 
-# --- 산모 DB 관리 기능 추가 ---
+# --- 산모 DB 관리 기능 (월별 조회 및 엑셀 다운로드 추가) ---
 @admin.register(Maternal)
 class MaternalAdmin(admin.ModelAdmin):
-    # 관리자 목록에 보여줄 항목들
     list_display = ("name", "birthdate", "contact", "registered_by", "created_at")
-    # 이름, 연락처, 등록한 직원의 이름으로 검색 가능
     search_fields = ("name", "contact", "registered_by__name")
-    # 등록 일시 및 사번별로 필터링해서 보기
-    list_filter = ("created_at", "registered_by")
-    # 등록 일시 기준 최신순 정렬
+    list_filter = ("registered_by", "created_at")
+    
+    # 1. 등록 월 별 조회를 위한 날짜 계층 메뉴 추가
+    # 관리자 페이지 상단에 연도/월별로 이동할 수 있는 메뉴가 생성됩니다.
+    date_hierarchy = 'created_at'
+    
     ordering = ("-created_at",)
+
+    # 2. 엑셀 다운로드 기능 정의
+    actions = ["export_as_excel"]
+
+    def export_as_excel(self, request, queryset):
+        import openpyxl # 엑셀 생성을 위한 라이브러리
+        
+        response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+        response['Content-Disposition'] = 'attachment; filename=maternal_list.xlsx'
+        
+        wb = openpyxl.Workbook()
+        ws = wb.active
+        ws.title = "산모 리스트"
+        
+        # 엑셀 상단 헤더 작성
+        headers = ['산모이름', '생년월일', '연락처', '등록직원', '등록일시']
+        ws.append(headers)
+        
+        # 필터링되거나 선택된 데이터 작성
+        for obj in queryset:
+            reg_employee = obj.registered_by.name if obj.registered_by else "정보없음"
+            created_at_str = obj.created_at.strftime('%Y-%m-%d %H:%M') if obj.created_at else ""
+            ws.append([obj.name, obj.birthdate, obj.contact, reg_employee, created_at_str])
+        
+        wb.save(response)
+        return response
+    
+    export_as_excel.short_description = "선택된 산모 데이터 엑셀 다운로드"
 
 @admin.register(Disease)
 class DiseaseAdmin(admin.ModelAdmin):
