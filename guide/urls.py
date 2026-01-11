@@ -10,6 +10,7 @@ urlpatterns = [
     # 아인병원 산모관리
     path("maternal/", views.maternal_menu, name="maternal_menu"),
     path("maternal/register/", views.maternal_register, name="maternal_register"),
+    path("maternal/claims/", views.insurance_claim_view, name="insurance_claims"), # 추가
     path("maternal/search/", views.maternal_search, name="maternal_search"),
     path("maternal/manage/", views.customer_management, name="customer_management"),
     path("maternal/edit/<int:pk>/", views.maternal_edit, name="maternal_edit"), # 수정 경로 추가
