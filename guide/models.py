@@ -9,7 +9,18 @@ class Employee(models.Model):
     def __str__(self):
         return f"{self.empno} - {self.name or '이름없음'}"
 
+# --- 산모 정보 모델 추가 ---
+class Maternal(models.Model):
+    name = models.CharField("산모이름", max_length=100)
+    birthdate = models.CharField("생년월일", max_length=10) # 예: 900101
+    contact = models.CharField("연락처", max_length=20)
+    # 등록한 직원을 연결 (로그인한 사번 기반)
+    registered_by = models.ForeignKey(Employee, on_delete=models.CASCADE, verbose_name="등록 직원")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="등록 일시")
 
+    def __str__(self):
+        return self.name
+        
 class Disease(models.Model):
     name = models.CharField(max_length=255, unique=True, verbose_name="질병명")
     health = models.TextField(blank=True, null=True, verbose_name="건강고지형")
