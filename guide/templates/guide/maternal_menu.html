@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="app-title">아인병원 산모관리</div>
-<div style="display: flex; flex-direction: column; align-items: center; gap: 15px; padding: 20px;">
-    <a href="{% url 'maternal_register' %}" style="width: 100%; max-width: 420px; text-decoration: none;"><button>✍️ 산모 등록</button></a>
-    <a href="{% url 'maternal_search' %}" style="width: 100%; max-width: 420px; text-decoration: none;"><button>🔍 산모 검색</button></a>
-    <a href="{% url 'customer_management' %}" style="width: 100%; max-width: 420px; text-decoration: none;"><button>📁 나의 고객관리</button></a>
-    <a href="{% url 'home' %}" style="margin-top: 10px; color: #666; text-decoration: none;">🏠 메인으로</a>
+<div style="max-width: 420px; margin: 0 auto; padding: 0 20px;">
+    <a href="{% url 'maternal_register' %}" class="btn-main bg-blue">✍️ 산모 등록</a>
+    <a href="{% url 'maternal_search' %}" class="btn-main bg-green">🔍 산모 검색</a>
+    <a href="{% url 'customer_management' %}" class="btn-main bg-purple">📁 나의 고객관리</a>
+    <a href="{% url 'insurance_claims' %}" class="btn-main bg-claim">📋 보험사 별 청구하기</a> <a href="{% url 'home' %}" class="nav-home">🏠 메인 메뉴로 이동</a>
 </div>
 {% endblock %}
