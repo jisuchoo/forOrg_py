@@ -47,6 +47,7 @@
       <input type="hidden" id="guideType" name="guide" value="{{ guide_type }}">
       <input type="text" name="query" placeholder="질병명을 입력하세요" required value="{{ query }}">
       <button type="submit">검색</button>
+      <a href="{% url 'home' %}" style="margin-top: 10px; color: #666; text-decoration: none;">🏠 메인으로</a>
     </form>
 
     {% if guide_type == "chronic" and results %}
