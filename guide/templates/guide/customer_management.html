@@ -1,28 +1,35 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="app-title">나의 고객관리</div>
-<div class="card" style="max-width: 600px;">
-    <form method="get">
-        <input type="text" name="q" placeholder="이름/생년월일/전화뒤4자리 검색" value="{{ request.GET.q }}">
-        <button type="submit">검색</button>
+
+<div class="card" style="margin-bottom: 20px;">
+    <form method="get" style="display: flex; gap: 10px;">
+        <input type="text" name="q" placeholder="이름/생일/전화뒤4자리" value="{{ request.GET.q }}" style="flex: 1;">
+        <button type="submit" style="width: 80px; margin-top: 8px;">검색</button>
     </form>
-    
-    <div class="table-container">
-        <table>
-            <thead>
-                <tr><th>성함</th><th>생년월일</th><th>연락처</th><th>등록일</th></tr>
-            </thead>
-            <tbody>
-                {% for m in maternals %}
-                <tr>
-                    <td>{{ m.name }}</td><td>{{ m.birthdate }}</td>
-                    <td>{{ m.contact }}</td><td>{{ m.created_at|date:"y.m.d" }}</td>
-                </tr>
-                {% empty %}
-                <tr><td colspan="4">등록된 고객이 없습니다.</td></tr>
-                {% endfor %}
-            </tbody>
-        </table>
+</div>
+
+{% for m in maternals %}
+<div class="result-card" style="position: relative; text-align: left; padding-right: 60px;">
+    <div style="font-size: 1.1em; font-weight: bold; color: var(--hw-orange);">
+        {{ m.name }} <span style="font-size: 0.8em; color: #999; font-weight: normal;">({{ m.birthdate }})</span>
     </div>
+    <div style="margin-top: 5px; font-size: 0.95em;">
+        📞 {{ m.contact }}
+    </div>
+    <div class="meta" style="margin-top: 10px; border-top: 1px dashed #eee; pt-5;">
+        등록일: {{ m.created_at|date:"Y.m.d H:i" }}
+    </div>
+    
+    <a href="{% url 'maternal_edit' m.pk %}" style="position: absolute; top: 15px; right: 15px; text-decoration: none;">
+        <button style="width: auto; padding: 5px 10px; font-size: 14px; background-color: #58595b;">수정</button>
+    </a>
+</div>
+{% empty %}
+<div class="card">등록된 산모 정보가 없습니다.</div>
+{% endfor %}
+
+<div style="text-align: center; margin: 20px 0;">
+    <a href="{% url 'maternal_menu' %}" style="color: #666; text-decoration: none;">🏠 산모관리 메뉴로</a>
 </div>
 {% endblock %}
