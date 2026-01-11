@@ -7,13 +7,10 @@ from .utils import log_activity
 # --- 로그인 / 로그아웃 및 홈 ---
 def login_view(request):
     if request.method == "POST":
-        empno = request.POST.get("empno")
-        password = request.POST.get("password")
+        empno, password = request.POST.get("empno"), request.POST.get("password")
         try:
             user = Employee.objects.get(empno=empno, password=password)
-            request.session["user_id"] = user.id
-            request.session["user_name"] = user.name or user.empno
-            log_activity(request, "LOGIN", "성공")
+            request.session["user_id"], request.session["user_name"] = user.id, user.name or user.empno
             return redirect("home")
         except Employee.DoesNotExist:
             return render(request, "guide/login.html", {"error": "사번 또는 비밀번호가 올바르지 않습니다."})
