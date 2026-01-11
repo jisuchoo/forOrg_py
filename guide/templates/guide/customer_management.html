@@ -1,36 +1,28 @@
 {% extends "base.html" %}
 {% block content %}
-<h2>나의 고객관리</h2>
-<form method="get" style="margin-top: 20px; display: flex; gap: 10px;">
-    <input type="text" name="q" class="form-control" placeholder="이름, 생년월일, 전화번호 뒤4자리 중 입력" value="{{ request.GET.q }}">
-    <button type="submit" style="padding: 0 20px; background-color: #333; color: white; border: none; border-radius: 5px;">검색</button>
-</form>
-
-<table>
-    <thead>
-        <tr>
-            <th>산모이름</th>
-            <th>생년월일</th>
-            <th>연락처 전체</th>
-            <th>등록일시</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for m in maternals %}
-        <tr>
-            <td>{{ m.name }}</td>
-            <td>{{ m.birthdate }}</td>
-            <td>{{ m.contact }}</td>
-            <td>{{ m.created_at|date:"Y-m-d H:i" }}</td>
-        </tr>
-        {% empty %}
-        <tr>
-            <td colspan="4">등록된 고객이 없습니다.</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
-<div style="text-align: center; margin-top: 20px;">
-    <a href="{% url 'maternal_menu' %}" style="color: #666;">뒤로 가기</a>
+<div class="app-title">나의 고객관리</div>
+<div class="card" style="max-width: 600px;">
+    <form method="get">
+        <input type="text" name="q" placeholder="이름/생년월일/전화뒤4자리 검색" value="{{ request.GET.q }}">
+        <button type="submit">검색</button>
+    </form>
+    
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr><th>성함</th><th>생년월일</th><th>연락처</th><th>등록일</th></tr>
+            </thead>
+            <tbody>
+                {% for m in maternals %}
+                <tr>
+                    <td>{{ m.name }}</td><td>{{ m.birthdate }}</td>
+                    <td>{{ m.contact }}</td><td>{{ m.created_at|date:"y.m.d" }}</td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="4">등록된 고객이 없습니다.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </div>
 {% endblock %}
