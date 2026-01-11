@@ -1,123 +1,21 @@
-<!DOCTYPE html>
-{% load static %}
-<html lang="ko">
-<head>
-  <meta charset="UTF-8">
-  <title>인천지역단 SI 인수가이드 로그인</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    :root{
-      --hanwha:#ff7f00;
-      --hanwha-dark:#e67100;
-      --bg:#f8f9fa;
-      --card:#ffffff;
-      --text:#333;
-      --muted:#777;
-      --border:#e6e6e6;
-    }
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      padding-top:70px;
-      font-family: Arial, "Noto Sans KR", sans-serif;
-      background:var(--bg);
-      color:var(--text);
-    }
-    .header-fixed{
-      position:fixed;
-      top:0; left:0; right:0;
-      background:var(--bg);
-      border-bottom:2px solid #ccc;
-      text-align:center;
-      padding:10px 0;
-      box-shadow:0 2px 4px rgba(0,0,0,.08);
-    }
-    .header-fixed img{
-      height: 50px; /* 크기 조정 */
-      width: auto;
-      cursor: pointer;
-      transition: transform 0.2s ease;
-    }
-    .header-fixed img:hover {
-      transform: scale(1.05);
-    }
-    .screen{
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;  /* ✅ 맨 위 정렬 */
-      padding-top: 30px;           /* ✅ 헤더보다 살짝 더 내려옴 */
-    }
-    .card{
-      width:100%;
-      max-width:420px;
-      background:var(--card);
-      border-radius:16px;
-      box-shadow:0 6px 18px rgba(0,0,0,.08);
-      padding:24px;
-    }
-    .app-title{
-      font-size:22px;
-      font-weight:700;
-      color:var(--hanwha);
-      margin-bottom:1.5rem;
-      text-align:center;
-    }
-    .row{margin-bottom:1rem;}
-    input{
-      width:100%;
-      padding:12px 14px;
-      border:1px solid var(--border);
-      border-radius:10px;
-      font-size:16px;
-      outline:none;
-    }
-    input:focus{border-color:var(--hanwha)}
-    button{
-      width:100%;
-      padding:12px 14px;
-      background:var(--hanwha);
-      color:#fff;
-      border:none;
-      border-radius:10px;
-      font-weight:700;
-      cursor:pointer;
-      font-size:16px;
-      margin-top:.5rem;
-    }
-    button:hover{background:var(--hanwha-dark)}
-    .hint{color:var(--muted); font-size:13px; margin-top:.25rem}
-    .error{color:#d93025; font-size:14px; margin-top:.5rem; text-align:center;}
-    .meta{margin-top:1.5rem; font-size:12px; color:var(--muted); text-align:center;}
-  </style>
-</head>
-<body>
-  <!-- 상단 고정 로고 -->
-  <div class="header-fixed">
-    <img src="{% static 'guide/images/hanwha.png' %}" alt="한화손해보험 CI" onclick="goHome()">
-  </div>
-
-  <!-- 로그인 화면 -->
-  <section class="screen">
-    <div class="card">
-      <div class="app-title">인천지역단 SI 인수 가이드</div>
-      <form method="post">
+{% extends "base.html" %}
+{% block content %}
+<div style="max-width: 400px; margin: 50px auto; padding: 30px; border: 1px solid #ddd; border-radius: 10px; background-color: #fff;">
+    <h2 style="text-align: center;">로그인</h2>
+    <form method="post" style="margin-top: 20px;">
         {% csrf_token %}
-        <div class="row">
-          <input type="text" name="empno" placeholder="코드 입력" required>
+        <div class="form-group">
+            <label>사번</label>
+            <input type="text" name="empno" class="form-control" placeholder="사번 입력" required>
         </div>
-        <div class="row">
-          <input type="password" name="password" placeholder="비밀번호 입력" required>
-          <div class="hint">코드는 사전 승인된 기관에 부여됩니다.</div>
+        <div class="form-group">
+            <label>비밀번호</label>
+            <input type="password" name="password" class="form-control" placeholder="비밀번호 입력" required>
         </div>
-        <button type="submit">로그인</button>
         {% if error %}
-        <div class="error">{{ error }}</div>
+            <p style="color: #ff6b6b; font-size: 0.9em; text-align: center;">{{ error }}</p>
         {% endif %}
-      </form>
-      <div class="meta">Copyright 2025 추지수 all rights reserved.</div>
-    </div>
-  </section>
-</body>
-</html>
+        <button type="submit" class="btn-submit">로그인</button>
+    </form>
+</div>
+{% endblock %}
