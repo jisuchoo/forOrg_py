@@ -11,7 +11,7 @@ class Employee(models.Model):
 
 class Maternal(models.Model):
     name = models.CharField("산모이름", max_length=100)
-    birthdate = models.CharField("생년월일", max_length=10) # 예: 900101
+    birthdate = models.CharField("생년월일", max_length=10)
     contact = models.CharField("연락처", max_length=20)
     registered_by = models.ForeignKey(Employee, on_delete=models.CASCADE, verbose_name="등록 직원")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="등록 일시")
