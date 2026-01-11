@@ -5,11 +5,11 @@
 <div class="card" style="margin-bottom: 20px;">
     <form method="get" id="filterForm">
         <div style="margin-bottom: 12px; text-align: left;">
-            <label style="font-size: 14px; font-weight: bold; color: #666;">📅 조회 월 선택</label>
+            <label style="font-size: 1.2rem; font-weight: bold; color: #666;">📅 조회 월 선택</label>
             <select name="month" onchange="document.getElementById('filterForm').submit();" 
                     style="width: 100%; padding: 12px; margin-top: 5px; border-radius: 6px; border: 1px solid #ddd; font-size: 16px;">
                 {% for m in month_list %}
-                <option value="{{ m }}" {% if m == selected_month %}selected{% endif %}>{{ m }} 등록 고객</option>
+                <option value="{{ m }}" {% if m == selected_month %}selected{% endif %}>{{ m }}</option>
                 {% endfor %}
             </select>
         </div>
