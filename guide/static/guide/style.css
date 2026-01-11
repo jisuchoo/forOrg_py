@@ -21,10 +21,11 @@ body { margin: 0; padding: 0; font-family: "Noto Sans KR", sans-serif; backgroun
 }
 
 /* 메뉴 컬러 */
-.bg-orange { background-color: var(--hw-orange); }
 .bg-blue { background-color: var(--btn-blue); }
 .bg-green { background-color: var(--btn-green); }
 .bg-purple { background-color: var(--btn-purple); }
+.bg-orange { background-color: var(--hw-orange); }
+.bg-claim { background-color: var(--btn-claim); }
 .bg-gray { background-color: var(--hw-gray); }
 
 input { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ccc; border-radius: 6px; font-size: 16px; box-sizing: border-box; }
