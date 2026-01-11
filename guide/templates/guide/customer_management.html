@@ -1,35 +1,23 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="app-title">나의 고객관리</div>
-
 <div class="card" style="margin-bottom: 20px;">
-    <form method="get" style="display: flex; gap: 10px;">
-        <input type="text" name="q" placeholder="이름/생일/전화뒤4자리" value="{{ request.GET.q }}" style="flex: 1;">
-        <button type="submit" style="width: 80px; margin-top: 8px;">검색</button>
+    <form method="get" style="display: flex; gap: 8px;">
+        <input type="text" name="q" placeholder="성함/생일/전화뒤4자리" value="{{ request.GET.q }}" style="flex: 1; margin: 0; padding: 10px;">
+        <button type="submit" class="bg-gray" style="width: 70px; padding: 10px; margin: 0; font-size: 15px; border-radius: 6px; color: white; border: none;">검색</button>
     </form>
 </div>
 
 {% for m in maternals %}
-<div class="result-card" style="position: relative; text-align: left; padding-right: 60px;">
-    <div style="font-size: 1.1em; font-weight: bold; color: var(--hw-orange);">
-        {{ m.name }} <span style="font-size: 0.8em; color: #999; font-weight: normal;">({{ m.birthdate }})</span>
-    </div>
-    <div style="margin-top: 5px; font-size: 0.95em;">
-        📞 {{ m.contact }}
-    </div>
-    <div class="meta" style="margin-top: 10px; border-top: 1px dashed #eee; pt-5;">
-        등록일: {{ m.created_at|date:"Y.m.d H:i" }}
-    </div>
-    
-    <a href="{% url 'maternal_edit' m.pk %}" style="position: absolute; top: 15px; right: 15px; text-decoration: none;">
-        <button style="width: auto; padding: 5px 10px; font-size: 14px; background-color: #58595b;">수정</button>
-    </a>
+<div class="card" style="text-align: left; position: relative;">
+    <div style="font-weight: bold; font-size: 1.2rem; color: var(--hw-orange);">{{ m.name }}</div>
+    <div style="margin: 8px 0; font-size: 0.95rem; color: #555;">🎂 {{ m.birthdate }} | 📞 {{ m.contact }}</div>
+    <div style="font-size: 0.85rem; color: #999; border-top: 1px solid #f0f0f0; padding-top: 8px;">등록: {{ m.created_at|date:"Y.m.d H:i" }}</div>
+    <a href="{% url 'maternal_edit' m.pk %}" style="position: absolute; top: 20px; right: 20px; background: #f0f0f0; padding: 5px 12px; border-radius: 4px; font-size: 13px; color: #666; text-decoration: none;">수정</a>
 </div>
 {% empty %}
-<div class="card">등록된 산모 정보가 없습니다.</div>
+<div class="card" style="color: #999;">검색 결과가 없습니다.</div>
 {% endfor %}
 
-<div style="text-align: center; margin: 20px 0;">
-    <a href="{% url 'maternal_menu' %}" style="color: #666; text-decoration: none;">🏠 산모관리 메뉴로</a>
-</div>
+<a href="{% url 'home' %}" class="nav-home">🏠 메인 메뉴로 이동</a>
 {% endblock %}
