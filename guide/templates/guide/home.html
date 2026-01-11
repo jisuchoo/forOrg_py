@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="app-title">메인 메뉴</div>
+<div class="app-title">전체 메뉴</div>
 <div style="max-width: 420px; margin: 0 auto; padding: 0 20px;">
-    <a href="{% url 'search' %}?guide=chronic"><button style="background-color: var(--hw-gray);">🛡️ 건강/일반/간편 인수가이드</button></a>
-    <a href="{% url 'search' %}?guide=fetal"><button style="background-color: var(--hw-gray);">👶 태아 인수가이드</button></a>
-    <button style="background-color: var(--hw-gray);">📊 상품별 인수한도</button>
-    <a href="{% url 'maternal_menu' %}"><button>🏥 아인병원 산모관리</button></a>
+    <a href="{% url 'search' %}?guide=chronic" class="btn-main bg-blue">🛡️ 건강/일반/간편 인수가이드</a>
+    <a href="{% url 'search' %}?guide=fetal" class="btn-main bg-green">👶 태아 인수가이드</a>
+    <a href="#" class="btn-main bg-purple">📊 상품별 인수한도</a>
+    <a href="{% url 'maternal_menu' %}" class="btn-main bg-orange">🏥 아인병원 산모관리</a>
 </div>
 {% endblock %}
