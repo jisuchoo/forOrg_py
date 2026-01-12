@@ -1,10 +1,14 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="app-title">전체 메뉴</div>
+<div class="app-title" style="font-size: 26px; font-weight: bold; text-align: center; margin: 25px 0; color: #58595b;">
+    영업관리 메뉴
+</div>
+
 <div style="max-width: 420px; margin: 0 auto; padding: 0 20px;">
-    <a href="{% url 'search' %}?guide=chronic" class="btn-main bg-blue">🛡️ 건강/일반/간편 인수가이드</a>
-    <a href="{% url 'search' %}?guide=fetal" class="btn-main bg-green">👶 태아 인수가이드</a>
-    <a href="{% url 'maternal_menu' %}" class="btn-main bg-orange">🏥 아인병원 산모관리</a>
-    <a href="{% url 'insurance_claims' %}" class="btn-main bg-claim">📋 보험사 별 청구하기</a>
+    <a href="{% url 'search' %}?guide=chronic" class="btn-main bg-blue" style="background-color: #3498db; width: 100%; padding: 15px; border-radius: 8px; color: #fff; font-size: 18px; font-weight: bold; display: block; text-decoration: none; text-align: center; margin-bottom: 12px;">🛡️ 건강/일반/간편 인수가이드</a>
+    <a href="{% url 'search' %}?guide=fetal" class="btn-main bg-green" style="background-color: #2ecc71; width: 100%; padding: 15px; border-radius: 8px; color: #fff; font-size: 18px; font-weight: bold; display: block; text-decoration: none; text-align: center; margin-bottom: 12px;">👶 태아 인수가이드</a>
+    <a href="#" class="btn-main bg-purple" style="background-color: #9b59b6; width: 100%; padding: 15px; border-radius: 8px; color: #fff; font-size: 18px; font-weight: bold; display: block; text-decoration: none; text-align: center; margin-bottom: 12px;">📊 상품별 인수한도</a>
+    
+    <a href="{% url 'maternal_menu' %}" class="btn-main bg-orange" style="background-color: #f37321; width: 100%; padding: 15px; border-radius: 8px; color: #fff; font-size: 18px; font-weight: bold; display: block; text-decoration: none; text-align: center; margin-bottom: 12px;">🏥 아인병원 산모관리</a>
 </div>
 {% endblock %}
