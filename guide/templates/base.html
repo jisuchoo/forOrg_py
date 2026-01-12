@@ -3,17 +3,26 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>한화손해보험 아인병원</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>{% block title %}인천지역단 영업관리 시스템{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'guide/style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    {% if request.session.user_id %}
-    <div class="user-info">
-        <strong>{{ request.session.user_name }}</strong> 님 접속중
-        <a href="{% url 'logout' %}" class="logout">로그아웃</a>
-    </div>
-    {% endif %}
-    <main>{% block content %}{% endblock %}</main>
+    <header style="background-color: #ffffff; padding: 20px; text-align: center; border-bottom: 2px solid #f37321; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+        <h1 style="color: #f37321; margin: 0; font-size: 1.5rem;">
+            <i class="fas fa-shield-alt"></i> 인천지역단 영업관리 시스템
+        </h1>
+        {% if request.session.user_name %}
+        <div class="user-info" style="background: #eee; padding: 10px; font-size: 16px; text-align: center; margin-top: 10px; border-radius: 5px;">
+            <strong>{{ request.session.user_name }}</strong> 님 접속중 
+            <a href="{% url 'logout' %}" class="logout" style="margin-left: 10px; padding: 6px 12px; font-size: 14px; text-decoration: none; color: #666;">[로그아웃]</a>
+        </div>
+        {% endif %}
+    </header>
+
+    <main style="max-width: 800px; margin: 0 auto; padding: 20px;">
+        {% block content %}{% endblock %}
+    </main>
 </body>
 </html>
