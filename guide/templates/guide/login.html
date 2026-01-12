@@ -1,16 +1,130 @@
-{% extends "base.html" %}
-{% block content %}
-<div class="login-card" style="background:#fff; max-width:400px; margin:80px auto; padding:40px; border-radius:15px; text-align:center; box-shadow:0 10px 30px rgba(0,0,0,0.1);">
-    <h2 style="color:var(--hw-orange); margin:0; font-size:24px;">한화손해보험 인천지역단</h2>
-    <p style="color: #666; margin: 10px 0 30px 0; font-size: 18px; font-weight: bold;">영업관리 시스템</p>
-    <form method="post">
+<!DOCTYPE html>
+{% load static %}
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>인천지역단 영업관리 시스템 로그인</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    :root{
+      --hanwha:#ff7f00;
+      --hanwha-dark:#e67100;
+      --bg:#f8f9fa;
+      --card:#ffffff;
+      --text:#333;
+      --muted:#777;
+      --border:#e6e6e6;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      padding-top:70px;
+      font-family: Arial, "Noto Sans KR", sans-serif;
+      background:var(--bg);
+      color:var(--text);
+    }
+    .header-fixed{
+      position:fixed;
+      top:0; left:0; right:0;
+      background:var(--bg);
+      border-bottom:2px solid #ccc;
+      text-align:center;
+      padding:10px 0;
+      box-shadow:0 2px 4px rgba(0,0,0,.08);
+    }
+    .header-fixed img{
+      height: 50px;
+      width: auto;
+      cursor: pointer;
+    }
+    .screen{
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding-top: 30px;
+    }
+    .card{
+      width:100%;
+      max-width:420px;
+      background:var(--card);
+      border-radius:16px;
+      box-shadow:0 6px 18px rgba(0,0,0,.08);
+      padding:24px;
+    }
+    .app-title{
+      font-size:24px;
+      font-weight:700;
+      color:var(--hanwha);
+      margin-bottom:0.5rem;
+      text-align:center;
+    }
+    .sub-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text);
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+    .row{margin-bottom:1rem;}
+    input{
+      width:100%;
+      padding:12px 14px;
+      border:1px solid var(--border);
+      border-radius:10px;
+      font-size:16px;
+      outline:none;
+    }
+    input:focus{border-color:var(--hanwha)}
+    button{
+      width:100%;
+      padding:12px 14px;
+      background:var(--hanwha);
+      color:#fff;
+      border:none;
+      border-radius:10px;
+      font-weight:700;
+      cursor:pointer;
+      font-size:16px;
+      margin-top:.5rem;
+    }
+    button:hover{background:var(--hanwha-dark)}
+    .error{color:#d93025; font-size:14px; margin-top:.5rem; text-align:center;}
+    .meta{margin-top:1.5rem; font-size:12px; color:var(--muted); text-align:center;}
+  </style>
+</head>
+<body>
+  <div class="header-fixed">
+    <img src="{% static 'guide/images/hanwha.png' %}" alt="한화손해보험 CI">
+  </div>
+
+  <section class="screen">
+    <div class="card">
+      <div class="app-title">한화손해보험 인천지역단</div>
+      <div class="sub-title">영업관리 시스템</div>
+      
+      {% if message %}<p style="color: #27ae60; font-weight: bold; text-align:center;">{{ message }}</p>{% endif %}
+
+      <form method="post">
         {% csrf_token %}
-        <input type="text" name="empno" placeholder="사번 입력" required style="width:100%; padding:13px; margin-bottom:15px; border:1px solid #ddd; border-radius:8px;">
-        <input type="password" name="password" placeholder="비밀번호" required style="width:100%; padding:13px; margin-bottom:20px; border:1px solid #ddd; border-radius:8px;">
-        <button type="submit" class="btn-main bg-orange" style="margin:0;">로그인</button>
-    </form>
-    <div style="margin-top: 15px;">
-        <a href="{% url 'password_change' %}" style="color: #888; text-decoration: none; font-size: 14px;">비밀번호 변경하기</a>
+        <div class="row">
+          <input type="text" name="empno" placeholder="사번 입력" required>
+        </div>
+        <div class="row">
+          <input type="password" name="password" placeholder="비밀번호 입력" required>
+        </div>
+        <button type="submit">로그인</button>
+        {% if error %}
+        <div class="error">{{ error }}</div>
+        {% endif %}
+      </form>
+      
+      <div style="margin-top: 15px; text-align: center;">
+          <a href="{% url 'password_change' %}" style="color: #888; text-decoration: none; font-size: 14px;">비밀번호 변경</a>
+      </div>
+      <div class="meta">Copyright 2025 추지수 all rights reserved.</div>
     </div>
-</div>
-{% endblock %}
+  </section>
+</body>
+</html>
