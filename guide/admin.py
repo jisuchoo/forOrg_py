@@ -27,12 +27,13 @@ class MaternalAdmin(admin.ModelAdmin):
     def get_urls(self):
         urls = super().get_urls()
         custom_urls = [
+            # ID 패턴보다 위에 있어야 먼저 인식됩니다.
             path('export-excel-all/', self.admin_site.admin_view(self.export_excel_view), name='maternal_export_excel'),
         ]
         return custom_urls + urls
 
     def export_excel_view(self, request):
-        # 실제 엑셀을 생성하는 view 함수로 연결합니다.
+        # 실제 엑셀을 만드는 로직은 views.py의 함수를 호출하도록 연결
         from .views import export_maternal_excel
         return export_maternal_excel(request)
 
