@@ -1,3 +1,5 @@
+from django.urls import path
+from django.shortcuts import redirect
 from django.contrib import admin
 from .models import Employee, Disease, Insurance, Fetal, ActivityLog, Maternal, Limit
 
@@ -19,9 +21,20 @@ class MaternalAdmin(admin.ModelAdmin):
     
     # 2. 상단 월별/연도별 네비게이션 (핵심 기능)
     # 이 설정을 통해 관리자 페이지 상단에 '모든 날짜 / 2026 / 1월' 형태의 메뉴가 생깁니다.
-    date_hierarchy = 'created_at'
-    
+    date_hierarchy = 'created_at'    
     ordering = ("-created_at",)
+
+    def get_urls(self):
+        urls = super().get_urls()
+        custom_urls = [
+            path('export-excel-all/', self.admin_site.admin_view(self.export_excel_view), name='maternal_export_excel'),
+        ]
+        return custom_urls + urls
+
+    def export_excel_view(self, request):
+        # 실제 엑셀을 생성하는 view 함수로 연결합니다.
+        from .views import export_maternal_excel
+        return export_maternal_excel(request)
 
 @admin.register(Disease)
 class DiseaseAdmin(admin.ModelAdmin):
