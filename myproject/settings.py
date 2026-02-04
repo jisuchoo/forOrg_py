@@ -8,6 +8,10 @@ SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "your-secret-key")
 
 DEBUG = os.environ.get("DJANGO_DEBUG", "False") == "True"
 DEBUG = os.getenv("DEBUG", "False") == "True"
+LANGUAGE_CODE = "ko-kr"
+TIME_ZONE = "Asia/Seoul"
+USE_I18N = True
+USE_TZ = False  # True에서 False로 변경하면 DB에 한국 시간으로 직접 저장됩니다.
 
 
 INSTALLED_APPS = [
