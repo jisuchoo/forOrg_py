@@ -9,6 +9,9 @@ from django.utils import timezone
 from datetime import datetime
 from .models import Employee, Disease, Insurance, Fetal, Limit, Maternal
 from .utils import log_activity
+from django.http import HttpResponse
+import openpyxl
+from openpyxl.utils import get_column_letter
 
 # --- 로그인 / 로그아웃 및 홈 ---
 def login_view(request):
@@ -198,3 +201,32 @@ def get_results(request):
         qs = qs.filter(minAge__lte=int(age), maxAge__gte=int(age))
     results = qs.values("coverage", "amount", "note").order_by("coverage")
     return JsonResponse(list(results), safe=False)
+
+def export_maternal_excel(request):
+    # 엑셀 워크북 생성
+    wb = openpyxl.Workbook()
+    ws = wb.active
+    ws.title = "Maternals"
+
+    # 헤더 작성
+    headers = ['성함', '생년월일', '연락처', '등록자', '등록일시']
+    for col_num, column_title in enumerate(headers, 1):
+        cell = ws.cell(row=1, column=col_num)
+        cell.value = column_title
+
+    # 데이터 쿼리 (필터링이 필요하다면 여기에 logic 추가 가능)
+    # 현재는 전체 데이터를 가져옵니다.
+    queryset = Maternal.objects.all().select_related('registered_by')
+    
+    for row_num, obj in enumerate(queryset, 2):
+        ws.cell(row=row_num, column=1).value = obj.name
+        ws.cell(row=row_num, column=2).value = obj.birthdate
+        ws.cell(row=row_num, column=3).value = obj.contact
+        ws.cell(row=row_num, column=4).value = obj.registered_by.name if obj.registered_by else ''
+        ws.cell(row=row_num, column=5).value = obj.created_at.strftime('%Y-%m-%d %H:%M:%S')
+
+    # 파일 전송 설정
+    response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    response['Content-Disposition'] = 'attachment; filename="maternal_list.xlsx"'
+    wb.save(response)
+    return response
