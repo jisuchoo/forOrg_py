@@ -203,29 +203,38 @@ def get_results(request):
     return JsonResponse(list(results), safe=False)
 
 def export_maternal_excel(request):
-    # 엑셀 워크북 생성
+    # 1. 엑셀 파일 생성
     wb = openpyxl.Workbook()
     ws = wb.active
-    ws.title = "Maternals"
-
-    # 헤더 작성
+    ws.title = "산모관리_리스트"
     headers = ['성함', '생년월일', '연락처', '등록자', '등록일시']
-    for col_num, column_title in enumerate(headers, 1):
-        cell = ws.cell(row=1, column=col_num)
-        cell.value = column_title
+    ws.append(headers)
 
-    # 데이터 쿼리 (필터링이 필요하다면 여기에 logic 추가 가능)
-    # 현재는 전체 데이터를 가져옵니다.
+    # 2. 현재 적용된 필터 조건 그대로 데이터 가져오기
     queryset = Maternal.objects.all().select_related('registered_by')
     
-    for row_num, obj in enumerate(queryset, 2):
-        ws.cell(row=row_num, column=1).value = obj.name
-        ws.cell(row=row_num, column=2).value = obj.birthdate
-        ws.cell(row=row_num, column=3).value = obj.contact
-        ws.cell(row=row_num, column=4).value = obj.registered_by.name if obj.registered_by else ''
-        ws.cell(row=row_num, column=5).value = obj.created_at.strftime('%Y-%m-%d %H:%M:%S')
+    # URL의 필터값(?created_at__month=1&...)을 쿼리에 적용
+    filters = {}
+    for key, value in request.GET.items():
+        if value: # 값이 있는 경우만 필터 적용
+            filters[key] = value
+    
+    try:
+        queryset = queryset.filter(**filters)
+    except:
+        pass # 잘못된 필터 형식일 경우 전체 출력
 
-    # 파일 전송 설정
+    # 3. 데이터 쓰기
+    for obj in queryset.order_by("-created_at"):
+        ws.append([
+            obj.name,
+            obj.birthdate,
+            obj.contact,
+            obj.registered_by.name if obj.registered_by else '-',
+            obj.created_at.strftime('%Y-%m-%d %H:%M')
+        ])
+
+    # 4. 파일 다운로드 응답
     response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
     response['Content-Disposition'] = 'attachment; filename="maternal_list.xlsx"'
     wb.save(response)
